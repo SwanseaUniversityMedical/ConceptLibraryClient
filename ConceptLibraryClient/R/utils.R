@@ -44,7 +44,7 @@ clean_query_list <- function(query_list) {
 get_full_path <- function(path, use_public_api) {
   prefix = 'api/v1/'
   if (use_public_api == TRUE) {
-    prefix = 'api/public/v1/'
+    prefix = 'api/v1/public/'
   }
 
   return(paste0(prefix, path))
