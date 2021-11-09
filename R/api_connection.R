@@ -1,6 +1,8 @@
 #' getLogin
 #'
-#' This function pops up a login box for username and password, with masking of the password field. It returns a vector where the first item is the username and the second is the password. Clear this as soon as it is used, to avoid password existing in your environment.
+#' This function pops up a login box for username and password, with masking of the password field. It returns a vector
+#' where the first item is the username and the second is the password. Clear this as soon as it is used, to avoid
+#' password existing in your environment.
 #'
 #' This can be used for any purpose. If you want to connect to SAIL, try SAILConnect instead, which
 #' uses this function and also connects to PR_SAIL and returns a database connection.
@@ -11,69 +13,66 @@
 #' @export
 #' @examples details = getLogin();
 
-getLogin<-function(userName=''){
-	wnd<-tktoplevel();
-	tclVar(userName)->user;
-	tclVar("")->passVar;
-	#Label
+getLogin<-function(userName="") {
+	wnd<-tktoplevel()
+	tkraise(wnd)
+
+	tclVar(userName)->user
+	tclVar("")->passVar
 
 	#Username box
-	tkgrid(tklabel(wnd,text="Username:"));
-	tkgrid(tkentry(wnd,textvariable=user)->passBox);
-
+	tkgrid(tklabel(wnd,text="Username:"))
+	tkgrid(tkentry(wnd,textvariable=user)->passBox)
 	#Password box
-	tkgrid(tklabel(wnd,text="Password:"));
-	tkgrid(tkentry(wnd,textvariable=passVar,show="*")->passBox);
+	tkgrid(tklabel(wnd,text="Password:"))
+	tkgrid(tkentry(wnd,textvariable=passVar,show="*")->passBox)
+
 	#Hitting return will also submit password
-	tkbind(passBox,"<Return>",function() tkdestroy(wnd));
+	tkbind(passBox,"<Return>",function() tkdestroy(wnd))
 	#OK button
-	tkgrid(tkbutton(wnd,text="OK",command=function() tkdestroy(wnd)));
+	tkgrid(tkbutton(wnd,text="OK",command=function() tkdestroy(wnd)))
+
 	#Wait for user to click OK
-	tkwait.window(wnd);
-	password<-tclvalue(passVar);
-	userName<-tclvalue(user);
-	return(c(userName,password));
+	tkwait.window(wnd)
+	password<-tclvalue(passVar)
+	userName<-tclvalue(user)
+
+	return(c(userName,password))
 }
 
 #' connect_to_API
 #'
 #' This function creates a crul::HttpClient object from a url and optionally a user and password. If the user or
-#' password are not provided, then a login box is created to enter this information.
+#' password are not provided and public is set to FALSE, then a login box is created to enter this information.
 #'
-#' @param url The Concept Library API url
 #' @param user A username (optional)
 #' @param password The user's password (optional)
+#' @param url The URL to connect to (optional). Defaults to main Concept Library website.
+#' @param public When TRUE connects to the public API (authentication not required). When set to FALSE, a username and
+#' password are required to connect to the authenticated API. Default is TRUE.
 #'
 #' @return crul::HttpClient
 #' @export
 #'
-connect_to_API <- function(user=NA, password=NA) {
-  # Show login box if username or password not provided
-  if (is.na(user) || is.na(password)) {
-    details=getLogin(userName=user)
-    user=details[1]
-    password=details[2]
+connect_to_API <- function(user=NA, password=NA, url=API_URL, public=TRUE) {
+  api_client = NA
+
+  # Connect to authenticated API
+  if (isFALSE(public)) {
+    # Show login box if username or password not provided
+    if (is.na(user) || is.na(password)) {
+      details=getLogin(userName=user)
+      user=details[1]
+      password=details[2]
+    }
+    # Create HttpClient object
+    api_client = crul::HttpClient$new(url, auth=crul::auth(user=user, pwd=password))
   }
-
-  # Create HttpClient object
-  api_client = crul::HttpClient$new(url=API_URL, auth=crul::auth(user=user, pwd=password))
-
-  return(api_client)
-}
-
-#' connect_to_public_API
-#'
-#' This function creates crul::HttpClient object from a url. This connection does not use authentication and can only
-#' be used for public API access.
-#'
-#' @param url The Concept Library API url
-#'
-#' @return crul::HttpClient
-#' @export
-#'
-connect_to_public_API <- function() {
-  # Create HTTPClient object
-  api_client = crul::HttpClient$new(url=API_URL)
+  # Connect to public API
+  else {
+    # Create HttpClient object
+    api_client = crul::HttpClient$new(url)
+  }
 
   return(api_client)
 }

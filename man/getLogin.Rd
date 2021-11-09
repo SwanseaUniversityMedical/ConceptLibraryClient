@@ -10,7 +10,9 @@ getLogin(userName = "")
 \item{userName}{A user name (optional). If provided, the login box will be prepopulated with this user name.}
 }
 \description{
-This function pops up a login box for username and password, with masking of the password field. It returns a vector where the first item is the username and the second is the password. Clear this as soon as it is used, to avoid password existing in your environment.
+This function pops up a login box for username and password, with masking of the password field. It returns a vector
+where the first item is the username and the second is the password. Clear this as soon as it is used, to avoid
+password existing in your environment.
 }
 \details{
 This can be used for any purpose. If you want to connect to SAIL, try SAILConnect instead, which
