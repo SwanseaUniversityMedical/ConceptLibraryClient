@@ -93,21 +93,22 @@ get_concepts <- function(
 #'
 #' Lists a concept by id.
 #'
-#' @param api_client The HttpClient returned by the connectToAPI or connectToPublicAPI functions.
 #' @param id The concept's id.
-#' @param use_public_api If the public API should be accessed instead. Default is FALSE.
+#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
+#' created if left blank.
 #'
 #' @return A dataframe containing the concept.
 #' @export
 #'
 #' @examples
-#' get_concept_by_id(api_client, 'C47')
-#' get_concept_by_id(api_client, 'C47', use_public_api = TRUE)
+#' get_concept_by_id('C714')
 #'
-get_concept_by_id <- function(api_client, id, use_public_api = FALSE) {
-  path = get_full_path(qq('concepts/@{id}/'), use_public_api)
-
+#' api_client = connect_to_API(public = FALSE)
+#' get_concept_by_id('C714', api_client = api_client)
+#'
+get_concept_by_id <- function(id, api_client = connect_to_API()) {
   # API call
+  path = get_full_path(qq('concepts/@{id}/'), api_client)
   response = api_client$get(path = path)
   check_HTTP_response(response)
 
@@ -121,21 +122,22 @@ get_concept_by_id <- function(api_client, id, use_public_api = FALSE) {
 #'
 #' Lists the concept detail of the latest version (or latest published version if using public API).
 #'
-#' @param api_client The HttpClient returned by the connectToAPI or connectToPublicAPI functions.
 #' @param id The concept's id.
-#' @param use_public_api If the public API should be accessed instead. Default is FALSE.
+#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
+#' created if left blank.
 #'
 #' @return A dataframe containing the concept detail.
 #' @export
 #'
 #' @examples
-#' get_concept_detail(api_client, 'C47')
-#' get_concept_detail(api_client, 'C47', use_public_api = TRUE)
+#' get_concept_detail('C714')
 #'
-get_concept_detail <- function(api_client, id, use_public_api = FALSE) {
-  path = get_full_path(qq('concepts/@{id}/detail/'), use_public_api)
-
+#' api_client = connect_to_API(public = FALSE)
+#' get_concept_detail('C714', api_client = api_client)
+#'
+get_concept_detail <- function(id, api_client = connect_to_API()) {
   # API call
+  path = get_full_path(qq('concepts/@{id}/detail/'), api_client)
   response = api_client$get(path = path)
   check_HTTP_response(response)
 
@@ -149,22 +151,23 @@ get_concept_detail <- function(api_client, id, use_public_api = FALSE) {
 #'
 #' Lists the concept detail of the specified version
 #'
-#' @param api_client The HttpClient returned by the connectToAPI or connectToPublicAPI functions.
 #' @param id The concept's id.
 #' @param version_id The concept version's id.
-#' @param use_public_api If the public API should be accessed instead. Default is FALSE.
+#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
+#' created if left blank.
 #'
 #' @return A dataframe containing the concept's detail.
 #' @export
 #'
 #' @examples
-#' get_concept_detail_by_version(api_client, 'C47', '54903')
-#' get_concept_detail_by_version(api_client, 'C47', '24798', use_public_api = TRUE)
+#' get_concept_detail_by_version('C714', '2567')
 #'
-get_concept_detail_by_version <- function(api_client, id, version_id, use_public_api = FALSE) {
-  path = get_full_path(qq('concepts/@{id}/version/@{version_id}/detail/'), use_public_api)
-
+#' api_client = connect_to_API(public = FALSE)
+#' get_concept_detail_by_version('C714', '2567', api_client)
+#'
+get_concept_detail_by_version <- function(id, version_id, api_client = connect_to_API()) {
   # API call
+  path = get_full_path(qq('concepts/@{id}/version/@{version_id}/detail/'), api_client)
   response = api_client$get(path = path)
   check_HTTP_response(response)
 
@@ -178,20 +181,19 @@ get_concept_detail_by_version <- function(api_client, id, version_id, use_public
 #'
 #' Exports the code list of the latest version of a concept for the user. This cannot be used with the public API.
 #'
-#' @param api_client The HttpClient returned by the connectToAPI function.
 #' @param id The concept's id.
-#' @param use_public_api If the public API should be accessed instead. Default is FALSE.
+#' @param api_client The HttpClient returned by the connectToAPI function. This must be an authenticated connection.
 #'
 #' @return A dataframe containing the code list.
 #' @export
 #'
 #' @examples
-#' get_concept_code_list(api_client, 'C47')
+#' api_client = connect_to_API(public = FALSE)
+#' get_concept_code_list('C714', api_client)
 #'
-get_concept_code_list <- function(api_client, id) {
-  path = qq('api/v1/concepts/@{id}/export/codes/')
-
+get_concept_code_list <- function(id, api_client) {
   # API call
+  path = qq('api/v1/concepts/@{id}/export/codes/')
   response = api_client$get(path = path)
   check_HTTP_response(response)
 
@@ -205,22 +207,23 @@ get_concept_code_list <- function(api_client, id) {
 #'
 #' Exports the code list of a specific version of a concept.
 #'
-#' @param api_client The HttpClient returned by the connectToAPI or connectToPublicAPI functions.
 #' @param id The concept's id.
 #' @param version_id The concept version's id.
-#' @param use_public_api If the public API should be accessed instead. Default is FALSE.
+#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
+#' created if left blank.
 #'
 #' @return A dataframe containing the code list.
 #' @export
 #'
 #' @examples
-#' get_concept_code_list_by_version(api_client, 'C47', '54903')
-#' get_concept_code_list_by_version(api_client, 'C47', '24798', use_public_api = TRUE)
+#' get_concept_code_list_by_version('C714', '2567')
 #'
-get_concept_code_list_by_version <- function(api_client, id, version_id, use_public_api = FALSE) {
-  path = get_full_path(qq('concepts/@{id}/version/@{version_id}/export/codes/'), use_public_api)
-
+#' api_client = connect_to_API(public = FALSE)
+#' get_concept_code_list_by_version('C714', '2567', api_client = api_client)
+#'
+get_concept_code_list_by_version <- function(id, version_id, api_client = connect_to_API()) {
   # API call
+  path = get_full_path(qq('concepts/@{id}/version/@{version_id}/export/codes/'), api_client)
   response = api_client$get(path = path)
   check_HTTP_response(response)
 
@@ -234,20 +237,22 @@ get_concept_code_list_by_version <- function(api_client, id, version_id, use_pub
 #'
 #' Lists all the versions of the concept.
 #'
-#' @param api_client The HttpClient returned by the connectToAPI or connectToPublicAPI functions.
 #' @param id The concept's id.
-#' @param use_public_api If the public API should be accessed instead. Default is FALSE.
+#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
+#' created if left blank.
 #'
 #' @return A dataframe containing the concept versions.
 #' @export
 #'
 #' @examples
-#' get_concept_versions(api_client, 'C47')
-#' get_concept_versions(api_client, 'C47', use_public_api = TRUE)
-get_concept_versions <- function(api_client, id, use_public_api = FALSE) {
-  path = get_full_path(qq('concepts/@{id}/get-versions/'), use_public_api)
-
+#' get_concept_versions('C714')
+#'
+#' api_client = connect_to_API(public = FALSE)
+#' get_concept_versions('C714', api_client = api_client)
+#'
+get_concept_versions <- function(id, api_client = connect_to_API()) {
   # API call
+  path = get_full_path(qq('concepts/@{id}/get-versions/'), api_client)
   response = api_client$get(path = path)
   check_HTTP_response(response)
 
