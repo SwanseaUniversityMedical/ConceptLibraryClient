@@ -1,89 +1,106 @@
-test_that("get_concepts returns a non-empty dataframe", {
-  concepts = get_concepts(api_client)
+test_that("calling get_concepts with the authenticated API returns a non-empty dataframe", {
+  concepts = get_concepts(api_client = auth_client)
 
   expect_true(is.data.frame(concepts))
   expect_true(nrow(concepts) > 0)
 })
 
-test_that("get_published_concepts returns a non-empty dataframe", {
-  skip_if(skip_public_API)
-
-  concepts = get_published_concepts(public_api_client)
+test_that("calling get_concepts with the public API returns a non-empty dataframe", {
+  concepts = get_concepts(api_client = public_client)
 
   expect_true(is.data.frame(concepts))
   expect_true(nrow(concepts) > 0)
 })
 
-test_that("concepts can be filtered by search parameter", {
+test_that("calling get_concepts with no client object creates a public connection to return a non-empty dataframe", {
+  concepts = get_concepts()
+
+  expect_true(is.data.frame(concepts))
+  expect_true(nrow(concepts) > 0)
+})
+
+test_that("concepts can be filtered by search parameter with the authenticated API", {
   search = "alcohol"
-  concepts = get_concepts(api_client, search = search)
+  concepts = get_concepts(api_client = auth_client, search = search)
 
   expect_match(tolower(concepts[1, "concept_name"]), qq("^.*@{search}.*$"))
 })
 
-test_that("published concepts can be filtered by search parameter", {
-  skip_if(skip_public_API)
-
+test_that("concepts can be filtered by search parameter with the public API", {
   search = "alcohol"
-  concepts = get_published_concepts(public_api_client, search = search)
+  concepts = get_concepts(api_client = public_client, search = search)
 
   expect_match(tolower(concepts[1, "concept_name"]), qq("^.*@{search}.*$"))
 })
 
-test_that("concepts can be filtered to see only those owned by the user", {
+## Search by tags ##
+
+test_that("concepts can be filtered to see only those owned by the user with the authenticated API", {
   skip("Can only be tested by user with owned concepts")
-  concepts = get_concepts(api_client, show_only_my_concepts = TRUE)
+  concepts = get_concepts(api_client = auth_client, show_only_my_concepts = TRUE)
 
-  expect_equal(concepts[1,"owner"], config$username)
+  expect_equal(concepts[1,"owner"], auth_client$auth$user)
 })
 
-test_that("deleted concepts can be shown in the results", {
-  concepts = get_concepts(api_client, show_deleted_concepts = TRUE)
+test_that("deleted concepts can be shown in the results with the authenticated API", {
+  concepts = get_concepts(api_client = auth_client, show_deleted_concepts = TRUE)
 
   expect_true("TRUE" %in% concepts[,"is_deleted"])
 })
 
-test_that("concepts can be filtered by author", {
+test_that("concepts can be filtered to only show validated concepts with the authenticated API", {
+  concepts = get_concepts(api_client = auth_client, show_only_validated_concepts = TRUE)
+  concept_id = concepts[1, "concept_id"]
+  concept_detail = get_concept_detail(concept_id, api_client = auth_client)
+
+  expect_equal(concept_detail[1, "validation_performed"], "True")
+})
+
+test_that("concepts can be filtered to only show validated concepts with the public API", {
+  concepts = get_concepts(api_client = public_client, show_only_validated_concepts = TRUE)
+  concept_id = concepts[1, "concept_id"]
+  concept_detail = get_concept_detail(concept_id, api_client = public_client)
+
+  expect_equal(concept_detail[1, "validation_performed"], "True")
+})
+
+## search by brand ##
+
+test_that("concepts can be filtered by author with the authenticated API", {
   author = "george"
-  concepts = get_concepts(api_client, author = author)
+  concepts = get_concepts(api_client = auth_client, author = author)
 
   expect_match(tolower(concepts[1, "author"]), qq("^.*@{author}.*$"))
 })
 
-test_that("published concepts can be filtered by author", {
-  skip_if(skip_public_API)
-
+test_that("concepts can be filtered by author with the public API", {
   author = "george"
-  concepts = get_published_concepts(public_api_client, author = author)
+  concepts = get_concepts(api_client = public_client, author = author)
 
   expect_match(tolower(concepts[1, "author"]), qq("^.*@{author}.*$"))
 })
 
-test_that("concepts can be filtered by owner username", {
+test_that("concepts can be filtered by owner username with the authenticated API", {
   owner = "ieuan.scanlon"
-  concepts = get_concepts(api_client, owner_username = owner)
+  concepts = get_concepts(api_client = auth_client, owner_username = owner)
 
   expect_equal(concepts[1, "owner"], owner)
 })
 
-test_that("concept versions can be hidden from results", {
-  concepts = get_concepts(api_client, do_not_show_versions = TRUE)
+test_that("concept versions can be hidden from results with the authenticated API", {
+  concepts = get_concepts(api_client = auth_client, do_not_show_versions = TRUE)
 
   expect_false("versions" %in% names(concepts))
 })
 
-test_that("published concept versions can be hidden from results", {
-  skip_if(skip_public_API)
-
-  concepts = get_published_concepts(public_api_client, do_not_show_versions = TRUE)
+test_that("concept versions can be hidden from results with the public API", {
+  concepts = get_concepts(api_client = public_client, do_not_show_versions = TRUE)
 
   expect_false("versions" %in% names(concepts))
 })
 
-test_that("concepts can be filtered to show only those with a published version", {
-  skip_if(skip_public_API)
-
-  concepts = get_concepts(api_client, must_have_published_versions = TRUE)
+test_that("concepts can be filtered to show only those with a published version with the authenticated API", {
+  concepts = get_concepts(api_client = auth_client, must_have_published_versions = TRUE)
 
   expect_false("not published" %in% concepts[,"is_published"])
 })

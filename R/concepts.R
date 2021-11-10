@@ -2,7 +2,8 @@
 #'
 #' Lists all available concepts for the user.
 #'
-#' @param api_client The HttpClient returned by the connectToAPI function.
+#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
+#' created if left blank.
 #' @param search Search by part of concept name (do not put wild characters here)
 #' @param tag_ids Specify vector of tags ids (get tags from get_tags())
 #' @param show_only_my_concepts Only show concepts owned by me. Default is FALSE.
@@ -18,9 +19,12 @@
 #' @export
 #'
 #' @examples
-#' get_concepts(api_client)
+#' get_concepts()
+#'
+#' api_client = connect_to_API(public = FALSE)
+#' get_concept(api_client = api_client)
 #' get_concepts(
-#'   api_client,
+#'   api_client = api_client,
 #'   search = 'Alcohol',
 #'   tag_ids = c(11,4),
 #'   show_only_my_concepts = TRUE,
@@ -33,7 +37,7 @@
 #'   must_have_published_versions = TRUE)
 #'
 get_concepts <- function(
-  api_client,
+  api_client = connect_to_API(),
   search = NA,
   tag_ids = NA,
   show_only_my_concepts = FALSE,
@@ -45,83 +49,38 @@ get_concepts <- function(
   do_not_show_versions = FALSE,
   must_have_published_versions = FALSE
 ) {
-
   # Create list of named query parameters
-  query_params = list(
-    search = search,
-    tag_ids = tag_ids,
-    show_only_my_concepts = show_only_my_concepts,
-    show_deleted_concepts = show_deleted_concepts,
-    show_only_validated_concepts = show_only_validated_concepts,
-    brand = brand,
-    author = author,
-    owner_username = owner_username,
-    do_not_show_versions = do_not_show_versions,
-    must_have_published_versions = must_have_published_versions
-  )
+  query_params = list()
+  if (is_connection_authenticated(api_client)) {
+    query_params = list(
+      search = search,
+      tag_ids = tag_ids,
+      show_only_my_concepts = show_only_my_concepts,
+      show_deleted_concepts = show_deleted_concepts,
+      show_only_validated_concepts = show_only_validated_concepts,
+      brand = brand,
+      author = author,
+      owner_username = owner_username,
+      do_not_show_versions = do_not_show_versions,
+      must_have_published_versions = must_have_published_versions
+    )
+  } else {
+    query_params = list(
+      search = search,
+      tag_ids = tag_ids,
+      show_only_validated_concepts = show_only_validated_concepts,
+      brand = brand,
+      author = author,
+      do_not_show_versions = do_not_show_versions
+    )
+  }
+
   # Clean query parameters to remove NA and FALSE values and change TRUE to 1
   cleaned_params = clean_query_list(query_params)
 
   # API call with path and query parameters
-  response = api_client$get(path = 'api/v1/concepts/', query = cleaned_params)
-  check_HTTP_response(response)
-
-  # Parse JSON result to dataframe
-  concepts = data.frame(jsonlite::fromJSON(response$parse('utf-8')))
-
-  return(concepts)
-}
-
-#' get_published_concepts
-#'
-#' Lists the published concepts.
-#'
-#' @param api_client The HttpClient returned by the connectToAPI or connectToPublicAPI functions.
-#' @param search Search by part of concept name (do not put wild characters here)
-#' @param tag_ids Specify vector of tags ids (get tags from get_tags())
-#' @param show_only_validated_concepts Show only validated concepts. Default is FALSE.
-#' @param brand Show only concepts with a specified brand.
-#' @param author Search by part of the author name.
-#' @param do_not_show_versions Do not show concepts versions. Default is FALSE (versions are shown).
-#'
-#' @return A dataframe containing the concepts matching the query.
-#' @export
-#'
-#' @examples
-#' get_published_concepts(api_client)
-#' get_published_concepts(
-#'   api_client,
-#'   search = 'Alcohol',
-#'   tag_ids = c(11,4),
-#'   show_only_validate_concepts = TRUE,
-#'   brand = 'HDRUK',
-#'   author = 'Kuan',
-#'   do_not_show_versions = TRUE)
-#'
-get_published_concepts <- function(
-  api_client,
-  search = NA,
-  tag_ids = NA,
-  show_only_validated_concepts = FALSE,
-  brand = NA,
-  author = NA,
-  do_not_show_versions = FALSE
-) {
-
-  # Create list of named query parameters
-  query_params = list(
-    search = search,
-    tag_ids = tag_ids,
-    show_only_validated_concepts = show_only_validated_concepts,
-    brand = brand,
-    author = author,
-    do_not_show_versions = do_not_show_versions
-  )
-  # Clean query parameters to remove NA and FALSE values and change TRUE to 1
-  cleaned_params = clean_query_list(query_params)
-
-  # API call with path and query parameters
-  response = api_client$get(path = 'api/v1/public/concepts/', query = cleaned_params)
+  path = get_full_path("concepts/", api_client)
+  response = api_client$get(path = path, query = cleaned_params)
   check_HTTP_response(response)
 
   # Parse JSON result to dataframe
