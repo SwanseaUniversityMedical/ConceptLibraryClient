@@ -164,8 +164,22 @@ test_that("get_phenotype_by_id creates a public API connection when no connectio
   expect_true(nrow(phenotype) == 1)
 })
 
-test_that("get_phenotype_detail returns a dataframe containing one row", {
-  phenotype = get_phenotype_detail(api_client, "PH1")
+test_that("get_phenotype_detail returns a dataframe containing one row with the authenticated API", {
+  phenotype = get_phenotype_detail("PH1", api_client = auth_client)
+
+  expect_true(is.data.frame(phenotype))
+  expect_true(nrow(phenotype) == 1)
+})
+
+test_that("get_phenotype_detail returns a datafram containing one row with the public API", {
+  phenotype = get_phenotype_detail("PH1", api_client = public_client)
+
+  expect_true(is.data.frame(phenotype))
+  expect_true(nrow(phenotype) == 1)
+})
+
+test_that("get_phenotype_detail creates a public API connection when no connection is given", {
+  phenotype = get_phenotype_detail("PH1")
 
   expect_true(is.data.frame(phenotype))
   expect_true(nrow(phenotype) == 1)
