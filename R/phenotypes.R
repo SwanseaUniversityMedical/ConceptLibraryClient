@@ -2,7 +2,7 @@
 #'
 #' Lists all available phenotypes for the user and the data sources associate with each.
 #'
-#' @param api_client The HttpClient returned by the connectToAPI function.
+#' @param api_client The HttpClient returned by the connect_to_API function.
 #' @param search Search by part of phenotype name (do not put wild characters here)
 #' @param tag_ids Specify vector of tags ids (get tags from get_tags())
 #' @param show_only_my_phenotypes Only show phenotypes owned by me. Default is FALSE.
@@ -18,9 +18,12 @@
 #' @export
 #'
 #' @examples
-#' getPhenotypes(api_client)
-#' getPhenotypes(
-#'   api_client,
+#' get_phenotypes()
+#'
+#' api_client = connect_to_API(public = FALSE)
+#' get_phenotypes(api_client = api_client)
+#' get_phenotypes(
+#'   api_client = api_client,
 #'   search = 'Alcohol',
 #'   tag_ids = c(11,4),
 #'   show_only_my_phenotypes = TRUE,
