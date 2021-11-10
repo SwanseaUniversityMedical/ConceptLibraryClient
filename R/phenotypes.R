@@ -48,7 +48,6 @@ get_phenotypes <- function(
   do_not_show_versions = FALSE,
   must_have_published_versions = FALSE
 ) {
-
   # Create list of named query parameters
   query_params = list()
   if (is_connection_authenticated(api_client)) {
@@ -107,7 +106,6 @@ get_phenotypes <- function(
 #' get_phenotype_by_id('PH1', api_client = api_client)
 #'
 get_phenotype_by_id <- function(id, api_client = connect_to_API()) {
-
   # API call
   path = get_full_path(qq('phenotypes/@{id}/'), api_client)
   response = api_client$get(path = path)
@@ -152,22 +150,23 @@ get_phenotype_detail <- function(id, api_client = connect_to_API()) {
 #'
 #' Lists the phenotype detail of the specified version.
 #'
-#' @param api_client The HttpClient returned by the connectToAPI or connectToPublicAPI functions.
 #' @param id The phenotype's id.
 #' @param version_id The phenotype version's id.
-#' @param use_public_api If the public API should be accessed instead. Default is FALSE.
+#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
+#' created if left blank.
 #'
 #' @return A dataframe containing the phenotype detail.
 #' @export
 #'
 #' @examples
-#' get_phenotype_detail_by_version(api_client, 'PH3183', '10865')
-#' get_phenotype_detail_by_version(api_client, 'PH3183', '10865', use_public_api = TRUE)
+#' get_phenotype_detail_by_version('PH1', '2')
 #'
-get_phenotype_detail_by_version <- function(api_client, id, version_id, use_public_api = FALSE) {
-  path = get_full_path(qq('phenotypes/@{id}/version/@{version_id}/detail/'), use_public_api)
-
+#' api_client = connect_to_API(public = FALSE)
+#' get_phenotype_detail_by_version('PH1', '2', api_client = api_client)
+#'
+get_phenotype_detail_by_version <- function(id, version_id, api_client = connect_to_API()) {
   # API call
+  path = get_full_path(qq('phenotypes/@{id}/version/@{version_id}/detail/'), api_client)
   response = api_client$get(path = path)
   check_HTTP_response(response)
 
