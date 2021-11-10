@@ -227,8 +227,22 @@ test_that("get_phenotype_code_list creates a public API connection when no conne
   expect_true(nrow(code_list) > 0)
 })
 
-test_that("get_phenotype_versions returns a non-empty dataframe", {
-  versions = get_phenotype_versions(api_client, "PH1")
+test_that("get_phenotype_versions returns a non-empty dataframe with the authenticate API", {
+  versions = get_phenotype_versions("PH1", api_client = auth_client)
+
+  expect_true(is.data.frame(versions))
+  expect_true(nrow(versions) > 0)
+})
+
+test_that("get_phenotype_versions returns a non-empty dataframe with the public API", {
+  versions = get_phenotype_versions("PH1", api_client = public_client)
+
+  expect_true(is.data.frame(versions))
+  expect_true(nrow(versions) > 0)
+})
+
+test_that("get_phenotype_versions creates a public API connection when no connection is given", {
+  versions = get_phenotype_versions("PH1")
 
   expect_true(is.data.frame(versions))
   expect_true(nrow(versions) > 0)

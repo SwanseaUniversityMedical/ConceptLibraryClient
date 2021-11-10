@@ -210,21 +210,22 @@ get_phenotype_code_list <- function(id, version_id, api_client = connect_to_API(
 #'
 #' Lists all the versions of the phenotype
 #'
-#' @param api_client The HttpClient returned by the connectToAPI or connectToPublicAPI functions.
 #' @param id The phenotype's id.
-#' @param use_public_api If the public API should be accessed instead. Default is FALSE.
+#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
+#' created if left blank.
 #'
 #' @return A dataframe containing the phenotype's versions.
 #' @export
 #'
 #' @examples
-#' get_phenotype_versions(api_client, 'PH3183')
-#' get_phenotype_versions(api_client, 'PH3183', use_public_api = TRUE)
+#' get_phenotype_versions('PH1')
 #'
-get_phenotype_versions <- function(api_client, id, use_public_api = FALSE) {
-  path = get_full_path(qq('phenotypes/@{id}/get-versions/'), use_public_api)
-
+#' api_client = connect_to_API()
+#' get_phenotype_versions('PH1', api_client = api_client)
+#'
+get_phenotype_versions <- function(id, api_client = connect_to_API()) {
   # API call
+  path = get_full_path(qq('phenotypes/@{id}/get-versions/'), api_client)
   response = api_client$get(path = path)
   check_HTTP_response(response)
 
