@@ -143,8 +143,22 @@ test_that("phenotypes can be filtered to show only those with a published versio
   expect_false("not published" %in% phenotypes[,"is_published"])
 })
 
-test_that("get_phenotype_by_id returns a dataframe containing one row", {
-  phenotype = get_phenotype_by_id(api_client, "PH1")
+test_that("get_phenotype_by_id returns a dataframe containing one row with the authenticated API", {
+  phenotype = get_phenotype_by_id("PH1", api_client = auth_client)
+
+  expect_true(is.data.frame(phenotype))
+  expect_true(nrow(phenotype) == 1)
+})
+
+test_that("get_phenotype_by_id returns a dataframe containing one row with the public API", {
+  phenotype = get_phenotype_by_id("PH1", api_client = public_client)
+
+  expect_true(is.data.frame(phenotype))
+  expect_true(nrow(phenotype) == 1)
+})
+
+test_that("get_phenotype_by_id creates a public API connection when no connection is given", {
+  phenotype = get_phenotype_by_id("PH1")
 
   expect_true(is.data.frame(phenotype))
   expect_true(nrow(phenotype) == 1)

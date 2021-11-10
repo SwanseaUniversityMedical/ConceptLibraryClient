@@ -98,21 +98,26 @@ get_phenotypes <- function(
 #'
 #' Lists a phenotype by id and the data sources associated with it.
 #'
-#' @param api_client The HttpClient returned by the connectToAPI or connectToPublicAPI functions.
 #' @param id The phenotype's id.
-#' @param use_public_api If the public API should be accessed instead. Default is FALSE.
+#' @param api_client The HttpClient returned by the connectToAPI function. Optional, a public API connection is created
+#' if left blank.
 #'
 #' @return A dataframe containing the phenotype.
 #' @export
 #'
 #' @examples
-#' get_phenotype_by_id(api_client, 'PH3183')
-#' get_phenotype_by_id(api_client, 'PH3183', use_public_api = TRUE)
+#' get_phenotype_by_id('PH3183', api_client = client)
+#' get_phenotype_by_id('PH3183')
 #'
-get_phenotype_by_id <- function(api_client, id, use_public_api = FALSE) {
-  path = get_full_path(qq('phenotypes/@{id}/'), use_public_api)
+get_phenotype_by_id <- function(id, api_client = NULL) {
+
+  # Connect to public API if no connection given
+  if (is.null(api_client)) {
+    api_client = connect_to_API()
+  }
 
   # API call
+  path = get_full_path(qq('phenotypes/@{id}/'), api_client)
   response = api_client$get(path = path)
   check_HTTP_response(response)
 
