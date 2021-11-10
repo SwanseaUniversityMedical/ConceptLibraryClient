@@ -36,7 +36,7 @@
 #'   must_have_published_versions = TRUE)
 #'
 get_phenotypes <- function(
-  api_client = NULL,
+  api_client = connect_to_API(),
   search = NA,
   tag_ids = NA,
   show_only_my_phenotypes = FALSE,
@@ -48,11 +48,6 @@ get_phenotypes <- function(
   do_not_show_versions = FALSE,
   must_have_published_versions = FALSE
 ) {
-
-  # Connect to public API if no connection given
-  if (is.null(api_client)) {
-    api_client = connect_to_API()
-  }
 
   # Create list of named query parameters
   query_params = list()
@@ -111,12 +106,7 @@ get_phenotypes <- function(
 #' api_client = connect_to_API(public = FALSE)
 #' get_phenotype_by_id('PH1', api_client = api_client)
 #'
-get_phenotype_by_id <- function(id, api_client = NULL) {
-
-  # Connect to public API if no connection given
-  if (is.null(api_client)) {
-    api_client = connect_to_API()
-  }
+get_phenotype_by_id <- function(id, api_client = connect_to_API()) {
 
   # API call
   path = get_full_path(qq('phenotypes/@{id}/'), api_client)
@@ -146,13 +136,7 @@ get_phenotype_by_id <- function(id, api_client = NULL) {
 #' api_client = connect_to_API(public = FALSE)
 #' get_phenotype_detail('PH1', api_client = api_client)
 #'
-get_phenotype_detail <- function(id, api_client = NULL) {
-
-  # Connect to public API if no connection given
-  if (is.null(api_client)) {
-    api_client = connect_to_API()
-  }
-
+get_phenotype_detail <- function(id, api_client = connect_to_API()) {
   # API call
   path = get_full_path(qq('phenotypes/@{id}/detail/'), api_client)
   response = api_client$get(path = path)
