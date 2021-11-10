@@ -33,7 +33,7 @@
 #'   must_have_published_versions = TRUE)
 #'
 get_phenotypes <- function(
-  api_client,
+  api_client = NULL,
   search = NA,
   tag_ids = NA,
   show_only_my_phenotypes = FALSE,
@@ -46,82 +46,43 @@ get_phenotypes <- function(
   must_have_published_versions = FALSE
 ) {
 
+  # Connect to public API if no connection given
+  if (is.null(api_client)) {
+    api_client = connect_to_API()
+  }
+
   # Create list of named query parameters
-  query_params = list(
-    search = search,
-    tag_ids = tag_ids,
-    show_only_my_phenotypes = show_only_my_phenotypes,
-    show_deleted_phenotypes = show_deleted_phenotypes,
-    show_only_validated_phenotypes = show_only_validated_phenotypes,
-    brand = brand,
-    author = author,
-    owner_username = owner_username,
-    do_not_show_versions = do_not_show_versions,
-    must_have_published_versions =  must_have_published_versions
-  )
+  query_params = list()
+  if (is_connection_authenticated(api_client)) {
+    query_params = list(
+      search = search,
+      tag_ids = tag_ids,
+      show_only_my_phenotypes = show_only_my_phenotypes,
+      show_deleted_phenotypes = show_deleted_phenotypes,
+      show_only_validated_phenotypes = show_only_validated_phenotypes,
+      brand = brand,
+      author = author,
+      owner_username = owner_username,
+      do_not_show_versions = do_not_show_versions,
+      must_have_published_versions =  must_have_published_versions
+    )
+  } else {
+    query_params = list(
+      search = search,
+      tag_ids = tag_ids,
+      show_only_validated_phenotypes = show_only_validated_phenotypes,
+      brand = brand,
+      author = author,
+      do_not_show_versions = do_not_show_versions
+    )
+  }
+
   # Clean query parameters to remove NA and FALSE values and change TRUE to 1
   cleaned_params = clean_query_list(query_params)
 
   # API call with path and query parameters
-  response = api_client$get(path = 'api/v1/phenotypes/', query = cleaned_params)
-  check_HTTP_response(response)
-
-  # Parse JSON result to dataframe
-  phenotypes = data.frame(jsonlite::fromJSON(response$parse('utf-8')))
-
-  return(phenotypes)
-}
-
-#' get_published_phenotypes
-#'
-#' Lists the published phenotypes and the data sources associated with each.
-#'
-#' @param api_client The HttpClient returned by the connectToAPI or connectToPublicAPI functions
-#' @param search Search by part of phenotype name (do not put wild characters here)
-#' @param tag_ids Specify vector of tags ids (get tags from get_tags())
-#' @param show_only_validated_phenotypes Show only validated phenotypes. Default is FALSE.
-#' @param brand Show only phenotypes with a specified brand.
-#' @param author Search by part of the author name.
-#' @param do_not_show_versions Do not show phenotypes versions. Default is FALSE (versions are shown).
-#'
-#' @return A dataframe containing the published phenotypes matching the query.
-#' @export
-#'
-#' @examples
-#' getPublishedPhenotypes(api_client)
-#' getPublishedPhenotypes(
-#'   api_client,
-#'   search = 'Alcohol',
-#'   tag_ids = c(11, 4),
-#'   show_only_validated_phenotypes = TRUE,
-#'   brand = 'HDRUK',
-#'   author = 'Kuan',
-#'   do_not_show_versions = TRUE)
-#'
-get_published_phenotypes <- function(
-  api_client,
-  search = NA,
-  tag_ids = NA,
-  show_only_validated_phenotypes = FALSE,
-  brand = NA,
-  author = NA,
-  do_not_show_versions = FALSE
-) {
-
-  # Create list of named query parameters
-  query_params = list(
-    search = search,
-    tag_ids = tag_ids,
-    show_only_validated_phenotypes = show_only_validated_phenotypes,
-    brand = brand,
-    author = author,
-    do_not_show_versions = do_not_show_versions
-  )
-  # Clean query parameters to remove NA and FALSE values and change TRUE to 1
-  cleaned_params = clean_query_list(query_params)
-
-  # API call with path and query parameters
-  response = api_client$get(path = 'api/v1/public/phenotypes/', query = cleaned_params)
+  path = get_full_path('phenotypes/', api_client)
+  response = api_client$get(path = path, query = cleaned_params)
   check_HTTP_response(response)
 
   # Parse JSON result to dataframe

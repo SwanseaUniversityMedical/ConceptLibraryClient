@@ -1,125 +1,144 @@
-test_that("get_phenotypes returns a non-empty dataframe", {
-  phenotypes = get_phenotypes(api_client)
+test_that("calling get_phenotypes with the authenticated API returns a non-empty dataframe", {
+  phenotypes = get_phenotypes(api_client = auth_client)
 
   expect_true(is.data.frame(phenotypes))
   expect_true(nrow(phenotypes) > 0)
 })
 
-test_that("get_published_phenotypes returns a non-empty dataframe", {
-  skip_if(skip_public_API)
-
-  phenotypes = get_published_phenotypes(public_api_client)
+test_that("calling get_phenotypes with the public API returns a non-empty dataframe", {
+  phenotypes = get_phenotypes(api_client = public_client)
 
   expect_true(is.data.frame(phenotypes))
   expect_true(nrow(phenotypes) > 0)
 })
 
-test_that("phenotypes can be filtered by search parameter", {
+test_that("calling get_phenotypes with no client object creates a public connection to return a non-empty dataframe", {
+  phenotypes = get_phenotypes()
+
+  expect_true(is.data.frame(phenotypes))
+  expect_true(nrow(phenotypes) > 0)
+})
+
+test_that("phenotypes can be filtered by search parameter with the authenticated API", {
   search = "alcohol"
-  phenotypes = get_phenotypes(api_client, search = search)
+  phenotypes = get_phenotypes(api_client = auth_client, search = search)
 
   expect_match(tolower(phenotypes[1, "phenotype_name"]), qq("^.*@{search}.*$"))
 })
 
-test_that("published phenotypes can be filtered by search parameter", {
-  skip_if(skip_public_API)
-
+test_that("phenotypes can be filtered by search parameter with the public API", {
   search = "alcohol"
-  phenotypes = get_published_phenotypes(public_api_client, search = search)
+  phenotypes = get_phenotypes(api_client = public_client, search = search)
 
   expect_match(tolower(phenotypes[1, "phenotype_name"]), qq("^.*@{search}.*$"))
 })
 
-test_that("phenotypes can be filtered by tag", {
+test_that("phenotypes can be filtered by tag with the authenticated API", {
   tag_id = 18
-  phenotypes = get_phenotypes(api_client, tag_ids = tag_id)
+  phenotypes = get_phenotypes(api_client = auth_client, tag_ids = tag_id)
   tags = phenotypes[[1, "tags"]][,"id"]
 
   expect_true(tag_id %in% tags)
 })
 
-test_that("published phenotypes can be filtered by tag", {
-  skip_if(skip_public_API)
-
+test_that("phenotypes can be filtered by tag with the public API", {
   tag_id = 18
-  phenotypes = get_published_phenotypes(public_api_client, tag_ids = tag_id)
+  phenotypes = get_phenotypes(api_client = public_client, tag_ids = tag_id)
   tags = phenotypes[[1, "tags"]][,"id"]
 
   expect_true(tag_id %in% tags)
 })
 
-test_that("phenotypes can be filtered by multiple tags", {
+test_that("phenotypes can be filtered by multiple tags with the authenticated API", {
   tag_ids = c(18, 19)
-  phenotypes = get_phenotypes(api_client, tag_ids = tag_ids)
+  phenotypes = get_phenotypes(api_client = auth_client, tag_ids = tag_ids)
   tags = phenotypes[[1, "tags"]][,"id"]
 
   expect_true(tag_ids[1] %in% tags || tag_ids[2] %in% tags)
 })
 
-test_that("published phenotypes can be filtered by multiple tags", {
-  skip_if(skip_public_API)
-
+test_that("phenotypes can be filtered by multiple tags with the public API", {
   tag_ids = c(18, 19)
-  phenotypes = get_published_phenotypes(public_api_client, tag_ids = tag_ids)
+  phenotypes = get_phenotypes(api_client = public_client, tag_ids = tag_ids)
   tags = phenotypes[[1, "tags"]][,"id"]
 
   expect_true(tag_ids[1] %in% tags|| tag_ids[2] %in% tagss)
 })
 
-test_that("phenotypes can be filtered to see only those owned by the user", {
+# Unskip if user owns phenotype
+test_that("phenotypes can be filtered to see only those owned by the user with the authenticated API", {
   skip("Can only be tested by user with owned phenotypes")
-  phenotypes = get_phenotypes(api_client, show_only_my_phenotypes = TRUE)
+  phenotypes = get_phenotypes(api_client = auth_client, show_only_my_phenotypes = TRUE)
 
-  expect_equal(phenotypes[1,"owner"], config$username)
+  expect_equal(phenotypes[1,"owner"], auth_client$auth$user)
 })
 
 # Can only be tested once there are deleted phenotypes in the database
-test_that("deleted phenotypes can be shown in the results", {
+test_that("deleted phenotypes can be shown in the results with the authenticated API", {
   skip("No deleted phenotypes in database to test on")
-  phenotypes = get_phenotypes(api_client, show_deleted_phenotypes = TRUE)
+  phenotypes = get_phenotypes(api_client = auth_client, show_deleted_phenotypes = TRUE)
 
   expect_true("TRUE" %in% phenotypes[, "is_deleted"])
 })
 
-test_that("phenotypes can be filtered by author", {
+# Can only be tested once there are validated phenotypes in the database
+test_that("phenotypes can be filtered to only show validated phenotypes with the authenticated API", {
+  skip("No validated phenotypes in database to test on")
+
+  phenotypes = get_phenotypes(api_client = auth_client, show_only_validated_phenotypes = TRUE)
+  phenotype_id = phenotypes[1, "phenotype_id"]
+  phenotype_detail = get_phenotype_detail(phenotype_id, api_client = auth_client)
+
+  expect_equal(phenotype_detail[1, "validation_performed"], "True")
+})
+
+test_that("phenotypes can be filtered to only show validated phenotypes with the public API", {
+  skip("No validated phenotypes in database to test on")
+
+  phenotypes = get_phenotypes(api_client = public_client, show_only_validated_phenotypes = TRUE)
+  phenotyp_id = phenotypes[1, "phenotype_id"]
+  phenotype_detail = get_phenotype_detail(phenotype_id, api_client = public_client)
+
+  expect_equal(phenotype_detail[1, "validation_performed"], "True")
+})
+
+## Search by brand ##
+
+test_that("phenotypes can be filtered by author with the authenticated API", {
   author = "carr"
-  phenotypes = get_phenotypes(api_client, author = author)
+  phenotypes = get_phenotypes(api_client = auth_client, author = author)
 
   expect_match(tolower(phenotypes[1, "author"]), qq("^.*@{author}.*$"))
 })
 
-test_that("published phenotypes can be filtered by author", {
-  skip_if(skip_public_API)
-
+test_that("phenotypes can be filtered by author with the public API", {
   author = "carr"
-  phenotypes = get_published_phenotypes(public_api_client, author = author)
+  phenotypes = get_phenotypes(api_client = public_client, author = author)
 
   expect_match(tolower(phenotypes[1, "author"]), qq("^.*@{author}.*$"))
 })
 
-test_that("phenotypes can be filtered by owner username", {
+test_that("phenotypes can be filtered by owner username with the authenticated API", {
   owner = "ieuan.scanlon"
-  phenotypes = get_phenotypes(api_client, owner_username = owner)
+  phenotypes = get_phenotypes(api_client = auth_client, owner_username = owner)
 
   expect_equal(phenotypes[1, "owner"], owner)
 })
 
-test_that("phenotype versions can be hidden from results", {
-  phenotypes = get_phenotypes(api_client, do_not_show_versions = TRUE)
+test_that("phenotype versions can be hidden from results with the authenticated API", {
+  phenotypes = get_phenotypes(api_client = auth_client, do_not_show_versions = TRUE)
 
   expect_false("versions" %in% names(phenotypes))
 })
 
-test_that("published phenotype versions can be hidden from results", {
-  skip_if(skip_public_API)
-
-  phenotypes = get_published_phenotypes(public_api_client, do_not_show_versions = TRUE)
+test_that("phenotype versions can be hidden from results with the public API", {
+  phenotypes = get_phenotypes(api_client = public_client, do_not_show_versions = TRUE)
 
   expect_false("versions" %in% names(phenotypes))
 })
 
-test_that("phenotypes can be filtered to show only those with a published version", {
-  phenotypes = get_phenotypes(api_client, must_have_published_versions = TRUE)
+test_that("phenotypes can be filtered to show only those with a published version with the authenticated API", {
+  phenotypes = get_phenotypes(api_client = auth_client, must_have_published_versions = TRUE)
 
   expect_false("not published" %in% phenotypes[,"is_published"])
 })

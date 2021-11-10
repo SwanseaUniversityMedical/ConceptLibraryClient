@@ -33,19 +33,31 @@ clean_query_list <- function(query_list) {
 
 #' get_full_path
 #'
-#' Simple function which prepends api/ or api/public to the beginning of a path, depending on whether the public api
-#' should be used.
+#' Simple function which prepends api/v1 or api/v1/public to the beginning of a path, depending on whether the api
+#' client's connection type (authenticated or public)
 #'
 #' @param path The path to prepend to.
-#' @param use_public_api If the public API should be used instead.
+#' @param api_client The api_client to determine connection type
 #'
 #' @return The full API path
 #'
-get_full_path <- function(path, use_public_api) {
-  prefix = 'api/v1/'
-  if (use_public_api == TRUE) {
-    prefix = 'api/v1/public/'
+get_full_path <- function(path, api_client) {
+  prefix = 'api/v1/public/'
+  if (is_connection_authenticated(api_client)) {
+    prefix = 'api/v1/'
   }
-
   return(paste0(prefix, path))
+}
+
+
+#' is_connection_public
+#'
+#' Determine whether the api connection is authenticated (TRUE) or public (FALSE).
+#'
+#' @param api_client The api connection to check.
+#'
+#' @return TRUE if authenticated, FALSE if public.
+#'
+is_connection_authenticated <- function(api_client) {
+  return(length(api_client$auth) > 0)
 }

@@ -5,7 +5,7 @@
 \title{get_phenotypes}
 \usage{
 get_phenotypes(
-  api_client,
+  api_client = NULL,
   search = NA,
   tag_ids = NA,
   show_only_my_phenotypes = FALSE,

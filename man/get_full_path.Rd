@@ -4,17 +4,17 @@
 \alias{get_full_path}
 \title{get_full_path}
 \usage{
-get_full_path(path, use_public_api)
+get_full_path(path, api_client)
 }
 \arguments{
 \item{path}{The path to prepend to.}
 
-\item{use_public_api}{If the public API should be used instead.}
+\item{api_client}{The api_client to determine connection type}
 }
 \value{
 The full API path
 }
 \description{
-Simple function which prepends api/ or api/public to the beginning of a path, depending on whether the public api
-should be used.
+Simple function which prepends api/v1 or api/v1/public to the beginning of a path, depending on whether the api
+client's connection type (authenticated or public)
 }

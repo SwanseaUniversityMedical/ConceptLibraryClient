@@ -61,6 +61,8 @@ connect_to_API <- function(user=NA, password=NA, url=API_URL, public=TRUE) {
   if (isFALSE(public)) {
     # Show login box if username or password not provided
     if (is.na(user) || is.na(password)) {
+      message("Please log in to the Concept Library. Please note: The login window may sometimes appear behind other
+              windows")
       details=getLogin(userName=user)
       user=details[1]
       password=details[2]
