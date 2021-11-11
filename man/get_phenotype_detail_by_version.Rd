@@ -4,21 +4,15 @@
 \alias{get_phenotype_detail_by_version}
 \title{get_phenotype_detail_by_version}
 \usage{
-get_phenotype_detail_by_version(
-  api_client,
-  id,
-  version_id,
-  use_public_api = FALSE
-)
+get_phenotype_detail_by_version(id, version_id, api_client = connect_to_API())
 }
 \arguments{
-\item{api_client}{The HttpClient returned by the connectToAPI or connectToPublicAPI functions.}
-
 \item{id}{The phenotype's id.}
 
 \item{version_id}{The phenotype version's id.}
 
-\item{use_public_api}{If the public API should be accessed instead. Default is FALSE.}
+\item{api_client}{The HttpClient returned by the connect_to_API function. Optional, a public API connection is
+created if left blank.}
 }
 \value{
 A dataframe containing the phenotype detail.
@@ -27,7 +21,9 @@ A dataframe containing the phenotype detail.
 Lists the phenotype detail of the specified version.
 }
 \examples{
-get_phenotype_detail_by_version(api_client, 'PH3183', '10865')
-get_phenotype_detail_by_version(api_client, 'PH3183', '10865', use_public_api = TRUE)
+get_phenotype_detail_by_version('PH1', '2')
+
+api_client = connect_to_API(public = FALSE)
+get_phenotype_detail_by_version('PH1', '2', api_client = api_client)
 
 }

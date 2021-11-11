@@ -4,21 +4,15 @@
 \alias{get_concept_code_list_by_version}
 \title{get_concept_code_list_by_version}
 \usage{
-get_concept_code_list_by_version(
-  api_client,
-  id,
-  version_id,
-  use_public_api = FALSE
-)
+get_concept_code_list_by_version(id, version_id, api_client = connect_to_API())
 }
 \arguments{
-\item{api_client}{The HttpClient returned by the connectToAPI or connectToPublicAPI functions.}
-
 \item{id}{The concept's id.}
 
 \item{version_id}{The concept version's id.}
 
-\item{use_public_api}{If the public API should be accessed instead. Default is FALSE.}
+\item{api_client}{The HttpClient returned by the connect_to_API function. Optional, a public API connection is
+created if left blank.}
 }
 \value{
 A dataframe containing the code list.
@@ -27,7 +21,9 @@ A dataframe containing the code list.
 Exports the code list of a specific version of a concept.
 }
 \examples{
-get_concept_code_list_by_version(api_client, 'C47', '54903')
-get_concept_code_list_by_version(api_client, 'C47', '24798', use_public_api = TRUE)
+get_concept_code_list_by_version('C714', '2567')
+
+api_client = connect_to_API(public = FALSE)
+get_concept_code_list_by_version('C714', '2567', api_client = api_client)
 
 }

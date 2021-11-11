@@ -4,14 +4,13 @@
 \alias{get_phenotype_detail}
 \title{get_phenotype_detail}
 \usage{
-get_phenotype_detail(api_client, id, use_public_api = FALSE)
+get_phenotype_detail(id, api_client = connect_to_API())
 }
 \arguments{
-\item{api_client}{The HttpClient returned by the connectToAPI or connectToPublicAPI functions.}
-
 \item{id}{The phenotype's id.}
 
-\item{use_public_api}{If the public API should be accessed instead. Default is FALSE.}
+\item{api_client}{The HttpClient returned by the connect_to_API function. Optional, a public API connection is
+created if left blank.}
 }
 \value{
 A dataframe containing the phenotype detail.
@@ -20,7 +19,9 @@ A dataframe containing the phenotype detail.
 Lists the phenotype detail of the latest version (or latest published version if using public API).
 }
 \examples{
-get_phenotype_detail(api_client, 'PH3183')
-get_phenotype_detail(api_client, 'PH3183', use_public_api = TRUE)
+get_phenotype_detail('PH1')
+
+api_client = connect_to_API(public = FALSE)
+get_phenotype_detail('PH1', api_client = api_client)
 
 }

@@ -4,14 +4,12 @@
 \alias{get_concept_code_list}
 \title{get_concept_code_list}
 \usage{
-get_concept_code_list(api_client, id)
+get_concept_code_list(id, api_client)
 }
 \arguments{
-\item{api_client}{The HttpClient returned by the connectToAPI function.}
-
 \item{id}{The concept's id.}
 
-\item{use_public_api}{If the public API should be accessed instead. Default is FALSE.}
+\item{api_client}{The HttpClient returned by the connectToAPI function. This must be an authenticated connection.}
 }
 \value{
 A dataframe containing the code list.
@@ -20,6 +18,7 @@ A dataframe containing the code list.
 Exports the code list of the latest version of a concept for the user. This cannot be used with the public API.
 }
 \examples{
-get_concept_code_list(api_client, 'C47')
+api_client = connect_to_API(public = FALSE)
+get_concept_code_list('C714', api_client)
 
 }

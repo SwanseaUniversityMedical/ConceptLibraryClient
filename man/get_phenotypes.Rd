@@ -5,7 +5,7 @@
 \title{get_phenotypes}
 \usage{
 get_phenotypes(
-  api_client = NULL,
+  api_client = connect_to_API(),
   search = NA,
   tag_ids = NA,
   show_only_my_phenotypes = FALSE,
@@ -19,15 +19,16 @@ get_phenotypes(
 )
 }
 \arguments{
-\item{api_client}{The HttpClient returned by the connectToAPI function.}
+\item{api_client}{The HttpClient returned by the connect_to_API function. Optional, a public API connection is
+created if left blank.}
 
 \item{search}{Search by part of phenotype name (do not put wild characters here)}
 
 \item{tag_ids}{Specify vector of tags ids (get tags from get_tags())}
 
-\item{show_only_my_phenotypes}{Only show phenotypes owned by me. Default is FALSE.}
+\item{show_only_my_phenotypes}{Only show phenotypes owned by me. Default is FALSE. Can't be used with public API.}
 
-\item{show_deleted_phenotypes}{Also show deleted phenotypes. Default is FALSE.}
+\item{show_deleted_phenotypes}{Also show deleted phenotypes. Default is FALSE. Can't be used with public API.}
 
 \item{show_only_validated_phenotypes}{Show only validated phenotypes. Default is FALSE.}
 
@@ -35,11 +36,12 @@ get_phenotypes(
 
 \item{author}{Search by part of the author name.}
 
-\item{owner_username}{Search by full username of the owner.}
+\item{owner_username}{Search by full username of the owner. Can't be used with public API.}
 
 \item{do_not_show_versions}{Do not show phenotypes versions. Default is FALSE (versions are shown).}
 
-\item{must_have_published_versions}{Show only phenotypes which have a published version. Default is FALSE.}
+\item{must_have_published_versions}{Show only phenotypes which have a published version. Default is FALSE. Can't be
+used with public API.}
 }
 \value{
 A dataframe containing the phenotypes matching the query.
@@ -48,9 +50,12 @@ A dataframe containing the phenotypes matching the query.
 Lists all available phenotypes for the user and the data sources associate with each.
 }
 \examples{
-getPhenotypes(api_client)
-getPhenotypes(
-  api_client,
+get_phenotypes()
+
+api_client = connect_to_API(public = FALSE)
+get_phenotypes(api_client = api_client)
+get_phenotypes(
+  api_client = api_client,
   search = 'Alcohol',
   tag_ids = c(11,4),
   show_only_my_phenotypes = TRUE,

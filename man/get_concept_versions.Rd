@@ -4,14 +4,13 @@
 \alias{get_concept_versions}
 \title{get_concept_versions}
 \usage{
-get_concept_versions(api_client, id, use_public_api = FALSE)
+get_concept_versions(id, api_client = connect_to_API())
 }
 \arguments{
-\item{api_client}{The HttpClient returned by the connectToAPI or connectToPublicAPI functions.}
-
 \item{id}{The concept's id.}
 
-\item{use_public_api}{If the public API should be accessed instead. Default is FALSE.}
+\item{api_client}{The HttpClient returned by the connect_to_API function. Optional, a public API connection is
+created if left blank.}
 }
 \value{
 A dataframe containing the concept versions.
@@ -20,6 +19,9 @@ A dataframe containing the concept versions.
 Lists all the versions of the concept.
 }
 \examples{
-get_concept_versions(api_client, 'C47')
-get_concept_versions(api_client, 'C47', use_public_api = TRUE)
+get_concept_versions('C714')
+
+api_client = connect_to_API(public = FALSE)
+get_concept_versions('C714', api_client = api_client)
+
 }

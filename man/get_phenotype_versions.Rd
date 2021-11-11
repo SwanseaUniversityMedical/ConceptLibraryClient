@@ -4,14 +4,13 @@
 \alias{get_phenotype_versions}
 \title{get_phenotype_versions}
 \usage{
-get_phenotype_versions(api_client, id, use_public_api = FALSE)
+get_phenotype_versions(id, api_client = connect_to_API())
 }
 \arguments{
-\item{api_client}{The HttpClient returned by the connectToAPI or connectToPublicAPI functions.}
-
 \item{id}{The phenotype's id.}
 
-\item{use_public_api}{If the public API should be accessed instead. Default is FALSE.}
+\item{api_client}{The HttpClient returned by the connect_to_API function. Optional, a public API connection is
+created if left blank.}
 }
 \value{
 A dataframe containing the phenotype's versions.
@@ -20,7 +19,9 @@ A dataframe containing the phenotype's versions.
 Lists all the versions of the phenotype
 }
 \examples{
-get_phenotype_versions(api_client, 'PH3183')
-get_phenotype_versions(api_client, 'PH3183', use_public_api = TRUE)
+get_phenotype_versions('PH1')
+
+api_client = connect_to_API()
+get_phenotype_versions('PH1', api_client = api_client)
 
 }
