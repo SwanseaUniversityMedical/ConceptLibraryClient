@@ -4,12 +4,13 @@
 \alias{get_tag_by_id}
 \title{get_tag_by_id}
 \usage{
-get_tag_by_id(api_client, id)
+get_tag_by_id(id, api_client = connect_to_API())
 }
 \arguments{
-\item{api_client}{The HttpClient returned by the connectToAPI or connectToPublicAPI functions.}
-
 \item{id}{The tag's id.}
+
+\item{api_client}{The HttpClient returned by the connect_to_API function. Optional, a public API connection is
+created if left blank.}
 }
 \value{
 A dataframe containing the tag.
@@ -18,6 +19,9 @@ A dataframe containing the tag.
 Lists a tag by id. A public API connection can be used here.
 }
 \examples{
-get_tag_by_id(api_client, '123')
+get_tag_by_id('20')
+
+api_client = connect_to_API(public = FALSE)
+get_tag_by_id('20', api_client = api_client)
 
 }

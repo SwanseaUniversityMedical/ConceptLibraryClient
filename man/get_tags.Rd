@@ -4,10 +4,11 @@
 \alias{get_tags}
 \title{get_tags}
 \usage{
-get_tags(api_client)
+get_tags(api_client = connect_to_API())
 }
 \arguments{
-\item{api_client}{The HttpClient returned by the connectToAPI or connectToPublicAPI functions.}
+\item{api_client}{The HttpClient returned by the connect_to_API function. Optional, a public API connection is
+created if left blank.}
 }
 \value{
 A dataframe containing the tags.
@@ -16,6 +17,9 @@ A dataframe containing the tags.
 Lists all available tags. A public API connection can be used here.
 }
 \examples{
-get_tags(api_client)
+get_tags()
+
+api_client = connect_to_API(public = FALSE)
+get_tags(api_client = api_client)
 
 }

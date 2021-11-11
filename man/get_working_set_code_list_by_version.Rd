@@ -7,7 +7,7 @@
 get_working_set_code_list_by_version(api_client, id, version_id)
 }
 \arguments{
-\item{api_client}{The HttpClient returned by the connectToAPI function.}
+\item{api_client}{The HttpClient returned by the connectToAPI function. This must be an authenticated connection.}
 
 \item{id}{The working set's id.}
 
@@ -21,6 +21,7 @@ Exports the code list of a specific version of a working set for the user. This 
 API.
 }
 \examples{
+api_client = connect_to_API(public = FALSE)
 get_working_set_code_list_by_version(api_client, '123', '456')
 
 }

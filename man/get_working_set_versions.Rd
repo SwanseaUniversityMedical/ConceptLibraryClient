@@ -7,7 +7,7 @@
 get_working_set_versions(api_client, id)
 }
 \arguments{
-\item{api_client}{The HttpClient returned by the connectToAPI function.}
+\item{api_client}{The HttpClient returned by the connectToAPI function. This must be an authenticated connection.}
 
 \item{id}{The working set's id.}
 }
@@ -18,6 +18,7 @@ A dataframe containing the working set's versions.
 Lists all the versions of the working set for the user. This cannot be used with the public API.
 }
 \examples{
+api_client = connect_to_API(public = FALSE)
 get_working_set_versions(api_client, '123')
 
 }

@@ -2,18 +2,21 @@
 #'
 #' Lists all available tags. A public API connection can be used here.
 #'
-#' @param api_client The HttpClient returned by the connectToAPI or connectToPublicAPI functions.
+#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
+#' created if left blank.
 #'
 #' @return A dataframe containing the tags.
 #' @export
 #'
 #' @examples
-#' get_tags(api_client)
+#' get_tags()
 #'
-get_tags <- function(api_client) {
-  path = 'api/v1/tags/'
-
+#' api_client = connect_to_API(public = FALSE)
+#' get_tags(api_client = api_client)
+#'
+get_tags <- function(api_client = connect_to_API()) {
   # API call
+  path = 'api/v1/tags/'
   response = api_client$get(path = path)
   check_HTTP_response(response)
 
@@ -28,19 +31,22 @@ get_tags <- function(api_client) {
 #'
 #' Lists a tag by id. A public API connection can be used here.
 #'
-#' @param api_client The HttpClient returned by the connectToAPI or connectToPublicAPI functions.
 #' @param id The tag's id.
+#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
+#' created if left blank.
 #'
 #' @return A dataframe containing the tag.
 #' @export
 #'
 #' @examples
-#' get_tag_by_id(api_client, '123')
+#' get_tag_by_id('20')
 #'
-get_tag_by_id <- function(api_client, id) {
-  path = qq('api/v1/tags/@{id}/')
-
+#' api_client = connect_to_API(public = FALSE)
+#' get_tag_by_id('20', api_client = api_client)
+#'
+get_tag_by_id <- function(id, api_client = connect_to_API()) {
   # API call
+  path = qq('api/v1/tags/@{id}/')
   response = api_client$get(path = path)
   check_HTTP_response(response)
 

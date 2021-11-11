@@ -7,33 +7,31 @@
 get_working_sets(
   api_client,
   search = NA,
-  tag_ids = NA,
   show_only_my_workingsets = FALSE,
   show_deleted_workingsets = FALSE,
-  brand = NA,
   author = NA,
   owner_username = NA,
   do_not_show_versions = FALSE
 )
 }
 \arguments{
-\item{api_client}{The HttpClient returned by the connectToAPI function.}
+\item{api_client}{The HttpClient returned by the connectToAPI function. This must be an authenticated connection.}
 
 \item{search}{Search by part of working set name (do not put wild characters here)}
-
-\item{tag_ids}{Specify vector of tags ids (get tags from get_tags())}
 
 \item{show_only_my_workingsets}{Only show working sets owned by me. Default is FALSE.}
 
 \item{show_deleted_workingsets}{Also show deleted working sets. Default is FALSE.}
-
-\item{brand}{Only show working sets with specified brand.}
 
 \item{author}{Search by part of the author name.}
 
 \item{owner_username}{Search by full username of the owner.}
 
 \item{do_not_show_versions}{Do not show working sets versions. Default is FALSE (versions are shown).}
+
+\item{tag_ids}{Specify vector of tags ids (get tags from get_tags()). NOT CURRENTLY WORKING.}
+
+\item{brand}{Only show working sets with specified brand. NOT CURRENTLY WORKING.}
 }
 \value{
 A dataframe containing the working sets.
@@ -42,13 +40,14 @@ A dataframe containing the working sets.
 Lists all available working sets for the user. This cannot be used with the public API.
 }
 \examples{
+api_client = connect_to_API(public = FALSE)
 get_working_sets(api_client)
 get_working_sets(
   search = 'diab',
-  tag_ids = c(11,4),
+  tag_ids = c(11,4),                 # Excluded at the moment
   show_only_my_workingsets = TRUE,
   show_deleted_workingsets = TRUE,
-  brand = 'ADP',
+  brand = 'ADP',                     # Excluded at the moment
   author = 'moh',
   owner_username = 'a.john',
   do_not_show_versions = TRUE)
