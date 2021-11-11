@@ -75,7 +75,19 @@ test_that("concepts can be filtered to only show validated concepts with the pub
   expect_true(concept_detail[1, "validation_performed"])
 })
 
-## search by brand ##
+test_that("concepts can be filtered by brand with the authenticated API", {
+  concepts = get_concepts(api_client = auth_client, brand = "hdruk")
+
+  # Brand not currently returned by API, just check that response is not empty for now
+  expect_true(nrow(concepts) > 0)
+})
+
+test_that("concepts can be filtered by brand with the public API", {
+  concepts = get_concepts(api_client = public_client, brand = "hdruk")
+
+  # Brand not currently returned by API, just check that response is not empty for now
+  expect_true(nrow(concepts) > 0)
+})
 
 test_that("concepts can be filtered by author with the authenticated API", {
   author = "george"

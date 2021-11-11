@@ -113,7 +113,19 @@ test_that("phenotypes can be filtered to only show validated phenotypes with the
   expect_equal(phenotype_detail[1, "validation_performed"], "True")
 })
 
-## Search by brand ##
+test_that("phenotypes can be filtered by brand with the authenticated API", {
+  phenotypes = get_phenotypes(api_client = auth_client, brand = "hdruk")
+
+  # Brand not currently returned by API, just check that response is not empty for now
+  expect_true(nrow(phenotypes) > 0)
+})
+
+test_that("phenotypes can be filtered by brand with the public API", {
+  phenotypes = get_phenotypes(api_client = public_client, brand = "hdruk")
+
+  # Brand not currently returned by API, just check that response is not empty for now
+  expect_true(nrow(phenotypes) > 0)
+})
 
 test_that("phenotypes can be filtered by author with the authenticated API", {
   author = "carr"
