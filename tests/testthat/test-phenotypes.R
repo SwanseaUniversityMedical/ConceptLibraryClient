@@ -19,6 +19,17 @@ test_that("calling get_phenotypes with no client object creates a public connect
   expect_true(nrow(phenotypes) > 0)
 })
 
+test_that("an error is thrown when invalid parameters are given to get_phenotypes when using the public API", {
+  expect_error(get_phenotypes(api_client = public_client, show_only_my_phenotypes = TRUE), paste0("One or more of the ",
+              "parameters specified in get_phenotypes\\(\\) cannot be used with the public API"))
+  expect_error(get_phenotypes(api_client = public_client, show_deleted_phenotypes = TRUE), paste0("One or more of the ",
+              "parameters specified in get_phenotypes\\(\\) cannot be used with the public API"))
+  expect_error(get_phenotypes(api_client = public_client, owner_username = "john.doe"), paste0("One or more of the ",
+              "parameters specified in get_phenotypes\\(\\) cannot be used with the public API"))
+  expect_error(get_phenotypes(api_client = public_client, must_have_published_versions = TRUE), paste0("One or more ",
+              "of the parameters specified in get_phenotypes\\(\\) cannot be used with the public API"))
+})
+
 test_that("phenotypes can be filtered by search parameter with the authenticated API", {
   search = "alcohol"
   phenotypes = get_phenotypes(api_client = auth_client, search = search)

@@ -19,6 +19,17 @@ test_that("calling get_concepts with no client object creates a public connectio
   expect_true(nrow(concepts) > 0)
 })
 
+test_that("an error is thrown when invalid parameters are given to get_concepts when using the public API", {
+  expect_error(get_concepts(api_client = public_client, show_only_my_concepts = TRUE), paste0("One or more of the ",
+              "parameters specified in get_concepts\\(\\) cannot be used with the public API"))
+  expect_error(get_concepts(api_client = public_client, show_deleted_concepts = TRUE), paste0("One or more of the ",
+              "parameters specified in get_concepts\\(\\) cannot be used with the public API"))
+  expect_error(get_concepts(api_client = public_client, owner_username = "john.doe"), paste0("One or more of the ",
+              "parameters specified in get_concepts\\(\\) cannot be used with the public API"))
+  expect_error(get_concepts(api_client = public_client, must_have_published_versions = TRUE), paste0("One or more ",
+              "of the parameters specified in get_concepts\\(\\) cannot be used with the public API"))
+})
+
 test_that("concepts can be filtered by search parameter with the authenticated API", {
   search = "alcohol"
   concepts = get_concepts(api_client = auth_client, search = search)

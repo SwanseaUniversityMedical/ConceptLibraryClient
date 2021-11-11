@@ -6,14 +6,15 @@
 #' created if left blank.
 #' @param search Search by part of phenotype name (do not put wild characters here)
 #' @param tag_ids Specify vector of tags ids (get tags from get_tags())
-#' @param show_only_my_phenotypes Only show phenotypes owned by me. Default is FALSE.
-#' @param show_deleted_phenotypes Also show deleted phenotypes. Default is FALSE.
+#' @param show_only_my_phenotypes Only show phenotypes owned by me. Default is FALSE. Can't be used with public API.
+#' @param show_deleted_phenotypes Also show deleted phenotypes. Default is FALSE. Can't be used with public API.
 #' @param show_only_validated_phenotypes Show only validated phenotypes. Default is FALSE.
 #' @param brand Show only phenotypes with a specified brand.
 #' @param author Search by part of the author name.
-#' @param owner_username Search by full username of the owner.
+#' @param owner_username Search by full username of the owner. Can't be used with public API.
 #' @param do_not_show_versions Do not show phenotypes versions. Default is FALSE (versions are shown).
-#' @param must_have_published_versions Show only phenotypes which have a published version. Default is FALSE.
+#' @param must_have_published_versions Show only phenotypes which have a published version. Default is FALSE. Can't be
+#' used with public API.
 #'
 #' @return A dataframe containing the phenotypes matching the query.
 #' @export
@@ -65,6 +66,13 @@ get_phenotypes <- function(
       must_have_published_versions =  must_have_published_versions
     )
   } else {
+    # Throw error if invalid query parameters were given for public API
+    if (isTRUE(show_only_my_phenotypes) || isTRUE(show_deleted_phenotypes) || !is.na(owner_username)
+        || isTRUE(must_have_published_versions)) {
+      stop("One or more of the parameters specified in get_phenotypes() cannot be used with the public API. Use
+           connect_to_API(public=FALSE) to create an authenticated connection, or check the documentation with
+           ?ConceptLibraryClient::get_phenotypes to see which parameters can be used with the public API.")
+    }
     query_params = list(
       search = search,
       tag_ids = tag_ids,
