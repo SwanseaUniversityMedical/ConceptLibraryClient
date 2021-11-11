@@ -4,14 +4,13 @@
 \alias{get_data_sources}
 \title{get_data_sources}
 \usage{
-get_data_sources(api_client, search = NA, use_public_api = FALSE)
+get_data_sources(api_client = connect_to_API(), search = NA)
 }
 \arguments{
-\item{api_client}{The HttpClient returned by the connectToAPI or connectToPublicAPI functions.}
+\item{api_client}{The HttpClient returned by the connect_to_API function. Optional, a public API connection is
+created if left blank.}
 
 \item{search}{Search by part of the data source name.}
-
-\item{use_public_api}{If the public API should be accessed instead. Default is FALSE.}
 }
 \value{
 A dataframe containing the data sources.
@@ -20,7 +19,9 @@ A dataframe containing the data sources.
 Lists all data sources and the phenotypes associated with each.
 }
 \examples{
-get_data_sources(api_client, search = 'hospital')
-get_data_sources(api_client, use_public_api = TRUE)
+get_data_sources()
+
+api_client = connect_to_API(public = FALSE)
+get_data_sources(api_client = api_client, search = 'hospital')
 
 }

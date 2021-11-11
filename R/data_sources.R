@@ -2,21 +2,22 @@
 #'
 #' Lists all data sources and the phenotypes associated with each.
 #'
-#' @param api_client The HttpClient returned by the connectToAPI or connectToPublicAPI functions.
+#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
+#' created if left blank.
 #' @param search Search by part of the data source name.
-#' @param use_public_api If the public API should be accessed instead. Default is FALSE.
 #'
 #' @return A dataframe containing the data sources.
 #' @export
 #'
 #' @examples
-#' get_data_sources(api_client, search = 'hospital')
-#' get_data_sources(api_client, use_public_api = TRUE)
+#' get_data_sources()
 #'
-get_data_sources <- function(api_client, search = NA, use_public_api = FALSE) {
-  path = get_full_path('data-sources/', use_public_api)
-
+#' api_client = connect_to_API(public = FALSE)
+#' get_data_sources(api_client = api_client, search = 'hospital')
+#'
+get_data_sources <- function(api_client = connect_to_API(), search = NA) {
   # API call
+  path = get_full_path('data-sources/', api_client)
   response = NA
   if (is.na(search)) {
     response = api_client$get(path = path)
@@ -35,20 +36,22 @@ get_data_sources <- function(api_client, search = NA, use_public_api = FALSE) {
 #'
 #' Lists a data source by id and the associated phenotypes.
 #'
-#' @param api_client The HttpClient returned by the connectToAPI or connectToPublicAPI functions.
 #' @param id The data source's id.
-#' @param use_public_api If the public API should be accessed instead. Default is FALSE.
+#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
+#' created if left blank.
 #'
 #' @return A dataframe containing the data source.
 #' @export
 #'
 #' @examples
-#' get_data_source_by_id(api_client, '425')
-#' get_data_souce_by_id(api_client, '425', use_public_api = TRUE)
+#' get_data_source_by_id('26')
 #'
-get_data_source_by_id <- function(api_client, id, use_public_api = FALSE) {
-  path = get_full_path(qq('data-sources/@{id}/'), use_public_api)
-
+#' api_client = connect_to_API(public = FALSE)
+#' get_data_souce_by_id('26', api_client = api_client)
+#'
+get_data_source_by_id <- function(id, api_client = connect_to_API()) {
+  # API call
+  path = get_full_path(qq('data-sources/@{id}/'), api_client)
   response = api_client$get(path = path)
   check_HTTP_response(response)
 

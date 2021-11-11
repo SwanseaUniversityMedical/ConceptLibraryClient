@@ -4,14 +4,13 @@
 \alias{get_data_source_by_id}
 \title{get_data_source_by_id}
 \usage{
-get_data_source_by_id(api_client, id, use_public_api = FALSE)
+get_data_source_by_id(id, api_client = connect_to_API())
 }
 \arguments{
-\item{api_client}{The HttpClient returned by the connectToAPI or connectToPublicAPI functions.}
-
 \item{id}{The data source's id.}
 
-\item{use_public_api}{If the public API should be accessed instead. Default is FALSE.}
+\item{api_client}{The HttpClient returned by the connect_to_API function. Optional, a public API connection is
+created if left blank.}
 }
 \value{
 A dataframe containing the data source.
@@ -20,7 +19,9 @@ A dataframe containing the data source.
 Lists a data source by id and the associated phenotypes.
 }
 \examples{
-get_data_source_by_id(api_client, '425')
-get_data_souce_by_id(api_client, '425', use_public_api = TRUE)
+get_data_source_by_id('26')
+
+api_client = connect_to_API(public = FALSE)
+get_data_souce_by_id('26', api_client = api_client)
 
 }
