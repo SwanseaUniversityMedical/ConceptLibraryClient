@@ -5,27 +5,31 @@
 \alias{ConceptLibraryClient}
 \title{ConceptLibraryClient: A Concept Library API client.}
 \description{
-This package acts as a client for the Concept Library. Each function represents an HTTP request to the API to
-interact with Phenotypes, Concepts, Data Sources, Working Sets and Tags. Before using these functions, the package
-user must create an HttpClient object by calling one of the connection functions. Once this object is created, it
-must passed into any API function that is called.
+This package acts as a client for the Concept Library API. Each function represents an HTTP request to the API to
+interact with Phenotypes, Concepts, Data Sources, Working Sets and Tags.
+}
+\details{
+Before using these functions, the package user can create an HttpClient object by calling the connect_to_API
+function. Once this object is created, it can be passed into any API function that is called, which avoids having to
+create a new connection each time when more than one API endpoint is to be used.
+
+Most functions can be used without specifying a connection object. This will automatically create a public API
+connection, which is useful when sending a singular request.
 }
 \section{Authenticated API connection}{
 
-By calling \code{\link{connect_to_API}}, the user must provide login credentials either in the function itself, or in
-the popup window if none are given.
+By calling \code{\link{connect_to_API}} with \code{public = FALSE}, the user must provide login credentials either in
+the function itself, or in the popup window if none are given.
 
-This api client can then be used with any of the API functions available. The public API can still be accessed even
-with an authenticated connection.
+This connection can then be used with any of the API functions available
 }
 
 \section{Public API connection}{
 
-\code{\link{connect_to_public_API}} allows for a connection without requiring authentication. This connection object
-can only be used with functions which allow use of the public API. These will either be functions which explicity get
-published data, e.g. \code{\link{get_published_concepts}}, or functions which have the \code{use_public_api} argument
-available, which must be set to \code{TRUE}.
+\code{\link{connect_to_API}} also allows for a connection without requiring authentication with \code{public = TRUE}.
+This is the default connection method, so calling \code{connect_to_API()} will have the same effect. Please note
+some functions require an authenticated connection.
 
-Functions which fit neither of the above criteria are simply not available to the public API.
+The connection function also provides a \code{url} parameter to specify a different URL to send the API requests to.
 }
 
