@@ -200,6 +200,11 @@ get_concept_detail_by_version <- function(id, version_id, api_client = connect_t
 #' get_concept_code_list('C714', api_client)
 #'
 get_concept_code_list <- function(id, api_client) {
+  # Throw error if client is not authenticated
+  if (!is_connection_authenticated(api_client)) {
+    stop("get_concept_code_list requires an authenticated connection. Use connect_to_API(public=FALSE) to create one.")
+  }
+
   # API call
   path = qq('api/v1/concepts/@{id}/export/codes/')
   response = api_client$get(path = path)

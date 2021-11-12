@@ -50,11 +50,19 @@ test_that("working set versions can be hidden from results", {
   expect_false("versions" %in% names(working_sets))
 })
 
+test_that("get_concepts throws an error when used with the public API", {
+  expect_error(get_working_sets(public_client), "Working Sets require an authenticated connection")
+})
+
 test_that("get_working_set_by_id returns a dataframe containing one row", {
   working_set = get_working_set_by_id(auth_client, "WS1")
 
   expect_true(is.data.frame(working_set))
   expect_equal(nrow(working_set), 1)
+})
+
+test_that("get_working_set_by_id throws an error when used with the public API", {
+  expect_error(get_working_set_by_id(public_client, "WS1"), "Working Sets require an authenticated connection")
 })
 
 test_that("get_working_set_detail returns a dataframe containing one row", {
@@ -70,6 +78,10 @@ test_that("codes can be hidden from working set detail", {
   expect_false("codes" %in% names(working_set))
 })
 
+test_that("get_working_set_detail throws an error when used with the public API", {
+  expect_error(get_working_set_detail(public_client, "WS1"), "Working Sets require an authenticated connection")
+})
+
 test_that("get_working_set_detail_by_version returns a dataframe containing one row", {
   working_set = get_working_set_detail_by_version(auth_client, "WS1", "18")
 
@@ -83,11 +95,20 @@ test_that("codes can be hidden from working set detail by version", {
   expect_false("codes" %in% names(working_set))
 })
 
+test_that("get_working_set_detail_by_version throws an error when used with the public API", {
+  expect_error(get_working_set_detail_by_version(public_client, "WS1", "18"), paste0("Working Sets require an ",
+     "authenticated connection"))
+})
+
 test_that("get_working_set_code_list returns a non-empty dataframe", {
   code_list = get_working_set_code_list(auth_client, "WS1")
 
   expect_true(is.data.frame(code_list))
   expect_true(nrow(code_list) > 0)
+})
+
+test_that("get_working_set_code_list throws an error when used with the public API", {
+  expect_error(get_working_set_code_list(public_client, "WS1"), "Working Sets require an authenticated connection")
 })
 
 test_that("get_working_set_code_list_by_version returns a non-empty dataframe", {
@@ -97,9 +118,18 @@ test_that("get_working_set_code_list_by_version returns a non-empty dataframe", 
   expect_true(nrow(code_list) > 0)
 })
 
+test_that("get_working_set_code_list_by_version throws an error when used with the public API", {
+  expect_error(get_working_set_code_list_by_version(public_client, "WS1", "18"), paste0("Working Sets require an ",
+      "authenticated connection"))
+})
+
 test_that("get_working_set_versions returns a non-empty dataframe", {
   versions = get_working_set_versions(auth_client, "WS1")
 
   expect_true(is.data.frame(versions))
   expect_true(nrow(versions) > 0)
+})
+
+test_that("get_working_set_versions throws an error when used with the public API", {
+  expect_error(get_working_set_versions(public_client, "WS1"), "Working Sets require an authenticated connection")
 })

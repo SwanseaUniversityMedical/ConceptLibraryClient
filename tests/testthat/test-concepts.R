@@ -232,6 +232,10 @@ test_that("get_concept_code_list returns non-empty dataframe with the authentica
   expect_true(nrow(code_list) > 0)
 })
 
+test_that("get_concept_code_list throws an error when used with the public API", {
+  expect_error(get_concept_code_list("C714", public_client), "requires an authenticated connection")
+})
+
 test_that("get_concept_code_list_by_version returns a non-empty dataframe with the authenticated API", {
   code_list = get_concept_code_list_by_version("C714", "2567", api_client = auth_client)
 

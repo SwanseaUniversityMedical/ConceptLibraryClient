@@ -1,3 +1,16 @@
+#' check_working_set_connection
+#'
+#' Working Sets API require an authenticated connection. This function throws an error if a public connection is used.
+#'
+#' @param api_client The API client to check.
+#'
+check_working_set_connection <- function(api_client) {
+  # Throw error if connection is not authenticated
+  if (!is_connection_authenticated(api_client)) {
+    stop("Working Sets require an authenticated connection. Use connect_to_API(public=FALSE) to create one")
+  }
+}
+
 #' get_working_sets
 #'
 #' Lists all available working sets for the user. This cannot be used with the public API.
@@ -39,6 +52,8 @@ get_working_sets <- function(
   owner_username = NA,
   do_not_show_versions = FALSE
 ) {
+  check_working_set_connection(api_client)
+
   # Create list of named query parameters
   query_params = list(
     search = search,
@@ -78,6 +93,8 @@ get_working_sets <- function(
 #' get_working_set_by_id(api_client, '123')
 #'
 get_working_set_by_id <- function(api_client, id) {
+  check_working_set_connection(api_client)
+
   # API call
   path = qq('api/v1/workingsets/@{id}/')
   response = api_client$get(path = path)
@@ -106,6 +123,8 @@ get_working_set_by_id <- function(api_client, id) {
 #' get_working_set_detail(api_client, '123', do_not_show_codes = TRUE)
 #'
 get_working_set_detail <- function(api_client, id, do_not_show_codes = FALSE) {
+  check_working_set_connection(api_client)
+
   query_list = clean_query_list(list(do_not_show_codes = do_not_show_codes))
 
   # API call
@@ -137,6 +156,8 @@ get_working_set_detail <- function(api_client, id, do_not_show_codes = FALSE) {
 #' get_working_set_detail_by_version(api_client, '123', '456', do_not_show_codes = TRUE)
 #'
 get_working_set_detail_by_version <- function(api_client, id, version_id, do_not_show_codes = FALSE) {
+  check_working_set_connection(api_client)
+
   query_list = clean_query_list(list(do_not_show_codes = do_not_show_codes))
 
   # API call
@@ -166,6 +187,8 @@ get_working_set_detail_by_version <- function(api_client, id, version_id, do_not
 #' get_working_set_code_list(api_client, '123')
 #'
 get_working_set_code_list <- function(api_client, id) {
+  check_working_set_connection(api_client)
+
   # API call
   path = qq('api/v1/workingsets/@{id}/export/codes/')
   response = api_client$get(path = path)
@@ -194,6 +217,8 @@ get_working_set_code_list <- function(api_client, id) {
 #' get_working_set_code_list_by_version(api_client, '123', '456')
 #'
 get_working_set_code_list_by_version <- function(api_client, id, version_id) {
+  check_working_set_connection(api_client)
+
   # API call
   path = qq('api/v1/workingsets/@{id}/version/@{version_id}/export/codes/')
   response = api_client$get(path = path)
@@ -220,6 +245,8 @@ get_working_set_code_list_by_version <- function(api_client, id, version_id) {
 #' get_working_set_versions(api_client, '123')
 #'
 get_working_set_versions <- function(api_client, id) {
+  check_working_set_connection(api_client)
+
   # API call
   path = qq('api/v1/workingsets/@{id}/get-versions/')
   response = api_client$get(path = path)
