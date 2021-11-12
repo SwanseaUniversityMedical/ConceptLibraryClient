@@ -44,7 +44,41 @@ test_that("concepts can be filtered by search parameter with the public API", {
   expect_match(tolower(concepts[1, "concept_name"]), qq("^.*@{search}.*$"))
 })
 
-## Search by tags ##
+test_that("concepts can be filtered by tag with the authenticated API", {
+  skip("Tag filter broken atm")
+  tag_id = 18
+  concepts = get_concepts(api_client = auth_client, tag_ids = tag_id)
+  tags = concepts[[1, "tags"]][,"id"]
+
+  expect_true(tag_id %in% tags)
+})
+
+test_that("concepts can be filtered by tag with the public API", {
+  skip("Tag filter broken atm")
+  tag_id = 18
+  concepts = get_concepts(api_client = public_client, tag_ids = tag_id)
+  tags = concepts[[1, "tags"]][,"id"]
+
+  expect_true(tag_id %in% tags)
+})
+
+test_that("concepts can be filtered by multiple tags with the authenticated API", {
+  skip("Tag filter broken atm")
+  tag_ids = c(18, 19)
+  concepts = get_concepts(api_client = auth_client, tag_ids = tag_ids)
+  tags = concepts[[1, "tags"]][,"id"]
+
+  expect_true(tag_ids[1] %in% tags || tag_ids[2] %in% tags)
+})
+
+test_that("concepts can be filtered by multiple tags with the public API", {
+  skip("Tag filter broken atm")
+  tag_ids = c(18, 19)
+  concepts = get_concepts(api_client = public_client, tag_ids = tag_ids)
+  tags = concepts[[1, "tags"]][,"id"]
+
+  expect_true(tag_ids[1] %in% tags|| tag_ids[2] %in% tagss)
+})
 
 test_that("concepts can be filtered to see only those owned by the user with the authenticated API", {
   skip("Can only be tested by user with owned concepts")
