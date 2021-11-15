@@ -1,3 +1,6 @@
+################################################# get_working_sets #####################################################
+########################################################################################################################
+
 test_that("get_working_sets returns a non-empty dataframe", {
   working_sets = get_working_sets(auth_client)
 
@@ -50,9 +53,12 @@ test_that("working set versions can be hidden from results", {
   expect_false("versions" %in% names(working_sets))
 })
 
-test_that("get_concepts throws an error when used with the public API", {
+test_that("get_working_sets throws an error when used with the public API", {
   expect_error(get_working_sets(public_client), "Working Sets require an authenticated connection")
 })
+
+############################################## get_working_set_by_id ###################################################
+########################################################################################################################
 
 test_that("get_working_set_by_id returns a dataframe containing one row", {
   working_set = get_working_set_by_id(auth_client, "WS1")
@@ -64,6 +70,9 @@ test_that("get_working_set_by_id returns a dataframe containing one row", {
 test_that("get_working_set_by_id throws an error when used with the public API", {
   expect_error(get_working_set_by_id(public_client, "WS1"), "Working Sets require an authenticated connection")
 })
+
+############################################### get_working_set_detail #################################################
+########################################################################################################################
 
 test_that("get_working_set_detail returns a dataframe containing one row", {
   working_set = get_working_set_detail(auth_client, "WS1")
@@ -81,6 +90,9 @@ test_that("codes can be hidden from working set detail", {
 test_that("get_working_set_detail throws an error when used with the public API", {
   expect_error(get_working_set_detail(public_client, "WS1"), "Working Sets require an authenticated connection")
 })
+
+########################################## get_working_set_detail_by_version ###########################################
+########################################################################################################################
 
 test_that("get_working_set_detail_by_version returns a dataframe containing one row", {
   working_set = get_working_set_detail_by_version(auth_client, "WS1", "18")
@@ -100,6 +112,9 @@ test_that("get_working_set_detail_by_version throws an error when used with the 
      "authenticated connection"))
 })
 
+########################################### get_working_set_code_list ##################################################
+########################################################################################################################
+
 test_that("get_working_set_code_list returns a non-empty dataframe", {
   code_list = get_working_set_code_list(auth_client, "WS1")
 
@@ -110,6 +125,9 @@ test_that("get_working_set_code_list returns a non-empty dataframe", {
 test_that("get_working_set_code_list throws an error when used with the public API", {
   expect_error(get_working_set_code_list(public_client, "WS1"), "Working Sets require an authenticated connection")
 })
+
+####################################### get_working_set_code_list_by_version ###########################################
+########################################################################################################################
 
 test_that("get_working_set_code_list_by_version returns a non-empty dataframe", {
   code_list = get_working_set_code_list_by_version(auth_client, "WS1", "18")
@@ -122,6 +140,9 @@ test_that("get_working_set_code_list_by_version throws an error when used with t
   expect_error(get_working_set_code_list_by_version(public_client, "WS1", "18"), paste0("Working Sets require an ",
       "authenticated connection"))
 })
+
+############################################ get_working_set_versions ##################################################
+########################################################################################################################
 
 test_that("get_working_set_versions returns a non-empty dataframe", {
   versions = get_working_set_versions(auth_client, "WS1")
