@@ -1,5 +1,5 @@
 Package: ConceptLibraryClient
-Title: A package which acts as a client endpoint for the Concept Library API.
+Title: Concept Library API Client
 Version: 2.0
 Authors@R: c(
   person("Dan", "Thayer", email = "d.s.thayer@swansea.ac.uk", role = "cre"),
