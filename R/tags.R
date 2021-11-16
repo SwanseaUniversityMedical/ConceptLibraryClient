@@ -1,9 +1,9 @@
 #' get_tags
 #'
-#' Lists all available tags. A public API connection can be used here.
+#' Lists all available tags.
 #'
-#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
-#' created if left blank.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
+#' connection is created if left blank.
 #'
 #' @return A dataframe containing the tags.
 #' @export
@@ -29,11 +29,11 @@ get_tags <- function(api_client = connect_to_API()) {
 
 #' get_tag_by_id
 #'
-#' Lists a tag by id. A public API connection can be used here.
+#' Lists a tag by id.
 #'
 #' @param id The tag's id.
-#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
-#' created if left blank.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
+#' connection is created if left blank.
 #'
 #' @return A dataframe containing the tag.
 #' @export

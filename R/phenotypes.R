@@ -2,8 +2,8 @@
 #'
 #' Lists all available phenotypes for the user and the data sources associate with each.
 #'
-#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
-#' created if left blank.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
+#' connection is created if left blank.
 #' @param search Search by part of phenotype name (do not put wild characters here)
 #' @param tag_ids Specify vector of tags ids (get tags from get_tags())
 #' @param show_only_my_phenotypes Only show phenotypes owned by me. Default is FALSE. Can't be used with public API.
@@ -102,8 +102,8 @@ get_phenotypes <- function(
 #' Lists a phenotype by id and the data sources associated with it.
 #'
 #' @param id The phenotype's id.
-#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
-#' created if left blank.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
+#' connection is created if left blank.
 #'
 #' @return A dataframe containing the phenotype.
 #' @export
@@ -131,8 +131,8 @@ get_phenotype_by_id <- function(id, api_client = connect_to_API()) {
 #' Lists the phenotype detail of the latest version (or latest published version if using public API).
 #'
 #' @param id The phenotype's id.
-#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
-#' created if left blank.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
+#' connection is created if left blank.
 #'
 #' @return A dataframe containing the phenotype detail.
 #' @export
@@ -161,8 +161,8 @@ get_phenotype_detail <- function(id, api_client = connect_to_API()) {
 #'
 #' @param id The phenotype's id.
 #' @param version_id The phenotype version's id.
-#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
-#' created if left blank.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
+#' connection is created if left blank.
 #'
 #' @return A dataframe containing the phenotype detail.
 #' @export
@@ -191,8 +191,8 @@ get_phenotype_detail_by_version <- function(id, version_id, api_client = connect
 #'
 #' @param id The phenotype's id.
 #' @param version_id The phenotype version's id.
-#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
-#' created if left blank.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
+#' connection is created if left blank.
 #'
 #' @return A dataframe containing the code list.
 #' @export
@@ -220,8 +220,8 @@ get_phenotype_code_list <- function(id, version_id, api_client = connect_to_API(
 #' Lists all the versions of the phenotype
 #'
 #' @param id The phenotype's id.
-#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
-#' created if left blank.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
+#' connection is created if left blank.
 #'
 #' @return A dataframe containing the phenotype's versions.
 #' @export

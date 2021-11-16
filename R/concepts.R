@@ -2,8 +2,8 @@
 #'
 #' Lists all available concepts for the user.
 #'
-#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
-#' created if left blank.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
+#' connection is created if left blank.
 #' @param search Search by part of concept name (do not put wild characters here)
 #' @param tag_ids Specify vector of tags ids (get tags from get_tags())
 #' @param show_only_my_concepts Only show concepts owned by me. Default is FALSE. Can't be used with public API.
@@ -102,8 +102,8 @@ get_concepts <- function(
 #' Lists a concept by id.
 #'
 #' @param id The concept's id.
-#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
-#' created if left blank.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
+#' connection is created if left blank.
 #'
 #' @return A dataframe containing the concept.
 #' @export
@@ -131,8 +131,8 @@ get_concept_by_id <- function(id, api_client = connect_to_API()) {
 #' Lists the concept detail of the latest version (or latest published version if using public API).
 #'
 #' @param id The concept's id.
-#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
-#' created if left blank.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
+#' connection is created if left blank.
 #'
 #' @return A dataframe containing the concept detail.
 #' @export
@@ -161,8 +161,8 @@ get_concept_detail <- function(id, api_client = connect_to_API()) {
 #'
 #' @param id The concept's id.
 #' @param version_id The concept version's id.
-#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
-#' created if left blank.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
+#' connection is created if left blank.
 #'
 #' @return A dataframe containing the concept's detail.
 #' @export
@@ -190,7 +190,8 @@ get_concept_detail_by_version <- function(id, version_id, api_client = connect_t
 #' Exports the code list of the latest version of a concept for the user. This cannot be used with the public API.
 #'
 #' @param id The concept's id.
-#' @param api_client The HttpClient returned by the connectToAPI function. This must be an authenticated connection.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. This must be an authenticated
+#' connection.
 #'
 #' @return A dataframe containing the code list.
 #' @export
@@ -222,8 +223,8 @@ get_concept_code_list <- function(id, api_client) {
 #'
 #' @param id The concept's id.
 #' @param version_id The concept version's id.
-#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
-#' created if left blank.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
+#' connection is created if left blank.
 #'
 #' @return A dataframe containing the code list.
 #' @export
@@ -251,8 +252,8 @@ get_concept_code_list_by_version <- function(id, version_id, api_client = connec
 #' Lists all the versions of the concept.
 #'
 #' @param id The concept's id.
-#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
-#' created if left blank.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
+#' connection is created if left blank.
 #'
 #' @return A dataframe containing the concept versions.
 #' @export

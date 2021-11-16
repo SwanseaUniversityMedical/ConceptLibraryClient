@@ -7,8 +7,8 @@
 get_data_sources(api_client = connect_to_API(), search = NA)
 }
 \arguments{
-\item{api_client}{The HttpClient returned by the connect_to_API function. Optional, a public API connection is
-created if left blank.}
+\item{api_client}{The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
+connection is created if left blank.}
 
 \item{search}{Search by part of the data source name.}
 }

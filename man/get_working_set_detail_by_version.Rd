@@ -12,7 +12,8 @@ get_working_set_detail_by_version(
 )
 }
 \arguments{
-\item{api_client}{The HttpClient returned by the connectToAPI function. This must be an authenticated connection.}
+\item{api_client}{The HttpClient returned by the \code{\link{connect_to_API}} function. This must be an authenticated
+connection.}
 
 \item{id}{The working set's id.}
 

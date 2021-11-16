@@ -9,8 +9,8 @@ get_concept_detail(id, api_client = connect_to_API())
 \arguments{
 \item{id}{The concept's id.}
 
-\item{api_client}{The HttpClient returned by the connect_to_API function. Optional, a public API connection is
-created if left blank.}
+\item{api_client}{The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
+connection is created if left blank.}
 }
 \value{
 A dataframe containing the concept detail.

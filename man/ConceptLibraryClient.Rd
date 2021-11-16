@@ -33,3 +33,57 @@ some functions require an authenticated connection.
 The connection function also provides a \code{url} parameter to specify a different URL to send the API requests to.
 }
 
+\section{Making API requests}{
+
+The following functions can be used to retrieve the various types of data stored in the Concept Library.
+\subsection{Phenotypes}{
+\itemize{
+\item \code{\link{get_phenotypes}}
+\item \code{\link{get_phenotype_by_id}}
+\item \code{\link{get_phenotype_detail}}
+\item \code{\link{get_phenotype_detail_by_version}}
+\item \code{\link{get_phenotype_code_list}}
+}
+}
+
+\subsection{Concepts}{
+\itemize{
+\item \code{\link{get_concepts}}
+\item \code{\link{get_concept_by_id}}
+\item \code{\link{get_concept_detail}}
+\item \code{\link{get_concept_detail_by_version}}
+\item \code{\link{get_concept_code_list}}
+\item \code{\link{get_concept_code_list_by_version}}
+\item \code{\link{get_concept_versions}}
+}
+}
+
+\subsection{Data Sources}{
+\itemize{
+\item \code{\link{get_data_sources}}
+\item \code{\link{get_data_source_by_id}}
+}
+}
+
+\subsection{Tags}{
+\itemize{
+\item \code{\link{get_tags}}
+\item \code{\link{get_tag_by_id}}
+}
+}
+
+\subsection{Working Sets (Deprecated)}{
+
+The package provides functions for working sets, but please note these will soon be removed.
+\itemize{
+\item \code{\link{get_working_sets}}
+\item \code{\link{get_working_set_by_id}}
+\item \code{\link{get_working_set_detail}}
+\item \code{\link{get_working_set_detail_by_version}}
+\item \code{\link{get_working_set_code_list}}
+\item \code{\link{get_working_set_code_list_by_version}}
+\item \code{\link{get_working_set_versions}}
+}
+}
+}
+

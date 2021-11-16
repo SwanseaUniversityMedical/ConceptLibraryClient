@@ -11,8 +11,8 @@ get_phenotype_detail_by_version(id, version_id, api_client = connect_to_API())
 
 \item{version_id}{The phenotype version's id.}
 
-\item{api_client}{The HttpClient returned by the connect_to_API function. Optional, a public API connection is
-created if left blank.}
+\item{api_client}{The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
+connection is created if left blank.}
 }
 \value{
 A dataframe containing the phenotype detail.

@@ -82,7 +82,8 @@ get_working_sets <- function(
 #'
 #' Lists a working set by id for the user. This cannot be used with the public API.
 #'
-#' @param api_client The HttpClient returned by the connectToAPI function. This must be an authenticated connection.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. This must be an authenticated
+#' connection.
 #' @param id The working set's id.
 #'
 #' @return A dataframe containing the working set.
@@ -110,7 +111,8 @@ get_working_set_by_id <- function(api_client, id) {
 #'
 #' Lists the working set detail of the latest version. This cannot be used with the public API.
 #'
-#' @param api_client The HttpClient returned by the connectToAPI function. This must be an authenticated connection.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. This must be an authenticated
+#' connection.
 #' @param id The working set's id.
 #' @param do_not_show_codes Do not show working set codes. Default is FALSE (codes are shown).
 #'
@@ -142,7 +144,8 @@ get_working_set_detail <- function(api_client, id, do_not_show_codes = FALSE) {
 #'
 #' Lists the phenotype detail of the specified version. This cannot be used with the public API.
 #'
-#' @param api_client The HttpClient returned by the connectToAPI function. This must be an authenticated connection.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. This must be an authenticated
+#' connection.
 #' @param id The working set's id.
 #' @param version_id The working set version's id.
 #' @param do_not_show_codes Do not show working set codes. Default is FALSE (codes are shown).
@@ -176,7 +179,8 @@ get_working_set_detail_by_version <- function(api_client, id, version_id, do_not
 #' Exports the code list of the latest version of a working set for the user. This cannot be used with the public
 #' API.
 #'
-#' @param api_client The HttpClient returned by the connectToAPI function. This must be an authenticated connection.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. This must be an authenticated
+#' connection.
 #' @param id The working set's id.
 #'
 #' @return A dataframe containing the working set's code list.
@@ -205,7 +209,8 @@ get_working_set_code_list <- function(api_client, id) {
 #' Exports the code list of a specific version of a working set for the user. This cannot be used with the public
 #' API.
 #'
-#' @param api_client The HttpClient returned by the connectToAPI function. This must be an authenticated connection.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. This must be an authenticated
+#' connection.
 #' @param id The working set's id.
 #' @param version_id The working set version's id.
 #'
@@ -234,7 +239,8 @@ get_working_set_code_list_by_version <- function(api_client, id, version_id) {
 #'
 #' Lists all the versions of the working set for the user. This cannot be used with the public API.
 #'
-#' @param api_client The HttpClient returned by the connectToAPI function. This must be an authenticated connection.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. This must be an authenticated
+#' connection.
 #' @param id The working set's id.
 #'
 #' @return A dataframe containing the working set's versions.

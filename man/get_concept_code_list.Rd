@@ -9,7 +9,8 @@ get_concept_code_list(id, api_client)
 \arguments{
 \item{id}{The concept's id.}
 
-\item{api_client}{The HttpClient returned by the connectToAPI function. This must be an authenticated connection.}
+\item{api_client}{The HttpClient returned by the \code{\link{connect_to_API}} function. This must be an authenticated
+connection.}
 }
 \value{
 A dataframe containing the code list.

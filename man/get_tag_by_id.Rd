@@ -9,14 +9,14 @@ get_tag_by_id(id, api_client = connect_to_API())
 \arguments{
 \item{id}{The tag's id.}
 
-\item{api_client}{The HttpClient returned by the connect_to_API function. Optional, a public API connection is
-created if left blank.}
+\item{api_client}{The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
+connection is created if left blank.}
 }
 \value{
 A dataframe containing the tag.
 }
 \description{
-Lists a tag by id. A public API connection can be used here.
+Lists a tag by id.
 }
 \examples{
 get_tag_by_id('20')

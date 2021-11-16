@@ -2,8 +2,8 @@
 #'
 #' Lists all data sources and the phenotypes associated with each.
 #'
-#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
-#' created if left blank.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
+#' connection is created if left blank.
 #' @param search Search by part of the data source name.
 #'
 #' @return A dataframe containing the data sources.
@@ -37,8 +37,8 @@ get_data_sources <- function(api_client = connect_to_API(), search = NA) {
 #' Lists a data source by id and the associated phenotypes.
 #'
 #' @param id The data source's id.
-#' @param api_client The HttpClient returned by the connect_to_API function. Optional, a public API connection is
-#' created if left blank.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
+#' connection is created if left blank.
 #'
 #' @return A dataframe containing the data source.
 #' @export
