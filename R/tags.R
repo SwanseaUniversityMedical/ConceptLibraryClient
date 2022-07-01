@@ -55,3 +55,29 @@ get_tag_by_id <- function(id, api_client = connect_to_API()) {
 
   return(tag)
 }
+
+#' exists_tag
+#'
+#' @param id
+#' @param api_client
+#'
+#' @return
+#'
+exists_tag <- function (id, api_client) {
+  path = qq('api/v1/public/tags/@{id}/');
+  response = api_client$get(path = path);
+  return (response$status_code == 200);
+}
+
+#' exists_collection
+#'
+#' @param id
+#' @param api_client
+#'
+#' @return
+#'
+exists_collection <- function (id, api_client) {
+  path = qq('api/v1/public/collections/@{id}/');
+  response = api_client$get(path = path);
+  return (response$status_code == 200);
+}
