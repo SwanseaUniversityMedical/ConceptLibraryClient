@@ -286,6 +286,12 @@ api_validate_phenotype <- function (data, api_client, is.update) {
     is.valid <- FALSE;
   }
 
+  # Field: description
+  if (!is.null(data$implementation) && !validate_type(data$implementation, 'string')) {
+    warning('Validation error: \'implementation\' is incorrect type (string)');
+    is.valid <- FALSE;
+  }
+
   # Field: validation
   if (!is.null(data$validation) && !validate_type(data$validation, 'string')) {
     warning('Validation error: \'validation\' is incorrect type (string)');

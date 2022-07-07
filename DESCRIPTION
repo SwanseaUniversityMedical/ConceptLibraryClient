@@ -4,6 +4,7 @@ Version: 2.0
 Authors@R: c(
   person("Dan", "Thayer", email = "d.s.thayer@swansea.ac.uk", role = "cre"),
   person("Etienne", "Badoche", email = "e.c.a.badoche@swansea.ac.uk", role = "aut"))
+  person("Ieuan", "Scanlon", email = "ieuan.scanlon@swansea.ac.uk", role = "aut"))
 Description: This package provides functions which mirror the HTTP requests that can be sent to the Concept Library API.
   These functions interact with Phenotypes, Concepts, Date Sources, Working Sets and Tags. The Concept Library also
   provides a public API, and a function is provided to connect to it instead with no authentication needed.

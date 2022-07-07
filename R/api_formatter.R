@@ -33,6 +33,12 @@ api_format_phenotype <- function (phenotype.data) {
     formatted.data$description <- '';
   }
 
+  if (!is.null(phenotype.data$implementation)) {
+    formatted.data$implementation <- phenotype.data$implementation;
+  } else {
+    formatted.data$implementation <- '';
+  }
+
   if (!is.null(phenotype.data$valid_event_data_range)) {
     formatted.data$valid_event_data_range <- phenotype.data$valid_event_data_range;
   } else {

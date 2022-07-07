@@ -41,6 +41,7 @@ More information on the API can also be found [here](https://conceptlibrary.sail
 - `get_phenotype_detail_by_version()`
 - `get_phenotype_code_list()`
 - `get_phenotype_versions()`
+- `upload_phenotype()`
 
 #### Concepts
 - `get_concepts()`
