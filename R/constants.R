@@ -8,29 +8,17 @@ API_TEMPLATE_FIELDS <- list(
   "concept_ids",
   "user"
 )
-API_CODING_SYSTEM_LOOKUP = list(
-  'ICD-9'=17,
-  'ICD-10'=4,
-  'ICD-11'=18,
-  'READ'=5,
-  'OPCS'=7,
-  'MED'=8,
-  'SNOMED'=9,
-  'PROD'=10,
-  'BNF'=11,
-  'UKBIOBANK'=12,
-  'NON-STANDARD'=13,
-  'CPRD'=14,
-  'OXMIS'=15,
-  'MULTILEX'=16
-)
 
 # Validation
 API_PHENOTYPE_VALIDATION <- list(
   TYPES=c(
     'Disease or Syndrome',
     'Biomarker',
-    'Lifestyle Risk Factor'
+    'Lifestyle Risk Factor',
+    'Drug',
+    'Drugs',
+    'Musculoskeletal',
+    'Surgical Procedure'
   ),
   CONCEPTS=c(
     'csv',
@@ -38,20 +26,23 @@ API_PHENOTYPE_VALIDATION <- list(
     'inline'
   ),
   CODING_SYSTEM=c(
-    'ICD-9',
-    'ICD-10',
-    'ICD-11',
-    'READ',
-    'OPCS',
-    'MED',
-    'SNOMED',
-    'PROD',
-    'BNF',
-    'UKBIOBANK',
-    'NON-STANDARD',
-    'CPRD',
-    'OXMIS',
-    'MULTILEX'
+    "11" = "BNF codes",
+    "19" = "CTV3 codes",
+    "14" = "GPRD product codes",
+    "4"  = "ICD10 codes",
+    "18" = "ICD11 codes",
+    "17" = "ICD9 codes",
+    "20" = "ICPC-2 codes",
+    "8"  = "Med codes",
+    "16" = "Multilex codes",
+    "13" = "Non-standard codes",
+    "7"  = "OPCS4 codes",
+    "15" = "OXMIS codes",
+    "10" = "PROD codes",
+    "5"  = "Read codes v2",
+    "6"  = "Read codes v3",
+    "9"  = "SNOMED CT codes",
+    "12" = "UKBioBank codes"
   )
 )
 

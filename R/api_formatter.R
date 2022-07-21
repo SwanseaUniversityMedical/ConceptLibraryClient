@@ -157,7 +157,7 @@ api_format_concept <- function (concepts.data, phenotype.data) {
         }
 
         # Add to concept
-        new.concept$coding_system <- API_CODING_SYSTEM_LOOKUP[[params$coding_system]];
+        new.concept$coding_system <- params$coding_system;
         new.concept$components <- list(new.component);
       } else if (params$type == 'inline') {
         new.component <- API_COMPONENT_FORMAT;
@@ -180,7 +180,7 @@ api_format_concept <- function (concepts.data, phenotype.data) {
         }
 
         # Add to concept
-        new.concept$coding_system <- API_CODING_SYSTEM_LOOKUP[[params$coding_system]];
+        new.concept$coding_system <- params$coding_system;
         new.concept$components <- list(new.component);
       }
     }

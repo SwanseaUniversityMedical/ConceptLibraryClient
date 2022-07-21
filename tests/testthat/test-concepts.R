@@ -144,7 +144,7 @@ test_that("concepts can be filtered by author with the public API", {
 })
 
 test_that("concepts can be filtered by owner username with the authenticated API", {
-  owner = "thayerd"
+  owner = "ieuan.scanlon"
   concepts = get_concepts(api_client = auth_client, owner_username = owner)
 
   expect_equal(concepts[1, "owner"], owner)
@@ -172,21 +172,21 @@ test_that("concepts can be filtered to show only those with a published version 
 ########################################################################################################################
 
 test_that("get_concept_by_id returns a dataframe containing one row with the authenticated API", {
-  concept = get_concept_by_id("C714", api_client = auth_client)
+  concept = get_concept_by_id("C6594", api_client = auth_client)
 
   expect_true(is.data.frame(concept))
   expect_true(nrow(concept) == 1)
 })
 
 test_that("get_concept_by_id returns a dataframe containing one row with the public API", {
-  concept = get_concept_by_id("C714", api_client = public_client)
+  concept = get_concept_by_id("C6594", api_client = public_client)
 
   expect_true(is.data.frame(concept))
   expect_true(nrow(concept) == 1)
 })
 
 test_that("get_concept_by_id creates a public API connection when no connection is given", {
-  concept = get_concept_by_id("C714")
+  concept = get_concept_by_id("C6594")
 
   expect_true(is.data.frame(concept))
   expect_true(nrow(concept) == 1)
@@ -196,21 +196,21 @@ test_that("get_concept_by_id creates a public API connection when no connection 
 ########################################################################################################################
 
 test_that("get_concept_detail returns a dataframe containing one row with the authenticated API", {
-  concept = get_concept_detail("C714", api_client = auth_client)
+  concept = get_concept_detail("C6594", api_client = auth_client)
 
   expect_true(is.data.frame(concept))
   expect_true(nrow(concept) == 1)
 })
 
 test_that("get_concept_detail returns a dataframe containing one row with the public API", {
-  concept = get_concept_detail("C714", api_client = public_client)
+  concept = get_concept_detail("C6594", api_client = public_client)
 
   expect_true(is.data.frame(concept))
   expect_true(nrow(concept) == 1)
 })
 
 test_that("get_concept_detail creates a public API connection when no connection is given", {
-  concept = get_concept_detail("C714")
+  concept = get_concept_detail("C6594")
 
   expect_true(is.data.frame(concept))
   expect_true(nrow(concept) == 1)
@@ -220,21 +220,21 @@ test_that("get_concept_detail creates a public API connection when no connection
 ########################################################################################################################
 
 test_that("get_concept_detail_by_version returns a dataframe containing one row with the authenticated API", {
-  concept = get_concept_detail_by_version("C714", "2567", api_client = auth_client)
+  concept = get_concept_detail_by_version("C6594", "47428", api_client = auth_client)
 
   expect_true(is.data.frame(concept))
   expect_true(nrow(concept) == 1)
 })
 
 test_that("get_concept_detail_by_version returns a dataframe containing one row with the public API", {
-  concept = get_concept_detail_by_version("C714", "2567", api_client = public_client)
+  concept = get_concept_detail_by_version("C6594", "47428", api_client = public_client)
 
   expect_true(is.data.frame(concept))
   expect_true(nrow(concept) == 1)
 })
 
 test_that("get_concept_detail_by_version creates a public API connection when no connection is given", {
-  concept = get_concept_detail_by_version("C714", "2567")
+  concept = get_concept_detail_by_version("C6594", "47428")
 
   expect_true(is.data.frame(concept))
   expect_true(nrow(concept) == 1)
@@ -244,35 +244,35 @@ test_that("get_concept_detail_by_version creates a public API connection when no
 ########################################################################################################################
 
 test_that("get_concept_code_list returns non-empty dataframe with the authenticated API", {
-  code_list = get_concept_code_list("C714", auth_client)
+  code_list = get_concept_code_list("C6594", auth_client)
 
   expect_true(is.data.frame(code_list))
   expect_true(nrow(code_list) > 0)
 })
 
 test_that("get_concept_code_list throws an error when used with the public API", {
-  expect_error(get_concept_code_list("C714", public_client), "requires an authenticated connection")
+  expect_error(get_concept_code_list("C6594", public_client), "requires an authenticated connection")
 })
 
 ######################################### get_concept_code_list_by_version #############################################
 ########################################################################################################################
 
 test_that("get_concept_code_list_by_version returns a non-empty dataframe with the authenticated API", {
-  code_list = get_concept_code_list_by_version("C714", "2567", api_client = auth_client)
+  code_list = get_concept_code_list_by_version("C6594", "47428", api_client = auth_client)
 
   expect_true(is.data.frame(code_list))
   expect_true(nrow(code_list) > 0)
 })
 
 test_that("get_concept_code_list_by_version returns a non-empty dataframe with the public API", {
-  code_list = get_concept_code_list_by_version("C714", "2567", api_client = public_client)
+  code_list = get_concept_code_list_by_version("C6594", "47428", api_client = public_client)
 
   expect_true(is.data.frame(code_list))
   expect_true(nrow(code_list) > 0)
 })
 
 test_that("get_concept_code_list_by_version creates a public API connection when no connection is given", {
-  code_list = get_concept_code_list_by_version("C714", "2567")
+  code_list = get_concept_code_list_by_version("C6594", "47428")
 
   expect_true(is.data.frame(code_list))
   expect_true(nrow(code_list) > 0)
@@ -282,21 +282,21 @@ test_that("get_concept_code_list_by_version creates a public API connection when
 ########################################################################################################################
 
 test_that("get_concept_versions returns a non-empty dataframe with the authenticated API", {
-  versions = get_concept_versions("C714", api_client = auth_client)
+  versions = get_concept_versions("C6594", api_client = auth_client)
 
   expect_true(is.data.frame(versions))
   expect_true(nrow(versions) > 0)
 })
 
 test_that("get_concept_versions returns a non-empty dataframe with the public API", {
-  versions = get_concept_versions("C714", api_client = public_client)
+  versions = get_concept_versions("C6594", api_client = public_client)
 
   expect_true(is.data.frame(versions))
   expect_true(nrow(versions) > 0)
 })
 
 test_that("get_concept_versions creates a public API connection when no connection is given", {
-  versions = get_concept_versions("C714")
+  versions = get_concept_versions("C6594")
 
   expect_true(is.data.frame(versions))
   expect_true(nrow(versions) > 0)

@@ -37,13 +37,13 @@ api_validate_phenotype_concepts <- function (data, api_client, is.valid) {
           } else {
             # Field: coding_system
             if (params$type %in% list('csv', 'inline')) {
-              if (!is.null(params$coding_system) && validate_type(params$coding_system, 'string')) {
-                if (!(params$coding_system %in% API_PHENOTYPE_VALIDATION$CODING_SYSTEM)) {
+              if (!is.null(params$coding_system) && validate_type(params$coding_system, 'number')) {
+                if (!(params$coding_system %in% names(API_PHENOTYPE_VALIDATION$CODING_SYSTEM))) {
                   warning('Validation error: Concept \'coding_system\' not in valid range, see documentation');
                   is.valid <- FALSE;
                 }
               } else {
-                warning('Validation error: Concept \'coding_system\'is missing or invalid type (string)');
+                warning('Validation error: Concept \'coding_system\'is missing or invalid type (int)');
                 is.valid <- FALSE;
               }
             }
@@ -286,7 +286,7 @@ api_validate_phenotype <- function (data, api_client, is.update) {
     is.valid <- FALSE;
   }
 
-  # Field: description
+  # Field: implementation
   if (!is.null(data$implementation) && !validate_type(data$implementation, 'string')) {
     warning('Validation error: \'implementation\' is incorrect type (string)');
     is.valid <- FALSE;

@@ -41,21 +41,21 @@ test_that("data sources can be filtered by search parameter with the public API"
 ########################################################################################################################
 
 test_that("get_data_source_by_id returns a dataframe containing one row with the authenticated API", {
-  data_source = get_data_source_by_id("3", api_client = auth_client)
+  data_source = get_data_source_by_id("420", api_client = auth_client)
 
   expect_true(is.data.frame(data_source))
   expect_equal(nrow(data_source), 1)
 })
 
 test_that("get_data_source_by_id returns a dataframe containing one row with the public API", {
-  data_source = get_data_source_by_id("3", api_client = public_client)
+  data_source = get_data_source_by_id("420", api_client = public_client)
 
   expect_true(is.data.frame(data_source))
   expect_equal(nrow(data_source), 1)
 })
 
 test_that("get_data_source_by_id creates a public API connection when no connection is given", {
-  data_source = get_data_source_by_id("3")
+  data_source = get_data_source_by_id("420")
 
   expect_true(is.data.frame(data_source))
   expect_equal(nrow(data_source), 1)
