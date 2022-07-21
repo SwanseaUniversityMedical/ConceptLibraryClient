@@ -6,6 +6,7 @@
 #' connection is created if left blank.
 #' @param search Search by part of phenotype name (do not put wild characters here)
 #' @param tag_ids Specify vector of tags ids (get tags from get_tags())
+#' @param collection_ids Specify vector of collection ids (get collections from get_collections())
 #' @param show_only_my_phenotypes Only show phenotypes owned by me. Default is FALSE. Can't be used with public API.
 #' @param show_deleted_phenotypes Also show deleted phenotypes. Default is FALSE. Can't be used with public API.
 #' @param show_only_validated_phenotypes Show only validated phenotypes. Default is FALSE.
@@ -27,7 +28,8 @@
 #' get_phenotypes(
 #'   api_client = api_client,
 #'   search = 'Alcohol',
-#'   tag_ids = c(11,4),
+#'   tag_ids = c(1,4),
+#'   collection_ids = C(19, 20),
 #'   show_only_my_phenotypes = TRUE,
 #'   show_deleted_phenotypes = TRUE,
 #'   show_only_validated_phenotypes = TRUE,
@@ -41,6 +43,7 @@ get_phenotypes <- function(
   api_client = connect_to_API(),
   search = NA,
   tag_ids = NA,
+  collection_ids = NA,
   show_only_my_phenotypes = FALSE,
   show_deleted_phenotypes = FALSE,
   show_only_validated_phenotypes = FALSE,
@@ -56,6 +59,7 @@ get_phenotypes <- function(
     query_params = list(
       search = search,
       tag_ids = tag_ids,
+      collection_ids = collection_ids,
       show_only_my_phenotypes = show_only_my_phenotypes,
       show_deleted_phenotypes = show_deleted_phenotypes,
       show_only_validated_phenotypes = show_only_validated_phenotypes,
@@ -76,6 +80,7 @@ get_phenotypes <- function(
     query_params = list(
       search = search,
       tag_ids = tag_ids,
+      collection_ids = collection_ids,
       show_only_validated_phenotypes = show_only_validated_phenotypes,
       brand = brand,
       author = author,
@@ -205,9 +210,9 @@ get_phenotype_detail_by_version <- function(id, version_id, api_client = connect
 #'
 get_phenotype_code_list <- function(id, version_id=NA, api_client = connect_to_API()) {
   if (is.na(version_id) || length(api_client$auth) == 0) {
-    path = get_full_path(qq('phenotypes/@{id}/export/codes'), api_client)
+    path = get_full_path(qq('phenotypes/@{id}/export/codes/'), api_client)
   } else {
-    path = get_full_path(qq('phenotypes/@{id}/version/@{version_id}/export/codes'), api_client)
+    path = get_full_path(qq('phenotypes/@{id}/version/@{version_id}/export/codes/'), api_client)
   }
   # API call
   response = api_client$get(path = path)

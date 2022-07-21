@@ -93,7 +93,7 @@ test_that("concepts can be filtered to see only those owned by the user with the
 
 test_that("deleted concepts can be shown in the results with the authenticated API", {
   # Use search term which returns deleted concepts
-  search_deleted = 'covid-19'
+  search_deleted = 'INR'
   concepts = get_concepts(api_client = auth_client, search = search_deleted, show_deleted_concepts = TRUE)
 
   expect_true("TRUE" %in% concepts[,"is_deleted"])

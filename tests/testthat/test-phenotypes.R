@@ -48,8 +48,9 @@ test_that("phenotypes can be filtered by search parameter with the public API", 
   expect_match(tolower(phenotypes[1, "phenotype_name"]), qq("^.*@{search}.*$"))
 })
 
+# Tag search
 test_that("phenotypes can be filtered by tag with the authenticated API", {
-  tag_id = 20
+  tag_id = 1
   phenotypes = get_phenotypes(api_client = auth_client, tag_ids = tag_id)
   tags = phenotypes[[1, "tags"]][,"id"]
 
@@ -57,7 +58,7 @@ test_that("phenotypes can be filtered by tag with the authenticated API", {
 })
 
 test_that("phenotypes can be filtered by tag with the public API", {
-  tag_id = 20
+  tag_id = 1
   phenotypes = get_phenotypes(api_client = public_client, tag_ids = tag_id)
   tags = phenotypes[[1, "tags"]][,"id"]
 
@@ -65,7 +66,7 @@ test_that("phenotypes can be filtered by tag with the public API", {
 })
 
 test_that("phenotypes can be filtered by multiple tags with the authenticated API", {
-  tag_ids = c(19, 20)
+  tag_ids = c(1, 4)
   phenotypes = get_phenotypes(api_client = auth_client, tag_ids = tag_ids)
   tags = phenotypes[[1, "tags"]][,"id"]
 
@@ -73,11 +74,44 @@ test_that("phenotypes can be filtered by multiple tags with the authenticated AP
 })
 
 test_that("phenotypes can be filtered by multiple tags with the public API", {
-  tag_ids = c(19, 20)
+  tag_ids = c(1, 4)
   phenotypes = get_phenotypes(api_client = public_client, tag_ids = tag_ids)
   tags = phenotypes[[1, "tags"]][,"id"]
 
   expect_true(tag_ids[1] %in% tags|| tag_ids[2] %in% tags)
+})
+
+# Collection search
+test_that("phenotypes can be filtered by collection with the authenticated API", {
+  collection_id = 27
+  phenotypes = get_phenotypes(api_client = auth_client, collection_ids = collection_id)
+  collections = phenotypes[[1, "collections"]][,"id"]
+
+  expect_true(collection_id %in% collections)
+})
+
+test_that("phenotypes can be filtered by collection with the public API", {
+  collection_id = 27
+  phenotypes = get_phenotypes(api_client = public_client, collection_ids = collection_id)
+  collections = phenotypes[[1, "collections"]][,"id"]
+
+  expect_true(collection_id %in% collections)
+})
+
+test_that("phenotypes can be filtered by multiple collections with the authenticated API", {
+  collection_ids = c(20, 27)
+  phenotypes = get_phenotypes(api_client = auth_client, collection_ids = collection_ids)
+  collections = phenotypes[[1, "collections"]][,"id"]
+
+  expect_true(collection_ids[1] %in% collections || collection_ids[2] %in% collections)
+})
+
+test_that("phenotypes can be filtered by multiple collections with the public API", {
+  collection_ids = c(20, 27)
+  phenotypes = get_phenotypes(api_client = public_client, collection_ids = collection_ids)
+  collections = phenotypes[[1, "collections"]][,"id"]
+
+  expect_true(collection_ids[1] %in% collections|| collection_ids[2] %in% collections)
 })
 
 # Unskip if user owns phenotype

@@ -60,6 +60,10 @@ More information on the API can also be found [here](https://conceptlibrary.sail
 - `get_tags()`
 - `get_tag_by_id()`
 
+#### Collections
+- `get_collections()`
+- `get_collection_by_id()`
+
 #### Working Sets *(Deprecated)*
 The package provides functions for working sets, but please note these will soon be removed.
 - `get_working_sets()`

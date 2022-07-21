@@ -68,16 +68,3 @@ exists_tag <- function (id, api_client) {
   response = api_client$get(path = path);
   return (response$status_code == 200);
 }
-
-#' exists_collection
-#'
-#' @param id
-#' @param api_client
-#'
-#' @return
-#'
-exists_collection <- function (id, api_client) {
-  path = qq('api/v1/public/collections/@{id}/');
-  response = api_client$get(path = path);
-  return (response$status_code == 200);
-}
