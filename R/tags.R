@@ -16,7 +16,7 @@
 #'
 get_tags <- function(api_client = connect_to_API()) {
   # API call
-  path = 'api/v1/tags/'
+  path = 'api/v1/public/tags/'
   response = api_client$get(path = path)
   check_HTTP_response(response)
 
@@ -46,7 +46,7 @@ get_tags <- function(api_client = connect_to_API()) {
 #'
 get_tag_by_id <- function(id, api_client = connect_to_API()) {
   # API call
-  path = qq('api/v1/tags/@{id}/')
+  path = qq('api/v1/public/tags/@{id}/')
   response = api_client$get(path = path)
   check_HTTP_response(response)
 
@@ -54,4 +54,17 @@ get_tag_by_id <- function(id, api_client = connect_to_API()) {
   tag = data.frame(jsonlite::fromJSON(response$parse('utf-8')))
 
   return(tag)
+}
+
+#' exists_tag
+#'
+#' @param id
+#' @param api_client
+#'
+#' @return
+#'
+exists_tag <- function (id, api_client) {
+  path = qq('api/v1/public/tags/@{id}/');
+  response = api_client$get(path = path);
+  return (response$status_code == 200);
 }

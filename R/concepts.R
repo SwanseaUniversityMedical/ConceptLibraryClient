@@ -276,3 +276,16 @@ get_concept_versions <- function(id, api_client = connect_to_API()) {
   # In this case the data is contained as a list within the dataframe and needs to be accessed before returning.
   return(versions$versions[[1]])
 }
+
+#' exists_concept
+#'
+#' @param id
+#' @param api_client
+#'
+#' @return
+#'
+exists_concept <- function (id, api_client) {
+  path = get_full_path(qq('concepts/@{id}/'), api_client)
+  response = api_client$get(path = path);
+  return (response$status_code == 200);
+}

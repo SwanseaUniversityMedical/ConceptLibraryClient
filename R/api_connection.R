@@ -58,7 +58,7 @@ connect_to_API <- function(user=NA, password=NA, url=API_URL, public=TRUE) {
   api_client = NA
 
   # Connect to authenticated API
-  if (isFALSE(public)) {
+  if (isFALSE(public) || (!is.na(user) && !is.na(password))) {
     # Show login box if username or password not provided
     if (is.na(user) || is.na(password)) {
       message("Please log in to the Concept Library. Please note: The login window may sometimes appear behind other
@@ -89,7 +89,8 @@ connect_to_API <- function(user=NA, password=NA, url=API_URL, public=TRUE) {
 #' @param response the crul::HTTPResponse object to check
 #'
 check_HTTP_response <- function(response) {
-  if (response$status_code != 200) {
+  if (response$status_code != 200 && response$status_code != 201) {
+    warning(jsonlite::fromJSON(response$parse('utf-8')))
     stop(paste(response$status_http(),collapse=' '));
   }
 }

@@ -48,8 +48,9 @@ test_that("phenotypes can be filtered by search parameter with the public API", 
   expect_match(tolower(phenotypes[1, "phenotype_name"]), qq("^.*@{search}.*$"))
 })
 
+# Tag search
 test_that("phenotypes can be filtered by tag with the authenticated API", {
-  tag_id = 20
+  tag_id = 1
   phenotypes = get_phenotypes(api_client = auth_client, tag_ids = tag_id)
   tags = phenotypes[[1, "tags"]][,"id"]
 
@@ -57,7 +58,7 @@ test_that("phenotypes can be filtered by tag with the authenticated API", {
 })
 
 test_that("phenotypes can be filtered by tag with the public API", {
-  tag_id = 20
+  tag_id = 1
   phenotypes = get_phenotypes(api_client = public_client, tag_ids = tag_id)
   tags = phenotypes[[1, "tags"]][,"id"]
 
@@ -65,7 +66,7 @@ test_that("phenotypes can be filtered by tag with the public API", {
 })
 
 test_that("phenotypes can be filtered by multiple tags with the authenticated API", {
-  tag_ids = c(19, 20)
+  tag_ids = c(1, 4)
   phenotypes = get_phenotypes(api_client = auth_client, tag_ids = tag_ids)
   tags = phenotypes[[1, "tags"]][,"id"]
 
@@ -73,11 +74,44 @@ test_that("phenotypes can be filtered by multiple tags with the authenticated AP
 })
 
 test_that("phenotypes can be filtered by multiple tags with the public API", {
-  tag_ids = c(19, 20)
+  tag_ids = c(1, 4)
   phenotypes = get_phenotypes(api_client = public_client, tag_ids = tag_ids)
   tags = phenotypes[[1, "tags"]][,"id"]
 
   expect_true(tag_ids[1] %in% tags|| tag_ids[2] %in% tags)
+})
+
+# Collection search
+test_that("phenotypes can be filtered by collection with the authenticated API", {
+  collection_id = 27
+  phenotypes = get_phenotypes(api_client = auth_client, collection_ids = collection_id)
+  collections = phenotypes[[1, "collections"]][,"id"]
+
+  expect_true(collection_id %in% collections)
+})
+
+test_that("phenotypes can be filtered by collection with the public API", {
+  collection_id = 27
+  phenotypes = get_phenotypes(api_client = public_client, collection_ids = collection_id)
+  collections = phenotypes[[1, "collections"]][,"id"]
+
+  expect_true(collection_id %in% collections)
+})
+
+test_that("phenotypes can be filtered by multiple collections with the authenticated API", {
+  collection_ids = c(20, 27)
+  phenotypes = get_phenotypes(api_client = auth_client, collection_ids = collection_ids)
+  collections = phenotypes[[1, "collections"]][,"id"]
+
+  expect_true(collection_ids[1] %in% collections || collection_ids[2] %in% collections)
+})
+
+test_that("phenotypes can be filtered by multiple collections with the public API", {
+  collection_ids = c(20, 27)
+  phenotypes = get_phenotypes(api_client = public_client, collection_ids = collection_ids)
+  collections = phenotypes[[1, "collections"]][,"id"]
+
+  expect_true(collection_ids[1] %in% collections|| collection_ids[2] %in% collections)
 })
 
 # Unskip if user owns phenotype
@@ -174,21 +208,21 @@ test_that("phenotypes can be filtered to show only those with a published versio
 ########################################################################################################################
 
 test_that("get_phenotype_by_id returns a dataframe containing one row with the authenticated API", {
-  phenotype = get_phenotype_by_id("PH1", api_client = auth_client)
+  phenotype = get_phenotype_by_id("PH7616", api_client = auth_client)
 
   expect_true(is.data.frame(phenotype))
   expect_true(nrow(phenotype) == 1)
 })
 
 test_that("get_phenotype_by_id returns a dataframe containing one row with the public API", {
-  phenotype = get_phenotype_by_id("PH1", api_client = public_client)
+  phenotype = get_phenotype_by_id("PH7616", api_client = public_client)
 
   expect_true(is.data.frame(phenotype))
   expect_true(nrow(phenotype) == 1)
 })
 
 test_that("get_phenotype_by_id creates a public API connection when no connection is given", {
-  phenotype = get_phenotype_by_id("PH1")
+  phenotype = get_phenotype_by_id("PH7616")
 
   expect_true(is.data.frame(phenotype))
   expect_true(nrow(phenotype) == 1)
@@ -198,21 +232,21 @@ test_that("get_phenotype_by_id creates a public API connection when no connectio
 ########################################################################################################################
 
 test_that("get_phenotype_detail returns a dataframe containing one row with the authenticated API", {
-  phenotype = get_phenotype_detail("PH1", api_client = auth_client)
+  phenotype = get_phenotype_detail("PH7616", api_client = auth_client)
 
   expect_true(is.data.frame(phenotype))
   expect_true(nrow(phenotype) == 1)
 })
 
 test_that("get_phenotype_detail returns a dataframe containing one row with the public API", {
-  phenotype = get_phenotype_detail("PH1", api_client = public_client)
+  phenotype = get_phenotype_detail("PH7616", api_client = public_client)
 
   expect_true(is.data.frame(phenotype))
   expect_true(nrow(phenotype) == 1)
 })
 
 test_that("get_phenotype_detail creates a public API connection when no connection is given", {
-  phenotype = get_phenotype_detail("PH1")
+  phenotype = get_phenotype_detail("PH7616")
 
   expect_true(is.data.frame(phenotype))
   expect_true(nrow(phenotype) == 1)
@@ -222,21 +256,21 @@ test_that("get_phenotype_detail creates a public API connection when no connecti
 ########################################################################################################################
 
 test_that("get_phenotype_detail_by_version returns a dataframe containing one row with the authenticated API", {
-  phenotype = get_phenotype_detail_by_version("PH1", "2", api_client = auth_client)
+  phenotype = get_phenotype_detail_by_version("PH7616", "32628", api_client = auth_client)
 
   expect_true(is.data.frame(phenotype))
   expect_true(nrow(phenotype) == 1)
 })
 
 test_that("get_phenotype_detail_by_version returns a dataframe containing one row with the public API", {
-  phenotype = get_phenotype_detail_by_version("PH1", "2", api_client = public_client)
+  phenotype = get_phenotype_detail_by_version("PH7616", "32628", api_client = public_client)
 
   expect_true(is.data.frame(phenotype))
   expect_true(nrow(phenotype) == 1)
 })
 
 test_that("get_phenotype_detail_by_version creates a public API connection when no connection is given", {
-  phenotype = get_phenotype_detail_by_version("PH1", "2")
+  phenotype = get_phenotype_detail_by_version("PH7616", "32628")
 
   expect_true(is.data.frame(phenotype))
   expect_true(nrow(phenotype) == 1)
@@ -246,21 +280,21 @@ test_that("get_phenotype_detail_by_version creates a public API connection when 
 ########################################################################################################################
 
 test_that("get_phenotype_code_list returns a non-empty dataframe with the authenticated API", {
-  code_list = get_phenotype_code_list("PH1", "2", api_client = auth_client)
+  code_list = get_phenotype_code_list("PH7616", "32628", api_client = auth_client)
 
   expect_true(is.data.frame(code_list))
   expect_true(nrow(code_list) > 0)
 })
 
 test_that("get_phenotype_code_list returns a non-empty dataframe with the public API", {
-  code_list = get_phenotype_code_list("PH1", "2", api_client = public_client)
+  code_list = get_phenotype_code_list("PH7616", "32628", api_client = public_client)
 
   expect_true(is.data.frame(code_list))
   expect_true(nrow(code_list) > 0)
 })
 
 test_that("get_phenotype_code_list creates a public API connection when no connection is given", {
-  code_list = get_phenotype_code_list("PH1", "2")
+  code_list = get_phenotype_code_list("PH7616", "32628")
 
   expect_true(is.data.frame(code_list))
   expect_true(nrow(code_list) > 0)
@@ -270,21 +304,21 @@ test_that("get_phenotype_code_list creates a public API connection when no conne
 ########################################################################################################################
 
 test_that("get_phenotype_versions returns a non-empty dataframe with the authenticate API", {
-  versions = get_phenotype_versions("PH1", api_client = auth_client)
+  versions = get_phenotype_versions("PH7616", api_client = auth_client)
 
   expect_true(is.data.frame(versions))
   expect_true(nrow(versions) > 0)
 })
 
 test_that("get_phenotype_versions returns a non-empty dataframe with the public API", {
-  versions = get_phenotype_versions("PH1", api_client = public_client)
+  versions = get_phenotype_versions("PH7616", api_client = public_client)
 
   expect_true(is.data.frame(versions))
   expect_true(nrow(versions) > 0)
 })
 
 test_that("get_phenotype_versions creates a public API connection when no connection is given", {
-  versions = get_phenotype_versions("PH1")
+  versions = get_phenotype_versions("PH7616")
 
   expect_true(is.data.frame(versions))
   expect_true(nrow(versions) > 0)

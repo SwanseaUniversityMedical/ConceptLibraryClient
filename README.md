@@ -41,6 +41,7 @@ More information on the API can also be found [here](https://conceptlibrary.sail
 - `get_phenotype_detail_by_version()`
 - `get_phenotype_code_list()`
 - `get_phenotype_versions()`
+- `upload_phenotype()`
 
 #### Concepts
 - `get_concepts()`
@@ -58,6 +59,10 @@ More information on the API can also be found [here](https://conceptlibrary.sail
 #### Tags
 - `get_tags()`
 - `get_tag_by_id()`
+
+#### Collections
+- `get_collections()`
+- `get_collection_by_id()`
 
 #### Working Sets *(Deprecated)*
 The package provides functions for working sets, but please note these will soon be removed.

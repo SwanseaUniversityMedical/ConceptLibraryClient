@@ -60,3 +60,16 @@ get_data_source_by_id <- function(id, api_client = connect_to_API()) {
 
   return(data_source)
 }
+
+#' exists_data_source
+#'
+#' @param id
+#' @param api_client
+#'
+#' @return
+#'
+exists_data_source <- function (id, api_client) {
+  path = get_full_path(qq('data-sources/@{id}/'), api_client)
+  response = api_client$get(path = path);
+  return (response$status_code == 200);
+}
