@@ -1,4 +1,4 @@
-API_URL <- "https://conceptlibrary.demo.saildatabank.com/"
+API_URL <- "https://conceptlibrary.saildatabank.com/"
 
 API_YAML_TEMPLATE_VERSION <- 1
 API_TEMPLATE_FIELDS <- list(
