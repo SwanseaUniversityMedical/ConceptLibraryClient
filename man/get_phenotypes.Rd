@@ -8,6 +8,7 @@ get_phenotypes(
   api_client = connect_to_API(),
   search = NA,
   tag_ids = NA,
+  collection_ids = NA,
   show_only_my_phenotypes = FALSE,
   show_deleted_phenotypes = FALSE,
   show_only_validated_phenotypes = FALSE,
@@ -25,6 +26,8 @@ connection is created if left blank.}
 \item{search}{Search by part of phenotype name (do not put wild characters here)}
 
 \item{tag_ids}{Specify vector of tags ids (get tags from get_tags())}
+
+\item{collection_ids}{Specify vector of collection ids (get collections from get_collections())}
 
 \item{show_only_my_phenotypes}{Only show phenotypes owned by me. Default is FALSE. Can't be used with public API.}
 
@@ -57,7 +60,8 @@ get_phenotypes(api_client = api_client)
 get_phenotypes(
   api_client = api_client,
   search = 'Alcohol',
-  tag_ids = c(11,4),
+  tag_ids = c(1,4),
+  collection_ids = C(19, 20),
   show_only_my_phenotypes = TRUE,
   show_deleted_phenotypes = TRUE,
   show_only_validated_phenotypes = TRUE,

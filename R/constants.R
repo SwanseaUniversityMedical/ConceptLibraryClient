@@ -1,4 +1,4 @@
-API_URL <- "https://conceptlibrary.demo.saildatabank.com/"
+API_URL <- "https://conceptlibrary.saildatabank.com/"
 
 API_YAML_TEMPLATE_VERSION <- 1
 API_TEMPLATE_FIELDS <- list(
@@ -16,7 +16,6 @@ API_PHENOTYPE_VALIDATION <- list(
     'Biomarker',
     'Lifestyle Risk Factor',
     'Drug',
-    'Drugs',
     'Musculoskeletal',
     'Surgical Procedure'
   ),
@@ -43,6 +42,14 @@ API_PHENOTYPE_VALIDATION <- list(
     "6"  = "Read codes v3",
     "9"  = "SNOMED CT codes",
     "12" = "UKBioBank codes"
+  ),
+  VALIDATION=c(
+    "prognostic",
+    "aetiologic",
+    "genetic",
+    "cross-source",
+    "casenote review",
+    "cross-country"
   )
 )
 

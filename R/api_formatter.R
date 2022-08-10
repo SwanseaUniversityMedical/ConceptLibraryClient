@@ -72,7 +72,7 @@ api_format_phenotype <- function (phenotype.data) {
   }
 
   if (!is.null(phenotype.data$validation)) {
-    formatted.data$validation <- phenotype.data$validation;
+    formatted.data$validation <- paste(unlist(phenotype.data$validation), collapse=", ");
     if (formatted.data$validation != '') {
       formatted.data$validation_performed = TRUE;
     }

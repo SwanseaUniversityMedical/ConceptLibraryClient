@@ -196,8 +196,8 @@ api_validate_phenotype <- function (data, api_client, is.update) {
 
   # Field: author
   if (!is.null(data$author)) {
-    is.valid.author <- lapply(data$author, function (x) { x <- validate_type(x, 'string') });
-    if (!any(as.logical(is.valid.author))) {
+    is.valid.author <- lapply(data$author, function (x) { x <- !validate_type(x, 'string') });
+    if (any(as.logical(is.valid.author))) {
       warning('Validation error: \'author\' is incorrect type (string or list<string>)');
       is.valid <- FALSE;
     }
@@ -293,10 +293,20 @@ api_validate_phenotype <- function (data, api_client, is.update) {
   }
 
   # Field: validation
-  if (!is.null(data$validation) && !validate_type(data$validation, 'string')) {
-    warning('Validation error: \'validation\' is incorrect type (string)');
-    is.valid <- FALSE;
+  if (!is.null(data$validation)) {
+    is.valid.validations <- lapply(data$validation, function (x) { x <- !validate_type(x, 'string') });
+    if (any(as.logical(is.valid.validations))) {
+      warning('Validation error: \'validation\' is incorrect type (string)');
+      is.valid <- FALSE;
+    } else {
+      is.valid.validations <- lapply(data$validation, function (x) { x <- !(x %in% API_PHENOTYPE_VALIDATION$VALIDATION) });
+      if (any(as.logical(is.valid.validations))) {
+        warning('Validation error: \'validation\' is incorrect, see valid inputs')
+        is.valid <- FALSE;
+      }
+    }
   }
+
 
   # Field: phenoflowid
   if (!is.null(data$phenoflowid) && ((validate_type(data$phenoflowid, 'string') && data$phenoflowid != '') || !validate_type(data$phenoflowid, 'number'))) {
@@ -324,8 +334,8 @@ api_validate_phenotype <- function (data, api_client, is.update) {
 
   # Field: publications
   if (!is.null(data$publications)) {
-    is.valid.publications <- lapply(data$publications, function (x) { x <- validate_type(x, 'string') });
-    if (!any(as.logical(is.valid.publications))) {
+    is.valid.publications <- lapply(data$publications, function (x) { x <- !validate_type(x, 'string') });
+    if (any(as.logical(is.valid.publications))) {
       warning('Validation error: \'publications\' is incorrect type (string or list<string>)');
       is.valid <- FALSE;
     }
