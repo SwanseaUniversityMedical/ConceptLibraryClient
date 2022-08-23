@@ -192,9 +192,12 @@ validate_csv <- function (file.path) {
   if (class(err) != 'try-error') {
     codes <- read_file(file.path);
     if (!validate_type(codes, 'bool')) {
-      columns <- lapply(colnames(codes), function (x) tolower(x));
-      if ("code" %in% columns) {
-        return (TRUE);
+      code.column <- which(grepl("(?i)code", names(codes))==TRUE)[1]
+      if (!is.na(code.column)) {
+        # Remove rows with missing code column
+        codes <- codes[!(is.na(codes[,code.column]) | codes[,code.column] == ''),]
+
+        return (nrow(codes) >= 1)
       }
     }
   }

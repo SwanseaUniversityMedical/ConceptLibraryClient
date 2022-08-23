@@ -44,6 +44,9 @@ API_PHENOTYPE_VALIDATION <- list(
     "12" = "UKBioBank codes"
   ),
   VALIDATION=c(
+    "ehr sources",
+    "clinical",
+    "risk factors",
     "prognostic",
     "aetiologic",
     "genetic",
@@ -85,7 +88,8 @@ API_CONCEPT_FORMAT=list(
   coding_system=0,
   code_attribute_header=list(),
   components=list(),
-  publish_immediately=FALSE
+  publish_immediately=FALSE,
+  code_attribute_header=list()
 )
 API_PHENOTYPE_FORMAT=list(
   phenotype_uuid="",
@@ -97,10 +101,10 @@ API_PHENOTYPE_FORMAT=list(
   validation_performed=FALSE,
   validation="",
   valid_event_data_range="",
+  hdr_created_date="",
+  hdr_modified_date="",
   sex="",
   status="FINAL",
-  hdr_create_date="",
-  hdr_modified_date="",
   paper_published=FALSE,
   publications="",
   publication_doi="",

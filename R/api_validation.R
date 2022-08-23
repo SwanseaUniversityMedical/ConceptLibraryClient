@@ -53,7 +53,11 @@ api_validate_phenotype_concepts <- function (data, api_client, is.valid) {
               if (!is.null(params$filepath) && validate_type(params$filepath, 'string')) {
                 is.valid.file <- validate_csv(params$filepath);
                 if (!is.valid.file) {
-                  warning('Validation error: Concept \'filepath\' is invalid, file type or structure (\'code\' column must be present), see example');
+                  warning(paste0(
+                    'Validation error: Concept \'filepath\' is invalid (file:',
+                    params$filepath,
+                    '), file type or structure (\'code\' column must be present), see example'
+                  ));
                   is.valid <- FALSE;
                 }
               } else {
@@ -218,6 +222,11 @@ api_validate_phenotype <- function (data, api_client, is.update) {
     is.valid <- FALSE;
   }
 
+  # Field: agreement_date
+  if (!is.null(data$agreement_date) && !validate_type(data$agreement_date, 'string')) {
+    warning('Validation error: \'agreement_date\' is incorrect type (string)')
+  }
+
   # Field: type
   if (!is.null(data$type) && validate_type(data$type, 'string')) {
     phenotype.type <- trimws(data$type);
@@ -299,7 +308,7 @@ api_validate_phenotype <- function (data, api_client, is.update) {
       warning('Validation error: \'validation\' is incorrect type (string)');
       is.valid <- FALSE;
     } else {
-      is.valid.validations <- lapply(data$validation, function (x) { x <- !(x %in% API_PHENOTYPE_VALIDATION$VALIDATION) });
+      is.valid.validations <- lapply(data$validation, function (x) { x <- !(tolower(x) %in% API_PHENOTYPE_VALIDATION$VALIDATION) });
       if (any(as.logical(is.valid.validations))) {
         warning('Validation error: \'validation\' is incorrect, see valid inputs')
         is.valid <- FALSE;

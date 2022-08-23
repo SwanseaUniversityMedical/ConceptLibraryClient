@@ -1,26 +1,27 @@
 publish: FALSE
 title: ExamplePhenotypeDefinition
-author: 
+author:
 - Author1
 - Author2
-sex: 
+sex:
 - Female
 - Male
 valid_event_data_range: 01/01/2000 - 01/01/2022
+agreement_date: 01/01/2000
 type: Disease or Syndrome
-tags: 
+tags:
 - 1
 collections:
 - 1
 description: |-
-# Header
-Descriptions are formatted in markdown
-## Subheader
-Continued description, multiline descriptions are allowed
-implementation: |-
-# Implementation of phenotype
-As in the description field, formatted as markdown and multiline implementations are allowed
-validation: 
+  # Header
+  Descriptions are formatted in markdown
+  ## Subheader
+  Continued description, multiline descriptions are allowed
+  implementation: |-
+  # Implementation of phenotype
+  As in the description field, formatted as markdown and multiline implementations are allowed
+validation:
 - prognost
 phenoflowid: 1
 primary_publication: "primary publication"
@@ -31,7 +32,7 @@ publications:
 - "publication 2"
 concepts:
 - File - test:
-   - type: csv 
+   - type: csv
    - coding_system: 3
    - filepath: ./path/to/file.csv
 - Inline (str) - test:
@@ -41,12 +42,12 @@ concepts:
 - Inline (list) - test:
    - type: inline
    - coding_system: 3
-   - codes: 
+   - codes:
       - E10
       - E11
       - E12
 - Existing - test:
    - type: existing_concept
    - concept_id: C28771
-data_sources: 
+data_sources:
 - 5

@@ -69,7 +69,7 @@ get_data_source_by_id <- function(id, api_client = connect_to_API()) {
 #' @return
 #'
 exists_data_source <- function (id, api_client) {
-  path = get_full_path(qq('data-sources/@{id}/'), api_client)
+  path = qq('api/v1/public/data-sources-list/@{id}/');
   response = api_client$get(path = path);
   return (response$status_code == 200);
 }

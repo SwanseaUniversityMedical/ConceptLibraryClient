@@ -45,6 +45,12 @@ api_format_phenotype <- function (phenotype.data) {
     formatted.data$valid_event_data_range <- '';
   }
 
+  if (!is.null(phenotype.data$agreement_date)) {
+    formatted.data$hdr_created_date <- phenotype.data$agreement_date;
+  } else {
+    formatted.data$hdr_created_date <- Sys.Date();
+  }
+
   if (!is.null(phenotype.data$primary_publication_doi)) {
     formatted.data$primary_publication_doi <- phenotype.data$primary_publication_doi;
   } else {
@@ -139,7 +145,7 @@ api_format_concept <- function (concepts.data, phenotype.data) {
       new.concept$publication_link <- phenotype.data$publication_link;
       new.concept$publication_doi <- phenotype.data$publication_link;
       new.concept$validation_performed <- phenotype.data$validation_performed;
-      new.concept$validation_description <- phenotype.data$validation;
+      new.concept$validation_description <- tolower(phenotype.data$validation);
       new.concept$tags <- phenotype.data$tags;
       new.concept$publish_immediately <- phenotype.data$publish;
 
@@ -148,10 +154,34 @@ api_format_concept <- function (concepts.data, phenotype.data) {
         new.component$name <- qq('CODES - @{new.concept$name}');
         new.component$codes <- list();
 
+        # Read file and find code and description column
+        csv.data <- read_file(params$filepath)
+        code.column <- which(grepl("(?i)code", names(csv.data))==TRUE)[1]
+        description.column <- which(grepl("(?i)descr", names(csv.data))==TRUE)[1]
+
+        # Remove rows with missing code column
+        csv.data <- csv.data[!(is.na(csv.data[,code.column]) | csv.data[,code.column] == ''),]
+
+        # Populate component
         codes.index <- 1;
-        for (code in read_file(params$filepath)$CODE) {
+        for (index in 1:nrow(csv.data)) {
           new.component$codes[[codes.index]] <- API_CODE_FORMAT;
-          new.component$codes[[codes.index]]$code <- code;
+          new.component$codes[[codes.index]]$code <- as.character(csv.data[index, code.column]);
+
+          if (!is.na(description.column)) {
+            new.component$codes[[codes.index]]$description <- csv.data[index, description.column]
+          }
+
+          for (col.index in 1:ncol(csv.data[index,])) {
+            if (col.index != code.column && (is.na(description.column) || col.index != description.column)) {
+              attribute.name <- names(csv.data)[[col.index]]
+              if (!(attribute.name %in% new.concept$code_attribute_header)) {
+                new.concept$code_attribute_header <- append(new.concept$code_attribute_header, attribute.name)
+              }
+
+              new.component$codes[[codes.index]]$attributes[[attribute.name]] <- csv.data[index, col.index]
+            }
+          }
 
           codes.index <- codes.index + 1;
         }
