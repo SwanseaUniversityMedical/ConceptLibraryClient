@@ -19,7 +19,7 @@ endpoints.
 The Concept Library uses two types of connection for its API: a public connection and an authenticated connection.
 The endpoints you can use and the data they return depends on the connection type that is used.
 
-The package provides the `connect_to_API()` function to create an API connection. The `public` parameter sets the connection tpye.
+The package provides the `connect_to_API()` function to create an API connection. The `public` parameter sets the connection type.
 By default this is set to `TRUE`, so to create an authenticated connection use `public = FALSE`.
 An authenticated connection requires login credentials. These can be provided with the `user` and `password` paramaters, but a login window
 also appears if either of those is left blank. *Please note this window sometimes appears behind other windows.*
