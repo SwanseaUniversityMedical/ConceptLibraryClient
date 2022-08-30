@@ -18,7 +18,7 @@ description: |-
   Descriptions are formatted in markdown
   ## Subheader
   Continued description, multiline descriptions are allowed
-  implementation: |-
+implementation: |-
   # Implementation of phenotype
   As in the description field, formatted as markdown and multiline implementations are allowed
 validation:
@@ -31,9 +31,15 @@ publications:
 - "publication 1"
 - "publication 2"
 concepts:
-- File - test:
+- File (auto-pick columns) - test:
    - type: csv
    - coding_system: 3
+   - filepath: ./path/to/file.csv
+- File (specify code & description columns) - test:
+   - type: csv
+   - coding_system: 3
+   - code_column: ICD10_CD
+   - description_column: ICD10_DEFINITION
    - filepath: ./path/to/file.csv
 - Inline (str) - test:
    - type: inline

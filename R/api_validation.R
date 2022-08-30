@@ -51,12 +51,27 @@ api_validate_phenotype_concepts <- function (data, api_client, is.valid) {
             # Check required fields for type
             if (params$type == 'csv') {
               if (!is.null(params$filepath) && validate_type(params$filepath, 'string')) {
-                is.valid.file <- validate_csv(params$filepath);
+                code.column <- NA
+                if (!is.null(params$code_column)) {
+                  code.column <- params$code_column
+                }
+
+                descr.column <- NA
+                if (!is.null(params$description_column)) {
+                  descr.column <- params$description_column
+                }
+
+                is.valid.file <- validate_csv(
+                  params$filepath,
+                  def.code=code.column,
+                  def.descr=descr.column
+                );
                 if (!is.valid.file) {
                   warning(paste0(
                     'Validation error: Concept \'filepath\' is invalid (file:',
                     params$filepath,
-                    '), file type or structure (\'code\' column must be present), see example'
+                    '), file type or structure (\'code\' column must be present,
+                    defined code/description column may be missing), see example'
                   ));
                   is.valid <- FALSE;
                 }

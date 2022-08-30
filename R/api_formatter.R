@@ -156,8 +156,20 @@ api_format_concept <- function (concepts.data, phenotype.data) {
 
         # Read file and find code and description column
         csv.data <- read_file(params$filepath)
-        code.column <- which(grepl("(?i)code", names(csv.data))==TRUE)[1]
-        description.column <- which(grepl("(?i)descr", names(csv.data))==TRUE)[1]
+
+        code.column <- NA
+        if (!is.null(params$code_column) && !is.na(params$code_column)) {
+          code.column <- which(colnames(csv.data)==params$code_column)[1]
+        } else {
+          code.column <- which(grepl("(?i)code", names(csv.data))==TRUE)[1]
+        }
+
+        description.column <- NA
+        if (!is.null(params$description_column) && !is.na(params$description_column)) {
+          description.column <- which(colnames(csv.data)==params$description_column)[1]
+        } else {
+          description.column <- which(grepl("(?i)descr", names(csv.data))==TRUE)[1]
+        }
 
         # Remove rows with missing code column
         csv.data <- csv.data[!(is.na(csv.data[,code.column]) | csv.data[,code.column] == ''),]

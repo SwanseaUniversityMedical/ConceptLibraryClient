@@ -214,6 +214,7 @@ get_phenotype_code_list <- function(id, version_id=NA, api_client = connect_to_A
   } else {
     path = get_full_path(qq('phenotypes/@{id}/version/@{version_id}/export/codes/'), api_client)
   }
+
   # API call
   response = api_client$get(path = path)
   check_HTTP_response(response)
@@ -252,4 +253,116 @@ get_phenotype_versions <- function(id, api_client = connect_to_API()) {
 
   # In this case the data is contained as a list within the dataframe and needs to be accessed before returning.
   return(versions$versions[[1]])
+}
+
+#' save_phenotype_definition
+#'
+#' Saves the Phenotype YAML definition file locally
+#'
+#' @params dir The directory to save the file to, include the name of the file, e.g. C:/path/definition.yaml
+#' @param id The phenotype's id.
+#' @param version_id The phenotype version's id, defaults to NA. Leave as default if using public api.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
+#' connection is created if left blank.
+#'
+#' @return A dataframe containing the phenotype's data
+#' @export
+#'
+#' @examples
+#' save_phenotype_definition('C:/path/to/folder', 'definition-file.yaml', 'PH1')
+#'
+#' api_client = connect_to_API()
+#' save_phenotype_definition('C:/path/to/folder', 'definition-file.yaml', 'PH1', '2', api_client)
+#'
+save_phenotype_definition <- function(dir, id, version_id=NA, api_client = connect_to_API()) {
+  if (!validate_type(dir, 'string') || !(grepl('.yaml', dir))) {
+    stop('Invalid file name format, must be of type \'.yaml\'')
+  }
+
+  phenotype.data <- NA
+  if (is.na(version_id) || length(api_client$auth) == 0) {
+    phenotype.data <- get_phenotype_detail(id, api_client)
+  } else {
+    phenotype.data <- get_phenotype_detail_by_version(id, version_id, api_client)
+  }
+
+  # Create result object and populate internal fields
+  result.data <- list()
+  result.data$template_version <- as.character(API_YAML_TEMPLATE_VERSION)
+  result.data$phenotype_id <- phenotype.data$phenotype_id
+  result.data$phenotype_version_id <- as.character(ifelse(
+    !is.na(version_id),
+    version_id,
+    max(phenotype.data$versions[[1]]$version_id)
+  ))
+
+  # Required fields
+  result.data$title <- phenotype.data$name
+  result.data$type <- phenotype.data$type
+  result.data$author <- phenotype.data$author
+  result.data$sex <- phenotype.data$sex
+
+  # Concept field
+  if (should_write_field(phenotype.data$concepts)) {
+    concepts.data <- phenotype.data$concepts[[1]]
+    if (nrow(concepts.data) > 0) {
+      result.concepts <- list()
+      for (row.index in 1:nrow(concepts.data)) {
+        cur.data <- list()
+        cur.data[[concepts.data[row.index, 'name']]] = list(
+          list(type = 'existing_concept'),
+          list(concept_id = concepts.data[row.index, 'concept_id'])
+        )
+        result.concepts <- append(result.concepts, list(cur.data))
+      }
+
+      result.data$concepts <- result.concepts
+    }
+  }
+
+  # Optional fields
+  if (should_write_field(phenotype.data$phenotype_uuid)) {
+    result.data$phenotype_uuid <- phenotype.data$phenotype_uuid
+  }
+
+  if (should_write_field(phenotype.data$valid_event_data_range)) {
+    result.data$valid_event_data_range <- phenotype.data$valid_event_data_range
+  }
+
+  if (should_write_field(phenotype.data$definition)) {
+    result.data$description <- phenotype.data$definition
+  }
+
+  if (should_write_field(phenotype.data$implementation)) {
+    result.data$implementation <- phenotype.data$implementation
+  }
+
+  if (should_write_field(phenotype.data$publications) && length(phenotype.data$publications[[1]]) > 0) {
+    result.data$publications <- phenotype.data$publications[[1]]
+  }
+
+  if (should_write_field(phenotype.data$publication_link)) {
+    result.data$primary_publication_link <- phenotype.data$publication_link
+  }
+
+  if (should_write_field(phenotype.data$publication_doi)) {
+    result.data$primary_publication_doi <- phenotype.data$publication_doi
+  }
+
+  if (should_write_field(phenotype.data$tags) && nrow(phenotype.data$tags[[1]]) > 0) {
+    result.data$tags <- as.list(phenotype.data$tags[[1]]$id)
+  }
+
+  if (should_write_field(phenotype.data$collections) && nrow(phenotype.data$collections[[1]]) > 0) {
+    result.data$collections <- as.list(phenotype.data$collections[[1]]$id)
+  }
+
+  if (should_write_field(phenotype.data$data_sources) && nrow(phenotype.data$data_sources[[1]]) > 0) {
+    result.data$data_sources <- as.list(phenotype.data$data_sources[[1]]$id)
+  }
+
+  # Write to file
+  yaml::write_yaml(result.data, dir)
+
+  return (result.data)
 }

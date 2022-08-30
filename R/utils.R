@@ -184,20 +184,37 @@ write_yaml_file <- function (phenotype.id, concept.ids, file.path, api_client) {
 #' Validates csv file, including structure.
 #'
 #' @param file.path Path including file name
+#' @param def.code
 #'
 #' @returns TRUE if valid file and structure, FALSE otherwise
 #'
-validate_csv <- function (file.path) {
+validate_csv <- function (file.path, def.code=NA, def.descr=NA) {
   err = try(read_file(file.path))
   if (class(err) != 'try-error') {
     codes <- read_file(file.path);
     if (!validate_type(codes, 'bool')) {
-      code.column <- which(grepl("(?i)code", names(codes))==TRUE)[1]
+      code.column <- NA
+      if (!is.na(def.code)) {
+        if (validate_type(def.code, 'string') && def.code %in% names(codes)) {
+          code.column <- which(colnames(codes)==def.code)[1]
+        } else {
+          return (FALSE);
+        }
+      } else {
+        code.column <- which(grepl("(?i)code", names(codes))==TRUE)[1]
+      }
+
+      if (!is.na(def.descr)) {
+        if (!validate_type(def.descr, 'string') || !(def.descr %in% names(codes))) {
+          return (FALSE);
+        }
+      }
+
       if (!is.na(code.column)) {
         # Remove rows with missing code column
         codes <- codes[!(is.na(codes[,code.column]) | codes[,code.column] == ''),]
 
-        return (nrow(codes) >= 1)
+        return (nrow(codes) >= 1);
       }
     }
   }
@@ -225,4 +242,18 @@ validate_codes <- function (codes) {
     }
   }
   return (TRUE);
+}
+
+#' should_write_field
+#'
+#' Determines whether the field has content that should be written
+#'
+#' @param value
+#'
+#' @returns TRUE if content, FALSE otherwise
+#'
+should_write_field <- function (value) {
+  return (
+    !is.null(value) && !is.na(value) && value != ''
+  )
 }
