@@ -12,7 +12,6 @@
 #' @keywords SAILDBUtils
 #' @export
 #' @examples details = getLogin();
-
 getLogin<-function(userName="") {
 	wnd<-tktoplevel()
 	tkraise(wnd)

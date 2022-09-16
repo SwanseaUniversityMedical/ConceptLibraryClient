@@ -4,10 +4,12 @@
 \alias{validate_csv}
 \title{validate_csv}
 \usage{
-validate_csv(file.path)
+validate_csv(file.path, def.code = NA, def.descr = NA)
 }
 \arguments{
 \item{file.path}{Path including file name}
+
+\item{def.code}{}
 }
 \value{
 TRUE if valid file and structure, FALSE otherwise

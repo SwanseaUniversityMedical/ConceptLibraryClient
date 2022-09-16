@@ -103,7 +103,7 @@ read_file <- function(file.path) {
       if (tolower(file.extension) == 'yaml') {
         return (yaml::read_yaml(file.path));
       } else if (tolower(file.extension) == 'csv') {
-        return (read.csv(file.path));
+        return (read.csv(file.path, check.names=FALSE));
       }
     }
   }
