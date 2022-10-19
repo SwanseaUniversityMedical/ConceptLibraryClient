@@ -5,7 +5,6 @@ API_TEMPLATE_FIELDS <- list(
   "template_version",
   "phenotype_id",
   "phenotype_version_id",
-  "concept_ids",
   "user"
 )
 

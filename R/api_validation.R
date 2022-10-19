@@ -8,12 +8,13 @@
 #'
 #' @return TRUE if valid, FALSE otherwise
 #'
-api_validate_phenotype_concepts <- function (data, api_client, is.valid) {
+api_validate_phenotype_concepts <- function (data, api_client, is.update, is.valid) {
   concepts <- data$concepts;
 
   if (is.list(concepts)) {
     for (concept in data$concepts) {
       concept_name <- names(concept);
+
       if (is.null(concept_name) || !validate_type(concept_name, 'string')) {
         warning('Validation error: Concept names must be strings');
         is.valid <- FALSE;
@@ -107,6 +108,25 @@ api_validate_phenotype_concepts <- function (data, api_client, is.valid) {
           warning('Validation error: Concept \'type\'is missing or invalid type (string)');
           is.valid <- FALSE;
         }
+
+        # Check IDs for update
+        if (is.update) {
+          if (!is.null(params$concept_id) && params$type != 'existing_concept') {
+            if (startsWith(params$concept_id, 'C')) {
+              phenotype.id <- as.numeric(strsplit(params$concept_id, 'C')[[1]][[-1]]);
+              if (!validate_type(phenotype.id, 'number')) {
+                warning('Validation error: Concept \'concept_id\' is incorrectly formatted');
+                is.valid <- FALSE;
+              } else {
+                concept.exists <- exists_concept(params$concept_id, api_client);
+                if (!concept.exists) {
+                  warning('Validation error: Concept \'concept_id\' does not exist');
+                  is.valid <- FALSE;
+                }
+              }
+            }
+          }
+        }
       }
     }
   } else {
@@ -169,6 +189,7 @@ api_validate_phenotype_datasources <- function (data, api_client, is.valid) {
 api_validate_phenotype <- function (data, api_client, is.update) {
   is.valid <- TRUE;
 
+  # Check ID for update
   if (is.update) {
     if (!is.null(data$phenotype_id)) {
       if (startsWith(data$phenotype_id, 'PH')) {
@@ -176,34 +197,23 @@ api_validate_phenotype <- function (data, api_client, is.update) {
         if (!validate_type(phenotype.id, 'number')) {
           warning('Validation error: \'phenotype_id\' is incorrectly formatted');
           is.valid <- FALSE;
+        } else {
+          phenotype.exists <- exists_phenotype(data$phenotype_id, api_client);
+          if (!phenotype.exists) {
+            warning('Validation error: \'phenotype_id\' does not exist');
+            is.valid <- FALSE;
+          }
         }
       } else {
         warning('Validation error: \'phenotype_id\' is incorrectly formatted')
         is.valid <- FALSE;
       }
-
-      if (!is.null(data$concept_ids)) {
-        for (concept.name in names(data$concept_ids)) {
-          concept.id <- data$concept_ids[[concept.name]];
-          if (startsWith(concept.id, 'C')) {
-            concept.id <- as.numeric(strsplit(data$concept.id, 'C')[[1]][[-1]]);
-            if (!validate_type(concept.id, 'number')) {
-              warning('Validation error: \'concept_ids\' concept id is incorrectly formatted')
-            } else {
-              #TODO: Check if they exist
-            }
-          } else {
-            warning('Validation error: \'concept_ids\' concept id is incorrectly formatted')
-            is.valid <- FALSE;
-          }
-        }
-      }
     }
   }
 
   # Field: publish
-  if (is.null(data$publish) || !validate_type(data$publish, 'bool')) {
-    warning('Validation error: \'publish\' is missing or incorrect type (bool)');
+  if (!is.null(data$publish) && !validate_type(data$publish, 'bool')) {
+    warning('Validation error: \'publish\' is incorrect type (bool)');
     is.valid <- FALSE;
   }
 
@@ -366,7 +376,7 @@ api_validate_phenotype <- function (data, api_client, is.update) {
   }
 
   # Field: concepts
-  is.valid <- api_validate_phenotype_concepts(data, api_client, is.valid);
+  is.valid <- api_validate_phenotype_concepts(data, api_client, is.update, is.valid);
 
   # Field: data_sources
   is.valid <- api_validate_phenotype_datasources(data, api_client, is.valid);

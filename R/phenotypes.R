@@ -255,6 +255,19 @@ get_phenotype_versions <- function(id, api_client = connect_to_API()) {
   return(versions$versions[[1]])
 }
 
+#' exists_phenotype
+#'
+#' @param id
+#' @param api_client
+#'
+#' @return
+#'
+exists_phenotype <- function (id, api_client) {
+  path = get_full_path(qq('phenotypes/@{id}/detail/'), api_client)
+  response = api_client$get(path = path);
+  return (response$status_code == 200);
+}
+
 #' save_phenotype_definition
 #'
 #' Saves the Phenotype YAML definition file locally

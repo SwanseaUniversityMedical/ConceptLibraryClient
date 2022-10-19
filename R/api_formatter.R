@@ -15,6 +15,10 @@ api_format_phenotype <- function (phenotype.data) {
   formatted.data$sex <- phenotype.data$sex;
   formatted.data$publish_immediately <- phenotype.data$publish;
 
+  if (!is.null(phenotype.data$phenotype_id)) {
+    formatted.data$id <- phenotype.data$phenotype_id;
+  }
+
   if (!is.null(phenotype.data$phenoflow_id)) {
     formatted.data$phenoflowid <- phenotype.data$phenoflowid;
   } else {
@@ -137,6 +141,7 @@ api_format_concept <- function (concepts.data, phenotype.data) {
       new.concept <- list();
       new.concept$name <- names(concept);
       new.concept$id <- params$concept_id;
+      new.concept$internal_type <- params$type;
     } else {
       new.concept <- API_CONCEPT_FORMAT;
       new.concept$name <- names(concept);
@@ -148,6 +153,11 @@ api_format_concept <- function (concepts.data, phenotype.data) {
       new.concept$validation_description <- tolower(phenotype.data$validation);
       new.concept$tags <- phenotype.data$tags;
       new.concept$publish_immediately <- phenotype.data$publish;
+      new.concept$internal_type <- params$type;
+
+      if (!is.null(params$concept_id)) {
+        new.concept$id <- params$concept_id;
+      }
 
       if (params$type == 'csv') {
         new.component <- API_COMPONENT_FORMAT;

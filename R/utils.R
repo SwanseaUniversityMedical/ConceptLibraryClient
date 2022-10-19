@@ -120,63 +120,61 @@ read_file <- function(file.path) {
 #' @param file.path Path including file name
 #' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function.
 #'
-write_yaml_file <- function (phenotype.id, concept.ids, file.path, api_client) {
-  template_version <- API_YAML_TEMPLATE_VERSION;
-  phenotype_version_id <- get_phenotype_detail(phenotype.id, api_client)$version_id
-  concept_ids <- concept.ids;
-  user <- strsplit(api_client$auth$userpwd, ':')[[1]][[1]]
+write_yaml_file <- function (yaml_data, phenotype.id, concept.ids, file.path, api_client) {
+  replacement.fields <- list(
+    template_version = API_YAML_TEMPLATE_VERSION,
+    phenotype_id = phenotype.id,
+    phenotype_version_id = get_phenotype_detail(phenotype.id, api_client)$version_id,
+    user = strsplit(api_client$auth$userpwd, ':')[[1]][[1]]
+  )
+  for (field in API_TEMPLATE_FIELDS) {
+    if (is.null(yaml_data[[field]])) {
+      new.field <- list();
+      new.field[[field]] <- replacement.fields[[field]];
 
-  # Remove old data
-  new.lines <- c();
-
-  read.lines <- readLines(file.path);
-  skip.lines <- 0;
-  for (line.number in 1:length(read.lines)) {
-    line.text <- trimws(tolower(read.lines[[line.number]]));
-
-    if (skip.lines == 0) {
-      for (field in API_TEMPLATE_FIELDS) {
-        if (startsWith(line.text, field)) {
-          skip.lines <- skip.lines + 1;
-
-          if (startsWith(line.text, 'concept_ids')) {
-            if (line.number + 1 <= length(read.lines)) {
-              for (next.number in (line.number + 1):length(read.lines)) {
-                next.line <- trimws(tolower(read.lines[[next.number]]));
-                if (!startsWith(next.line, '-')) {
-                  break;
-                } else {
-                  skip.lines <- skip.lines + 1;
-                }
-              }
-            }
-          }
-        }
-      }
-
-      if (skip.lines == 0) {
-        new.lines <- c(new.lines, read.lines[[line.number]]);
-      } else {
-        skip.lines <- skip.lines - 1;
-      }
+      yaml_data <- c(yaml_data, new.field);
     } else {
-      skip.lines <- skip.lines - 1;
+      yaml_data[[field]] <- replacement.fields[[field]];
     }
   }
-  writeLines(new.lines, file.path);
 
-  # Write new data
-  write(qq('template_version: @{template_version}'), file=file.path, append=TRUE);
-  write(qq('phenotype_id: @{phenotype.id}'), file=file.path, append=TRUE);
-  write(qq('phenotype_version_id: @{phenotype_version_id}'), file=file.path, append=TRUE);
-
-  write(qq('concept_ids:'), file=file.path, append=TRUE);
+  concept.version.ids <- list()
   for (concept.name in names(concept.ids)) {
-    concept.id <- concept.ids[[concept.name]];
-    write(qq('- @{concept.name}: @{concept.id}'), file=file.path, append=TRUE);
+    concept.version.ids[[concept.name]] <- get_concept_detail(concept.ids[[concept.name]], api_client)$version_id
   }
 
-  write(qq('user: @{user}'), file=file.path, append=TRUE);
+  concept.update <- list()
+  for (c.idx in 1:length(yaml_data$concepts)) {
+    concept.name <- names(yaml_data$concepts[[c.idx]]);
+    concept.update[[concept.name]] <- list(version.id = FALSE, concept.id = FALSE);
+
+    for (f.idx in 1:length(yaml_data$concepts[[c.idx]][[concept.name]])) {
+      field.name <- names(yaml_data$concepts[[c.idx]][[concept.name]][[f.idx]]);
+
+      if (field.name == 'concept_version_id') {
+        yaml_data$concepts[[c.idx]][[concept.name]][[f.idx]][[field.name]] = concept.version.ids[[concept.name]];
+        concept.update[[concept.name]]$version.id = TRUE;
+      }
+
+      if (field.name == 'concept_id') {
+        concept.update[[concept.name]]$concept.id = TRUE;
+      }
+    }
+
+    if (!concept.update[[concept.name]]$concept.id) {
+      yaml_data$concepts[[c.idx]][[concept.name]][[length(yaml_data$concepts[[c.idx]][[concept.name]]) + 1]] <- list(
+        concept_id = concept.ids[[concept.name]]
+      );
+    }
+
+    if (!concept.update[[concept.name]]$version.id) {
+      yaml_data$concepts[[c.idx]][[concept.name]][[length(yaml_data$concepts[[c.idx]][[concept.name]]) + 1]] <- list(
+        concept_version_id = concept.version.ids[[concept.name]]
+      );
+    }
+  }
+
+  yaml::write_yaml(yaml_data, file.path);
 }
 
 #' validate_csv
