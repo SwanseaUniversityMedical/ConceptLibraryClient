@@ -2,8 +2,7 @@
 % Please edit documentation in R/api_create.R
 \name{update_phenotype}
 \alias{update_phenotype}
-\title{update_phenotype
-upload_phenotype}
+\title{update_phenotype}
 \usage{
 update_phenotype(file.path, api_client)
 }

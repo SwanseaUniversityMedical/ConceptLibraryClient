@@ -16,12 +16,12 @@ library(ConceptLibraryClient)
 # Login
 client <- ConceptLibraryClient::connect_to_API(
   user='my-conceptlibrary-username',
-  url='https://conceptlibrary.demo.saildatabank.com/'
+  url='https://phenotypes.healthdatagateway.org/'
 )
 
 # Upload from .yaml file
 results.upload <- ConceptLibraryClient::upload_phenotype(
-  './path/to/file.yaml',
+  '../templates/',
   client
 )
 

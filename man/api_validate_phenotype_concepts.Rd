@@ -4,7 +4,7 @@
 \alias{api_validate_phenotype_concepts}
 \title{api_validate_phenotype_concepts}
 \usage{
-api_validate_phenotype_concepts(data, api_client, is.valid)
+api_validate_phenotype_concepts(data, api_client, is.update, is.valid)
 }
 \arguments{
 \item{data}{Phenotype and concept data read from yaml file}

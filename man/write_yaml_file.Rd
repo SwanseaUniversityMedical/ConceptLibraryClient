@@ -4,7 +4,7 @@
 \alias{write_yaml_file}
 \title{write_yaml_file}
 \usage{
-write_yaml_file(phenotype.id, concept.ids, file.path, api_client)
+write_yaml_file(yaml_data, phenotype.id, concept.ids, file.path, api_client)
 }
 \arguments{
 \item{phenotype.id}{Uploaded phenotype's id}

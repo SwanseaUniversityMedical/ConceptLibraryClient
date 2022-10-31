@@ -195,7 +195,6 @@ get_phenotype_detail_by_version <- function(id, version_id, api_client = connect
 #' Exports the code list of a specific version of a phenotype.
 #'
 #' @param id The phenotype's id.
-#' @param version_id The phenotype version's id, defaults to NA. Leave as default if using public api.
 #' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
 #' connection is created if left blank.
 #'
@@ -203,19 +202,42 @@ get_phenotype_detail_by_version <- function(id, version_id, api_client = connect
 #' @export
 #'
 #' @examples
-#' get_phenotype_code_list('PH1', '2')
+#' get_phenotype_code_list('PH1')
+#'
+#' api_client = connect_to_API(public = FALSE)
+#' get_phenotype_code_list('PH1', api_client = api_client)
+#'
+get_phenotype_code_list <- function(id, api_client = connect_to_API()) {
+  # API call
+  path = get_full_path(qq('phenotypes/@{id}/export/codes/'), api_client)
+  response = api_client$get(path = path)
+  check_HTTP_response(response)
+
+  # Parse JSON result to dataframe
+  code_list = data.frame(jsonlite::fromJSON(response$parse('utf-8')))
+
+  return(code_list)
+}
+
+#' get_phenotype_code_list
+#'
+#' Exports the code list of a specific version of a phenotype.
+#'
+#' @param id The phenotype's id.
+#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function.
+#'
+#' @return A dataframe containing the code list.
+#' @export
+#'
+#' @examples
+#' get_phenotype_code_list('PH1', '2', client)
 #'
 #' api_client = connect_to_API(public = FALSE)
 #' get_phenotype_code_list('PH1', '2', api_client = api_client)
 #'
-get_phenotype_code_list <- function(id, version_id=NA, api_client = connect_to_API()) {
-  if (is.na(version_id) || length(api_client$auth) == 0) {
-    path = get_full_path(qq('phenotypes/@{id}/export/codes/'), api_client)
-  } else {
-    path = get_full_path(qq('phenotypes/@{id}/version/@{version_id}/export/codes/'), api_client)
-  }
-
+get_phenotype_code_list_by_version <- function(id, version_id, api_client = connect_to_API()) {
   # API call
+  path = get_full_path(qq('phenotypes/@{id}/version/@{version_id}/export/codes/'), api_client)
   response = api_client$get(path = path)
   check_HTTP_response(response)
 
