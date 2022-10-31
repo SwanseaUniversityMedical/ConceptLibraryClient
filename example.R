@@ -21,7 +21,7 @@ client <- ConceptLibraryClient::connect_to_API(
 
 # Upload from .yaml file
 results.upload <- ConceptLibraryClient::upload_phenotype(
-  '../templates/',
+  './path/to/file.yaml',
   client
 )
 
