@@ -12,7 +12,6 @@ api_format_phenotype <- function (phenotype.data) {
   formatted.data$title <- phenotype.data$title;
   formatted.data$name <- phenotype.data$title;
   formatted.data$type <- phenotype.data$type;
-  formatted.data$sex <- phenotype.data$sex;
   formatted.data$publish_immediately <- phenotype.data$publish;
 
   if (!is.null(phenotype.data$phenotype_id)) {
@@ -25,7 +24,13 @@ api_format_phenotype <- function (phenotype.data) {
     formatted.data$phenoflowid <- "";
   }
 
-  if (is.list(phenotype.data$author)) {
+  if (is.character(phenotype.data$sex) && length(phenotype.data$sex) > 1) {
+    formatted.data$sex <- do.call(paste, c(as.list(phenotype.data$sex), sep=', '));
+  } else {
+    formatted.data$sex <- phenotype.data$sex;
+  }
+
+  if (is.character(phenotype.data$author) && length(phenotype.data$author) > 1) {
     formatted.data$author <- do.call(paste, c(as.list(phenotype.data$author), sep=', '));
   } else {
     formatted.data$author <- phenotype.data$author;
@@ -102,9 +107,9 @@ api_format_phenotype <- function (phenotype.data) {
 
   if (!is.null(phenotype.data$collections)) {
     if (!is.list(phenotype.data$collections)) {
-      formatted.data$tags <- append(formatted.data$tags, as.list(phenotype.data$collections));
+      formatted.data$collections <- append(formatted.data$tags, as.list(phenotype.data$collections));
     } else {
-      formatted.data$tags <- list(formatted.data$tags, phenotype.data$collections);
+      formatted.data$collections <- list(formatted.data$tags, phenotype.data$collections);
     }
   }
 

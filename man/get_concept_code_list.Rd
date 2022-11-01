@@ -4,7 +4,7 @@
 \alias{get_concept_code_list}
 \title{get_concept_code_list}
 \usage{
-get_concept_code_list(id, api_client)
+get_concept_code_list(id, api_client = connect_to_API())
 }
 \arguments{
 \item{id}{The concept's id.}

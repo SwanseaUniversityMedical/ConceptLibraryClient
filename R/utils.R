@@ -100,7 +100,7 @@ read_file <- function(file.path) {
   if (validate_type(file.path, 'string')) {
     file.extension <- tail(strsplit(file.path, '\\.')[[1]], n=1)
     if (file.exists(file.path)) {
-      if (tolower(file.extension) == 'yaml') {
+      if (tolower(file.extension) %in% YAML_FILE_EXTENSIONS) {
         return (yaml::read_yaml(file.path));
       } else if (tolower(file.extension) == 'csv') {
         return (read.csv(file.path, check.names=FALSE));

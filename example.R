@@ -7,6 +7,12 @@ lapply(names(sessionInfo()$otherPkgs), function(pkgs)
     force = T
   ))
 
+# Delete current version if installed
+previous.version.installed <- require("ConceptLibraryClient")
+if (previous.version.installed) {
+  remove.packages("ConceptLibraryClient")
+}
+
 # Install from github
 devtools::install_github('https://github.com/SwanseaUniversityMedical/ConceptLibraryClient')
 

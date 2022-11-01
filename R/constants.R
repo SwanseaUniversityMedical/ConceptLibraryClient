@@ -1,4 +1,5 @@
 API_URL <- "https://conceptlibrary.saildatabank.com/"
+YAML_FILE_EXTENSIONS <- list('yaml', 'yml')
 
 API_YAML_TEMPLATE_VERSION <- 1
 API_TEMPLATE_FIELDS <- list(

@@ -1,4 +1,3 @@
-publish: FALSE
 title: ExamplePhenotypeDefinition
 author:
 - Author1
@@ -14,15 +13,16 @@ tags:
 collections:
 - 1
 description: |-
-  # Header
+  ## Header
   Descriptions are formatted in markdown
-  ## Subheader
+
+  ### Subheader
   Continued description, multiline descriptions are allowed
 implementation: |-
-  # Implementation of phenotype
+  ## Implementation of phenotype
   As in the description field, formatted as markdown and multiline implementations are allowed
 validation:
-- prognost
+- prognostic
 phenoflowid: 1
 primary_publication: "primary publication"
 primary_publication_link: "https://www.primary_publication.com"

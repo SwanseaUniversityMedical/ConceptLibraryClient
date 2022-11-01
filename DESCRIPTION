@@ -1,6 +1,6 @@
 Package: ConceptLibraryClient
 Title: Concept Library API Client
-Version: 3.0
+Version: 3.1
 Authors@R: c(
   person("Dan", "Thayer", email = "d.s.thayer@swansea.ac.uk", role = "cre"),
   person("Etienne", "Badoche", email = "e.c.a.badoche@swansea.ac.uk", role = "aut"),

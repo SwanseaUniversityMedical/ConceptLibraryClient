@@ -236,8 +236,14 @@ api_validate_phenotype <- function (data, api_client, is.update) {
   }
 
   # Field: sex
-  if (is.null(data$sex) || !validate_type(data$sex, 'string')) {
-    warning('Validation error: \'sex\' is missing or incorrect type (string)');
+  if (!is.null(data$sex)) {
+    is.valid.sex <- lapply(data$sex, function (x) { x <- !validate_type(x, 'string') });
+    if (any(as.logical(is.valid.sex))) {
+      warning('Validation error: \'sex\' is incorrect type (string or list<string>)');
+      is.valid <- FALSE;
+    }
+  } else {
+    warning('Validation error: \'sex\' is missing');
     is.valid <- FALSE;
   }
 

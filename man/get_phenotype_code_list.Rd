@@ -4,12 +4,10 @@
 \alias{get_phenotype_code_list}
 \title{get_phenotype_code_list}
 \usage{
-get_phenotype_code_list(id, version_id = NA, api_client = connect_to_API())
+get_phenotype_code_list(id, api_client = connect_to_API())
 }
 \arguments{
 \item{id}{The phenotype's id.}
-
-\item{version_id}{The phenotype version's id, defaults to NA. Leave as default if using public api.}
 
 \item{api_client}{The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
 connection is created if left blank.}
@@ -21,9 +19,9 @@ A dataframe containing the code list.
 Exports the code list of a specific version of a phenotype.
 }
 \examples{
-get_phenotype_code_list('PH1', '2')
+get_phenotype_code_list('PH1')
 
 api_client = connect_to_API(public = FALSE)
-get_phenotype_code_list('PH1', '2', api_client = api_client)
+get_phenotype_code_list('PH1', api_client = api_client)
 
 }
