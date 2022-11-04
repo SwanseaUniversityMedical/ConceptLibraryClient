@@ -157,6 +157,7 @@ api_format_concept <- function (concepts.data, phenotype.data) {
       new.concept$validation_performed <- phenotype.data$validation_performed;
       new.concept$validation_description <- tolower(phenotype.data$validation);
       new.concept$tags <- phenotype.data$tags;
+      new.concept$collections <- phenotype.data$collections;
       new.concept$publish_immediately <- phenotype.data$publish;
       new.concept$internal_type <- params$type;
 
