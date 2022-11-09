@@ -178,7 +178,7 @@ update_phenotype <- function(file.path, api_client) {
 #'
 upload_phenotype <- function(file.path, api_client) {
   data <- read_file(file.path);
-  if (length(data) > 1) {
+  if (!is.null(data) && length(data) > 1) {
     is.valid <- api_validate_phenotype(data, api_client, FALSE);
     if (is.valid) {
       new.phenotype <- api_format_phenotype(data);
@@ -237,5 +237,7 @@ upload_phenotype <- function(file.path, api_client) {
     } else {
       stop('Invalid phenotype template, please resolve the highlighted warnings');
     }
+  } else {
+    stop('Phenotype file is invalid, please check the file location and filetype (supports .yaml or .yml files only)')
   }
 }
