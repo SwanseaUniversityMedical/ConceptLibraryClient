@@ -107,10 +107,12 @@ api_format_phenotype <- function (phenotype.data) {
 
   if (!is.null(phenotype.data$collections)) {
     if (!is.list(phenotype.data$collections)) {
-      formatted.data$collections <- append(formatted.data$tags, as.list(phenotype.data$collections));
+      formatted.data$collections <- as.list(phenotype.data$collections);
     } else {
-      formatted.data$collections <- list(formatted.data$tags, phenotype.data$collections);
+      formatted.data$collections <- phenotype.data$collections;
     }
+  } else {
+    formatted.data$collections <- list()
   }
 
   if (!is.null(phenotype.data$data_sources)) {
@@ -170,9 +172,13 @@ api_format_concept <- function (concepts.data, phenotype.data) {
         new.component$name <- qq('CODES - @{new.concept$name}');
         new.component$codes <- list();
 
-        # Read file and find code and description column
+        # Read file
         csv.data <- read_file(params$filepath)
 
+        # Remove empty columns
+        csv.data <- csv.data[, apply(csv.data, 2, function (e) { sum(!is.na(e)) > 0})]
+
+        # Find code and description columns
         code.column <- NA
         if (!is.null(params$code_column) && !is.na(params$code_column)) {
           code.column <- which(colnames(csv.data)==params$code_column)[1]

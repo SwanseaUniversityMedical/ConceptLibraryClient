@@ -19,6 +19,7 @@ api_create_phenotype <- function (data, api_client) {
   check_HTTP_response(response);
 
   content <- jsonlite::fromJSON(response$parse('utf-8'));
+  print(paste(content$message, ':', content$id));
 
   return (content$id);
 }
@@ -44,6 +45,7 @@ api_create_concept <- function (data, api_client) {
   check_HTTP_response(response);
 
   content <- jsonlite::fromJSON(response$parse('utf-8'));
+  print(paste(content$message, ':', content$id));
 
   return (content$id);
 }
@@ -69,6 +71,7 @@ api_update_phenotype <- function (data, api_client) {
   check_HTTP_response(response);
 
   content <- jsonlite::fromJSON(response$parse('utf-8'));
+  print(paste(content$message, ':', content$id));
 
   return (content$id);
 }
@@ -94,6 +97,7 @@ api_update_concept <- function (data, api_client) {
   check_HTTP_response(response);
 
   content <- jsonlite::fromJSON(response$parse('utf-8'));
+  print(paste(content$message, ':', content$id));
 
   return (content$id);
 }

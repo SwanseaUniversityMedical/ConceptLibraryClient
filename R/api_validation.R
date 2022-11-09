@@ -72,7 +72,7 @@ api_validate_phenotype_concepts <- function (data, api_client, is.update, is.val
                     'Validation error: Concept \'filepath\' is invalid (file:',
                     params$filepath,
                     '), file type or structure (\'code\' column must be present,
-                    defined code/description column may be missing), see example'
+                    defined code/description column may be missing, no empty or invalid column names), see example'
                   ));
                   is.valid <- FALSE;
                 }

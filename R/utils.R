@@ -190,6 +190,11 @@ validate_csv <- function (file.path, def.code=NA, def.descr=NA) {
   err = try(read_file(file.path))
   if (class(err) != 'try-error') {
     codes <- read_file(file.path);
+
+    if (!all(sapply(names(codes), function (e) { e != '' && (grep('^[a-z_]($|[a-z0-9_]+)', e, ignore.case=TRUE)) }))) {
+      return (FALSE);
+    }
+
     if (!validate_type(codes, 'bool')) {
       code.column <- NA
       if (!is.na(def.code)) {

@@ -89,7 +89,6 @@ connect_to_API <- function(user=NA, password=NA, url=API_URL, public=TRUE) {
 #'
 check_HTTP_response <- function(response) {
   if (response$status_code != 200 && response$status_code != 201) {
-    warning(jsonlite::fromJSON(response$parse('utf-8')))
-    stop(paste(response$status_http(),collapse=' '));
+    stop(paste(response$status_http(), '\n', response$parse('utf-8'), collapse=' '));
   }
 }
