@@ -116,7 +116,8 @@ update_phenotype <- function(file.path, api_client) {
   if (!is.null(data) && length(data) > 1) {
     is.valid <- api_validate_phenotype(data, api_client, TRUE);
     if (is.valid) {
-      new.phenotype <- api_format_phenotype(data);
+      is.HDRUK <- gsub('https://|.*', '', tolower(api_client$url)) == 'phenotypes.healthdatagateway.org';
+      new.phenotype <- api_format_phenotype(data, is.HDRUK);
       new.concepts <- api_format_concept(data$concepts, new.phenotype);
 
       concept.ids <- list();
@@ -171,17 +172,28 @@ update_phenotype <- function(file.path, api_client) {
 #'
 #' @param file.path File path pointing to yaml file containing phenotype and concept data
 #' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function
+#' @param force Force's the client to upload a phenotype when the yaml file has been previously uploaded
 #'
 #' @return List of formatted phenotype and concept data, including uploaded ids
 #'
 #' @export
 #'
-upload_phenotype <- function(file.path, api_client) {
+upload_phenotype <- function(file.path, api_client, force=FALSE) {
   data <- read_file(file.path);
   if (!is.null(data) && length(data) > 1) {
     is.valid <- api_validate_phenotype(data, api_client, FALSE);
     if (is.valid) {
-      new.phenotype <- api_format_phenotype(data);
+      # Stop if phenotype has been uploaded previously and force is false
+      if (!is.null(data$phenotype_id)) {
+        if (startsWith(data$phenotype_id, 'PH')) {
+          if (!force) {
+            stop('Stopping: yaml file contains phenotype_id and has been uploaded previously, set force to TRUE to override')
+          }
+        }
+      }
+
+      is.HDRUK <- gsub('https://|.*', '', tolower(api_client$url)) == 'phenotypes.healthdatagateway.org';
+      new.phenotype <- api_format_phenotype(data, is.HDRUK);
       new.concepts <- api_format_concept(data$concepts, new.phenotype);
 
       # Upload concepts

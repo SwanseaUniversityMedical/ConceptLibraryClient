@@ -9,6 +9,9 @@ API_TEMPLATE_FIELDS <- list(
   "user"
 )
 
+# Collections
+HDRUK_COLLECTION_ID <- 18
+
 # Validation
 API_PHENOTYPE_VALIDATION <- list(
   TYPES=c(

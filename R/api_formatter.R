@@ -6,7 +6,7 @@
 #'
 #' @return Formatted phenotype data
 #'
-api_format_phenotype <- function (phenotype.data) {
+api_format_phenotype <- function (phenotype.data, is.HDRUK) {
   formatted.data <- API_PHENOTYPE_FORMAT;
   formatted.data$phenotype_uuid <- phenotype.data$phenotype_uuid;
   formatted.data$title <- phenotype.data$title;
@@ -87,10 +87,7 @@ api_format_phenotype <- function (phenotype.data) {
   }
 
   if (!is.null(phenotype.data$validation)) {
-    formatted.data$validation <- paste(unlist(phenotype.data$validation), collapse=", ");
-    if (formatted.data$validation != '') {
-      formatted.data$validation_performed = TRUE;
-    }
+    formatted.data$validation <- phenotype.data$validation;
   } else {
     formatted.data$validation <- '';
   }
@@ -113,6 +110,25 @@ api_format_phenotype <- function (phenotype.data) {
     }
   } else {
     formatted.data$collections <- list()
+  }
+
+  # Add PhenotypeLibrary collection if using HDRUK URL
+  if (is.HDRUK) {
+    if (!(HDRUK_COLLECTION_ID %in% formatted.data$collections)) {
+      formatted.data$collections <- append(formatted.data$collections, HDRUK_COLLECTION_ID)
+    }
+  }
+
+  if (!is.null(phenotype.data$world_access)) {
+    formatted.data$world_access <- phenotype.data$world_access
+  }
+
+  if (!is.null(phenotype.data$group_access)) {
+    formatted.data$group_access <- phenotype.data$group_access
+  }
+
+  if (!is.null(phenotype.data$group)) {
+    formatted.data$group <- phenotype.data$group
   }
 
   if (!is.null(phenotype.data$data_sources)) {

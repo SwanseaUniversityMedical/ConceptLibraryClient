@@ -333,18 +333,9 @@ api_validate_phenotype <- function (data, api_client, is.update) {
   }
 
   # Field: validation
-  if (!is.null(data$validation)) {
-    is.valid.validations <- lapply(data$validation, function (x) { x <- !validate_type(x, 'string') });
-    if (any(as.logical(is.valid.validations))) {
-      warning('Validation error: \'validation\' is incorrect type (string)');
-      is.valid <- FALSE;
-    } else {
-      is.valid.validations <- lapply(data$validation, function (x) { x <- !(tolower(x) %in% API_PHENOTYPE_VALIDATION$VALIDATION) });
-      if (any(as.logical(is.valid.validations))) {
-        warning('Validation error: \'validation\' is incorrect, see valid inputs')
-        is.valid <- FALSE;
-      }
-    }
+  if (!is.null(data$validation) && !validate_type(data$validation, 'string')) {
+    warning('Validation error: \'validation\' is incorrect type (string)');
+    is.valid <- FALSE;
   }
 
 
@@ -379,6 +370,21 @@ api_validate_phenotype <- function (data, api_client, is.update) {
       warning('Validation error: \'publications\' is incorrect type (string or list<string>)');
       is.valid <- FALSE;
     }
+  }
+
+  # Field: world_access
+  if (!is.null(data$world_access) && !validate_type(data$world_access, 'number')) {
+    warning('Validation error: \'world_access\' is incorrect type (number)')
+  }
+
+  # Field: group_access
+  if (!is.null(data$group_access) && !validate_type(data$group_access, 'number')) {
+    warning('Validation error: \'group_access\' is incorrect type (number)')
+  }
+
+  # Field: group
+  if (!is.null(data$group) && !validate_type(data$group, 'number')) {
+    warning('Validation error: \'group\' is incorrect type (number)')
   }
 
   # Field: concepts

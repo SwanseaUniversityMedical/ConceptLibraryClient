@@ -14,6 +14,7 @@ if (previous.version.installed) {
 }
 
 # Install from github
+#  You may need to close and reopen R studio if the install fails
 devtools::install_github('https://github.com/SwanseaUniversityMedical/ConceptLibraryClient')
 
 # Load library
