@@ -1,0 +1,33 @@
+name: Example phenotype
+author: Author 1, Author 2, Author 3
+type: '2'
+data_sources:
+- 1
+- 2
+- 3
+- 4
+sex: '3'
+collections:
+- 18
+definition: |-
+  # Header
+  This is an example phenotype
+
+  ## Subheader
+  Details about my phenotype...
+concept_information:
+- name: Importing an existing concept
+  type: existing_concept
+  concept_id: 714
+  concept_version_id: 2567
+- name: Defining a concept from a csv
+  type: csv
+  coding_system: 4
+  code_column: Code
+  description_column: Description
+  filepath: C:/Users/ieuan/Desktop/Work/.R_PKG_CL/codes.csv
+world_access: 1
+group_access: 1
+template:
+  id: 1
+  version_id: 1

@@ -1,403 +1,311 @@
-#' get_phenotypes
-#'
-#' Lists all available phenotypes for the user and the data sources associate with each.
-#'
-#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
-#' connection is created if left blank.
-#' @param search Search by part of phenotype name (do not put wild characters here)
-#' @param tag_ids Specify vector of tags ids (get tags from get_tags())
-#' @param collection_ids Specify vector of collection ids (get collections from get_collections())
-#' @param show_only_my_phenotypes Only show phenotypes owned by me. Default is FALSE. Can't be used with public API.
-#' @param show_deleted_phenotypes Also show deleted phenotypes. Default is FALSE. Can't be used with public API.
-#' @param show_only_validated_phenotypes Show only validated phenotypes. Default is FALSE.
-#' @param brand Show only phenotypes with a specified brand.
-#' @param author Search by part of the author name.
-#' @param owner_username Search by full username of the owner. Can't be used with public API.
-#' @param do_not_show_versions Do not show phenotypes versions. Default is FALSE (versions are shown).
-#' @param must_have_published_versions Show only phenotypes which have a published version. Default is FALSE. Can't be
-#' used with public API.
-#'
-#' @return A dataframe containing the phenotypes matching the query.
-#' @export
-#'
-#' @examples
-#' get_phenotypes()
-#'
-#' api_client = connect_to_API(public = FALSE)
-#' get_phenotypes(api_client = api_client)
-#' get_phenotypes(
-#'   api_client = api_client,
-#'   search = 'Alcohol',
-#'   tag_ids = c(1,4),
-#'   collection_ids = C(19, 20),
-#'   show_only_my_phenotypes = TRUE,
-#'   show_deleted_phenotypes = TRUE,
-#'   show_only_validated_phenotypes = TRUE,
-#'   brand = 'HDRUK',
-#'   author = 'Kuan',
-#'   owner_username = 'a.john',
-#'   do_not_show_versions = TRUE,
-#'   must_have_published_versions = TRUE)
-#'
-get_phenotypes <- function(
-  api_client = connect_to_API(),
-  search = NA,
-  tag_ids = NA,
-  collection_ids = NA,
-  show_only_my_phenotypes = FALSE,
-  show_deleted_phenotypes = FALSE,
-  show_only_validated_phenotypes = FALSE,
-  brand = NA,
-  author = NA,
-  owner_username = NA,
-  do_not_show_versions = FALSE,
-  must_have_published_versions = FALSE
-) {
-  # Create list of named query parameters
-  query_params = list()
-  if (is_connection_authenticated(api_client)) {
-    query_params = list(
-      search = search,
-      tag_ids = tag_ids,
-      collection_ids = collection_ids,
-      show_only_my_phenotypes = show_only_my_phenotypes,
-      show_deleted_phenotypes = show_deleted_phenotypes,
-      show_only_validated_phenotypes = show_only_validated_phenotypes,
-      brand = brand,
-      author = author,
-      owner_username = owner_username,
-      do_not_show_versions = do_not_show_versions,
-      must_have_published_versions =  must_have_published_versions
-    )
-  } else {
-    # Throw error if invalid query parameters were given for public API
-    if (isTRUE(show_only_my_phenotypes) || isTRUE(show_deleted_phenotypes) || !is.na(owner_username)
-        || isTRUE(must_have_published_versions)) {
-      stop("One or more of the parameters specified in get_phenotypes() cannot be used with the public API. Use
-           connect_to_API(public=FALSE) to create an authenticated connection, or check the documentation with
-           ?ConceptLibraryClient::get_phenotypes to see which parameters can be used with the public API.")
+Phenotypes <- R6::R6Class(
+  'Phenotypes',
+  inherit = Endpoint,
+  public = list(
+    #'
+    get = function (...) {
+      query_params = super$clean_query_params(...)
+
+      url = super$get_full_path('PHENOTYPES', 'INDEX')
+      return (super$make_request('get', url, query=query_params))
+    },
+
+    #'
+    get_versions = function (phenotype_id) {
+      url = super$get_full_path('PHENOTYPES', 'VERSION_HISTORY', id=phenotype_id)
+      return (super$make_request('get', url))
+    },
+
+    #'
+    get_detail = function (phenotype_id, version_id=NA) {
+      url = if (is.na(version_id)) 'DETAIL' else 'DETAIL_BY_VERSION'
+      url = super$get_full_path(
+        'PHENOTYPES', url, id=phenotype_id, version_id=version_id
+      )
+
+      return (super$make_request('get', url, as_df=FALSE))
+    },
+
+    #'
+    get_codelist = function (phenotype_id, version_id=NA) {
+      url = if (is.na(version_id)) 'CODELIST' else 'CODELIST_BY_VERSION'
+      url = super$get_full_path(
+        'PHENOTYPES', url, id=phenotype_id, version_id=version_id
+      )
+
+      return (super$make_request('get', url))
+    },
+
+    #'
+    save_to_file = function (path, phenotype_id, version_id=NA) {
+      phenotype_data = self$get_detail(phenotype_id, version_id=version_id)
+      phenotype_data = private$prepare_phenotype_data(phenotype_data)
+
+      yaml::write_yaml(phenotype_data, path)
+    },
+
+    #'
+    create = function (path) {
+      data = private$read_phenotype_definition(path)
+      data = private$format_phenotype(data)
+
+      url = super$get_full_path('PHENOTYPES', 'CREATE')
+      response = super$make_request(
+        'post', url, body=data, as_df=FALSE
+      )
+      response = response$entity
+
+      self$save_to_file(path, response$id, version_id=response$version_id)
+
+      return (response)
+    },
+
+    #'
+    update = function (path) {
+      data = private$read_phenotype_definition(path)
+      data = private$format_phenotype(data, update=TRUE)
+
+      url = super$get_full_path('PHENOTYPES', 'UPDATE')
+      response = super$make_request(
+        'put', url, body=data, as_df=FALSE
+      )
+      response = response$entity
+
+      self$save_to_file(path, response$id, version_id=response$version_id)
+
+      return (response)
     }
-    query_params = list(
-      search = search,
-      tag_ids = tag_ids,
-      collection_ids = collection_ids,
-      show_only_validated_phenotypes = show_only_validated_phenotypes,
-      brand = brand,
-      author = author,
-      do_not_show_versions = do_not_show_versions
-    )
-  }
+  ),
 
-  # Clean query parameters to remove NA and FALSE values and change TRUE to 1
-  cleaned_params = clean_query_list(query_params)
+  private = list(
+    #'
+    ALLOWED_FILE_EXTENSIONS = list('yaml', 'yml'),
 
-  # API call with path and query parameters
-  path = get_full_path('phenotypes/', api_client)
-  response = api_client$get(path = path, query = cleaned_params)
-  check_HTTP_response(response)
+    #'
+    PHENOTYPE_IGNORE_FIELDS = list(
+      WRITE = list(
+        'owner', 'phenotype_id', 'phenotype_version_id',
+        'created', 'updated', 'template'
+      ),
+      READ = list(
+        'versions', 'status', 'is_deleted', 'owner_access', 'coding_system',
+        'publish_status', 'created', 'updated'
+      )
+    ),
 
-  # Parse JSON result to dataframe
-  phenotypes = data.frame(jsonlite::fromJSON(response$parse('utf-8')))
-
-  return(phenotypes)
-}
-
-#' get_phenotype_by_id
-#'
-#' Lists a phenotype by id and the data sources associated with it.
-#'
-#' @param id The phenotype's id.
-#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
-#' connection is created if left blank.
-#'
-#' @return A dataframe containing the phenotype.
-#' @export
-#'
-#' @examples
-#' get_phenotype_by_id('PH1')
-#'
-#' api_client = connect_to_API(public = FALSE)
-#' get_phenotype_by_id('PH1', api_client = api_client)
-#'
-get_phenotype_by_id <- function(id, api_client = connect_to_API()) {
-  # API call
-  path = get_full_path(qq('phenotypes/@{id}/'), api_client)
-  response = api_client$get(path = path)
-  check_HTTP_response(response)
-
-  # Parse JSON result to dataframe
-  phenotype = data.frame(jsonlite::fromJSON(response$parse('utf-8')))
-
-  return(phenotype)
-}
-
-#' get_phenotype_detail
-#'
-#' Lists the phenotype detail of the latest version (or latest published version if using public API).
-#'
-#' @param id The phenotype's id.
-#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
-#' connection is created if left blank.
-#'
-#' @return A dataframe containing the phenotype detail.
-#' @export
-#'
-#' @examples
-#' get_phenotype_detail('PH1')
-#'
-#' api_client = connect_to_API(public = FALSE)
-#' get_phenotype_detail('PH1', api_client = api_client)
-#'
-get_phenotype_detail <- function(id, api_client = connect_to_API()) {
-  # API call
-  path = get_full_path(qq('phenotypes/@{id}/detail/'), api_client)
-  response = api_client$get(path = path)
-  check_HTTP_response(response)
-
-  # Parse JSON result to dataframe
-  phenotype = data.frame(jsonlite::fromJSON(response$parse('utf-8')))
-
-  return(phenotype)
-}
-
-#' get_phenotype_detail_by_version
-#'
-#' Lists the phenotype detail of the specified version.
-#'
-#' @param id The phenotype's id.
-#' @param version_id The phenotype version's id.
-#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
-#' connection is created if left blank.
-#'
-#' @return A dataframe containing the phenotype detail.
-#' @export
-#'
-#' @examples
-#' get_phenotype_detail_by_version('PH1', '2')
-#'
-#' api_client = connect_to_API(public = FALSE)
-#' get_phenotype_detail_by_version('PH1', '2', api_client = api_client)
-#'
-get_phenotype_detail_by_version <- function(id, version_id, api_client = connect_to_API()) {
-  # API call
-  path = get_full_path(qq('phenotypes/@{id}/version/@{version_id}/detail/'), api_client)
-  response = api_client$get(path = path)
-  check_HTTP_response(response)
-
-  # Parse JSON result to dataframe
-  phenotype = data.frame(jsonlite::fromJSON(response$parse('utf-8')))
-
-  return(phenotype)
-}
-
-#' get_phenotype_code_list
-#'
-#' Exports the code list of a specific version of a phenotype.
-#'
-#' @param id The phenotype's id.
-#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
-#' connection is created if left blank.
-#'
-#' @return A dataframe containing the code list.
-#' @export
-#'
-#' @examples
-#' get_phenotype_code_list('PH1')
-#'
-#' api_client = connect_to_API(public = FALSE)
-#' get_phenotype_code_list('PH1', api_client = api_client)
-#'
-get_phenotype_code_list <- function(id, api_client = connect_to_API()) {
-  # API call
-  path = get_full_path(qq('phenotypes/@{id}/export/codes/'), api_client)
-  response = api_client$get(path = path)
-  check_HTTP_response(response)
-
-  # Parse JSON result to dataframe
-  code_list = data.frame(jsonlite::fromJSON(response$parse('utf-8')))
-
-  return(code_list)
-}
-
-#' get_phenotype_code_list
-#'
-#' Exports the code list of a specific version of a phenotype.
-#'
-#' @param id The phenotype's id.
-#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function.
-#'
-#' @return A dataframe containing the code list.
-#' @export
-#'
-#' @examples
-#' get_phenotype_code_list('PH1', '2', client)
-#'
-#' api_client = connect_to_API(public = FALSE)
-#' get_phenotype_code_list('PH1', '2', api_client = api_client)
-#'
-get_phenotype_code_list_by_version <- function(id, version_id, api_client = connect_to_API()) {
-  # API call
-  path = get_full_path(qq('phenotypes/@{id}/version/@{version_id}/export/codes/'), api_client)
-  response = api_client$get(path = path)
-  check_HTTP_response(response)
-
-  # Parse JSON result to dataframe
-  code_list = data.frame(jsonlite::fromJSON(response$parse('utf-8')))
-
-  return(code_list)
-}
-
-#' get_phenotype_versions
-#'
-#' Lists all the versions of the phenotype
-#'
-#' @param id The phenotype's id.
-#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
-#' connection is created if left blank.
-#'
-#' @return A dataframe containing the phenotype's versions.
-#' @export
-#'
-#' @examples
-#' get_phenotype_versions('PH1')
-#'
-#' api_client = connect_to_API()
-#' get_phenotype_versions('PH1', api_client = api_client)
-#'
-get_phenotype_versions <- function(id, api_client = connect_to_API()) {
-  # API call
-  path = get_full_path(qq('phenotypes/@{id}/get-versions/'), api_client)
-  response = api_client$get(path = path)
-  check_HTTP_response(response)
-
-  # Parse JSON result to dataframe
-  versions = data.frame(jsonlite::fromJSON(response$parse('utf-8')))
-
-  # In this case the data is contained as a list within the dataframe and needs to be accessed before returning.
-  return(versions$versions[[1]])
-}
-
-#' exists_phenotype
-#'
-#' @param id
-#' @param api_client
-#'
-#' @return
-#'
-exists_phenotype <- function (id, api_client) {
-  path = get_full_path(qq('phenotypes/@{id}/detail/'), api_client)
-  response = api_client$get(path = path);
-  return (response$status_code == 200);
-}
-
-#' save_phenotype_definition
-#'
-#' Saves the Phenotype YAML definition file locally
-#'
-#' @params dir The directory to save the file to, include the name of the file, e.g. C:/path/definition.yaml
-#' @param id The phenotype's id.
-#' @param version_id The phenotype version's id, defaults to NA. Leave as default if using public api.
-#' @param api_client The HttpClient returned by the \code{\link{connect_to_API}} function. Optional, a public API
-#' connection is created if left blank.
-#'
-#' @return A dataframe containing the phenotype's data
-#' @export
-#'
-#' @examples
-#' save_phenotype_definition('C:/path/to/folder', 'definition-file.yaml', 'PH1')
-#'
-#' api_client = connect_to_API()
-#' save_phenotype_definition('C:/path/to/folder', 'definition-file.yaml', 'PH1', '2', api_client)
-#'
-save_phenotype_definition <- function(dir, id, version_id=NA, api_client = connect_to_API()) {
-  if (!validate_type(dir, 'string') || !(grepl('.yaml', dir))) {
-    stop('Invalid file name format, must be of type \'.yaml\'')
-  }
-
-  phenotype.data <- NA
-  if (is.na(version_id) || length(api_client$auth) == 0) {
-    phenotype.data <- get_phenotype_detail(id, api_client)
-  } else {
-    phenotype.data <- get_phenotype_detail_by_version(id, version_id, api_client)
-  }
-
-  # Create result object and populate internal fields
-  result.data <- list()
-  result.data$template_version <- as.character(API_YAML_TEMPLATE_VERSION)
-  result.data$phenotype_id <- phenotype.data$phenotype_id
-  result.data$phenotype_version_id <- as.character(ifelse(
-    !is.na(version_id),
-    version_id,
-    max(phenotype.data$versions[[1]]$version_id)
-  ))
-
-  # Required fields
-  result.data$title <- phenotype.data$name
-  result.data$type <- phenotype.data$type
-  result.data$author <- phenotype.data$author
-  result.data$sex <- phenotype.data$sex
-
-  # Concept field
-  if (should_write_field(phenotype.data$concepts)) {
-    concepts.data <- phenotype.data$concepts[[1]]
-    if (nrow(concepts.data) > 0) {
-      result.concepts <- list()
-      for (row.index in 1:nrow(concepts.data)) {
-        cur.data <- list()
-        cur.data[[concepts.data[row.index, 'name']]] = list(
-          list(type = 'existing_concept'),
-          list(concept_id = concepts.data[row.index, 'concept_id'])
-        )
-        result.concepts <- append(result.concepts, list(cur.data))
+    #'
+    read_phenotype_definition = function (path) {
+      data = read_file(path, yaml::read_yaml, extensions=private$ALLOWED_FILE_EXTENSIONS)
+      if (is.null(data) || length(data) <= 1) {
+        stop(sprintf(
+          'File is invalid, please check the file location and file extension, supports: %s',
+          private$ALLOWED_FILE_EXTENSIONS
+        ))
       }
 
-      result.data$concepts <- result.concepts
+      return (data)
+    },
+
+    #'
+    format_phenotype = function (data, update=FALSE) {
+      result = list(data = data)
+
+      if (update) {
+        result$entity = list(
+          id = result$data$phenotype_id
+        )
+      }
+
+      if ('concept_information' %in% names(result$data)) {
+        result$data$concept_information = private$format_concepts(result$data$concept_information)
+      }
+
+      result$template = list(
+        id = result$data$template$id,
+        version = result$data$template$version
+      )
+
+      result$data[sapply(names(result$data), function(x) x %in% private$PHENOTYPE_IGNORE_FIELDS$WRITE)] = NULL
+
+      return (result)
+    },
+
+    #'
+    format_concepts = function (data) {
+      concept_information = list()
+      for (concept in data) {
+        if (concept$type == 'existing_concept') {
+          new_concept = list(
+            name = concept$name,
+            concept_id = concept$concept_id,
+            concept_version_id = concept$concept_version_id,
+            internal_type = concept$type
+          )
+
+          concept_information = append(
+            concept_information,
+            list(new_concept)
+          )
+
+          next
+        }
+
+        if (concept$type == 'csv') {
+          concept_information = append(
+            concept_information,
+            list(private$format_concept_from_csv(concept))
+          )
+
+          next
+        }
+      }
+
+      return (concept_information)
+    },
+
+    #'
+    format_concept_from_csv = function (data) {
+      new_concept = list(
+        details = list(
+          name = data$name,
+          coding_system = data$coding_system,
+          internal_type = data$type
+        ),
+        components = list()
+      )
+
+      if (!is.null(data$concept_id) && !is.null(data$concept_version_id)) {
+        new_concept$concept_id = data$concept_id
+        new_concept$concept_version_id = data$concept_version_id
+        new_concept$is_dirty = TRUE
+      } else {
+        new_concept$is_new = TRUE
+      }
+
+      new_component = private$build_concept_component(data, new_concept)
+      new_concept$components = list(new_component)
+
+      return (new_concept)
+    },
+
+    #'
+    build_concept_component = function (data, new_concept) {
+      codelist_data = read_file(
+        data$filepath,
+        function (x) read.csv(x, check.names=FALSE),
+        'csv'
+      )
+      if (is.null(codelist_data) || length(codelist_data) <= 1) {
+        stop(sprintf(
+          'Concept %s has missing or invalid codelist file',
+          new_concept$details$name
+        ))
+      }
+
+      code_column = data$code_column
+      description_column = data$description_column
+      if (is.null(code_column) || !(code_column %in% names(codelist_data))) {
+        stop(sprintf(
+          'Concept %s has missing or invalid code_column',
+          new_concept$details$name
+        ))
+      }
+
+      new_component = list(
+        is_new = TRUE,
+        name = sprintf('CODES - %s', new_concept$details$name),
+        logical_type = 'INCLUDE',
+        source_type = 'FILE_IMPORT',
+        codes = list()
+      )
+      for (index in 1:nrow(codelist_data)) {
+        code = codelist_data[index, code_column]
+
+        description = ''
+        if (!is.null(description_column)) {
+          description = codelist_data[index, description_column]
+        }
+
+        new_component$codes = append(
+          new_component$codes,
+          list(list(
+            code = code,
+            description = description
+          ))
+        )
+      }
+
+      return (new_component)
+    },
+
+    prepare_phenotype_data = function (data) {
+      result = list()
+      for (field in names(data)) {
+        if (field %in% private$PHENOTYPE_IGNORE_FIELDS$READ) {
+          next
+        }
+
+        field_data = data[[field]]
+        if (is_empty(field_data)) {
+          next
+        }
+
+        if (!is.list(field_data)) {
+          result[[field]] = field_data
+          next
+        }
+
+        if (field == 'concept_information') {
+          field_data = field_data[[1]]
+
+          result[[field]] = list()
+          for (i in 1:nrow(field_data)) {
+            concept = field_data[i,]
+
+            formatted_concept = list(
+              name = concept$concept_name,
+              type = 'existing_concept',
+              concept_id = concept$concept_id,
+              concept_version_id = concept$concept_version_id
+            )
+
+            result[[field]] = append(result[[field]], list(formatted_concept))
+          }
+
+          next
+        }
+
+        if (is.null(names(field_data))) {
+          field_data = field_data[[1]]
+        }
+
+        field_params = names(field_data)
+        if ('value' %in% field_params) {
+          value = as.list(field_data$value)
+          if (length(value) == 1) {
+            value = unlist(value)
+          }
+          result[[field]] = value
+        } else if ('id' %in% field_params && 'version_id' %in% field_params) {
+          result[[field]] = list(
+            id = field_data$id,
+            version_id = field_data$version
+          )
+        } else if (is.data.frame(field_data)) {
+          result[[field]] = list()
+
+          for (i in 1:nrow(field_data)) {
+            item = field_data[[i,]]
+
+            result[[field]][[i]] = list()
+            for (key in names(item)) {
+              result[[field]][[i]][[key]] = item[[key]]
+            }
+          }
+        }
+      }
+
+      return (result)
     }
-  }
-
-  # Optional fields
-  if (should_write_field(phenotype.data$phenotype_uuid)) {
-    result.data$phenotype_uuid <- phenotype.data$phenotype_uuid
-  }
-
-  if (should_write_field(phenotype.data$valid_event_data_range)) {
-    result.data$valid_event_data_range <- phenotype.data$valid_event_data_range
-  }
-
-  if (should_write_field(phenotype.data$definition)) {
-    result.data$description <- phenotype.data$definition
-  }
-
-  if (should_write_field(phenotype.data$implementation)) {
-    result.data$implementation <- phenotype.data$implementation
-  }
-
-  if (should_write_field(phenotype.data$publications) && length(phenotype.data$publications[[1]]) > 0) {
-    result.data$publications <- phenotype.data$publications[[1]]
-  }
-
-  if (should_write_field(phenotype.data$publication_link)) {
-    result.data$primary_publication_link <- phenotype.data$publication_link
-  }
-
-  if (should_write_field(phenotype.data$publication_doi)) {
-    result.data$primary_publication_doi <- phenotype.data$publication_doi
-  }
-
-  if (should_write_field(phenotype.data$tags) && nrow(phenotype.data$tags[[1]]) > 0) {
-    result.data$tags <- as.list(phenotype.data$tags[[1]]$id)
-  }
-
-  if (should_write_field(phenotype.data$collections) && nrow(phenotype.data$collections[[1]]) > 0) {
-    result.data$collections <- as.list(phenotype.data$collections[[1]]$id)
-  }
-
-  if (should_write_field(phenotype.data$data_sources) && nrow(phenotype.data$data_sources[[1]]) > 0) {
-    result.data$data_sources <- as.list(phenotype.data$data_sources[[1]]$id)
-  }
-
-  # Write to file
-  yaml::write_yaml(result.data, dir)
-
-  return (result.data)
-}
+  )
+)

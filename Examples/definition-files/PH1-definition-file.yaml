@@ -1,0 +1,59 @@
+phenotype_id: PH1
+phenotype_version_id: 2
+name: COVID-19 infection
+definition: |2+
+
+
+  ![img](/static/img/phenotypes/8/0.png)
+
+
+
+  We ascertained people with a confirmed or suspected Covid-19 diagnosis as follows:
+
+
+  1) a positive PCR or antigen test from the Covid-19 laboratory test data, with specimen date on or before 31 October 2020; or
+
+
+  2) a Covid-19 diagnosis SNOMED-CT concept code appearing in the primary care data, with event date on or before 31 October; or
+
+
+  3) a diagnosis ICD-10 code appearing in the hospital episodes (main or secondary diagnostic code position in the admitted patient care component of the hospital episode statistics), with admission date on or before 31 October or
+
+
+  4) death registration with a mention (as underlying on contributing cause) of a diagnosis ICD-10 code , with death registration date on or before 31 October 2020.
+
+
+
+
+
+
+
+
+author: BHF CVD COVID UK Consortium
+collections:
+- 20
+- 18
+group_access: 1
+world_access: 1
+sex: '3'
+type: '2'
+phenoflowid: '1'
+data_sources:
+- 1
+- 2
+- 3
+- 4
+event_date_range: 01/01/2020 - 31/10/2020
+concept_information:
+- name: COVID-19 infection - Primary Care
+  type: existing_concept
+  concept_id: 714
+  concept_version_id: 2567
+- name: COVID-19 infection - Hospitalizations
+  type: existing_concept
+  concept_id: 715
+  concept_version_id: 2569
+owner: ieuan.scanlon
+template:
+  id: 1
+  version_id: 1

@@ -1,126 +1,57 @@
-API_URL <- "https://conceptlibrary.saildatabank.com/"
-YAML_FILE_EXTENSIONS <- list('yaml', 'yml')
-
-API_YAML_TEMPLATE_VERSION <- 1
-API_TEMPLATE_FIELDS <- list(
-  "template_version",
-  "phenotype_id",
-  "phenotype_version_id",
-  "user"
+#
+DOMAINS = list(
+  SAIL = 'conceptlibrary.saildatabank.com/',
+  HDRUK = 'phenotypes.healthdatagateway.org/',
+  ADP = 'conceptlibrary.saildatabank.com/ADP/',
+  GATEWAY = 'conceptlibrary.serp.ac.uk/',
+  LOCAL = '127.0.0.1:8000/'
 )
 
-# Collections
-HDRUK_COLLECTION_ID <- 18
+#
+DEFAULT_CONNECTION_URL = DOMAINS$SAIL
 
-# Validation
-API_PHENOTYPE_VALIDATION <- list(
-  TYPES=c(
-    'Disease or Syndrome',
-    'Biomarker',
-    'Lifestyle Risk Factor',
-    'Drug',
-    'Musculoskeletal',
-    'Surgical Procedure'
+#
+API_VERSION_NUMBER = 1
+
+#
+API_PATH_PREFIX = sprintf('api/v%s/', API_VERSION_NUMBER)
+
+#
+API_ENTITY_ENDPOINTS = list(
+  TEMPLATES = list(
+    INDEX = 'templates/',
+    VERSION_HISTORY = 'templates/%s/get-versions/',
+    DETAIL = 'templates/%s/detail/',
+    DETAIL_BY_VERSION = 'templates/%s/version/%s/detail/'
   ),
-  CONCEPTS=c(
-    'csv',
-    'existing_concept',
-    'inline'
+  PHENOTYPES = list(
+    INDEX = 'phenotypes/',
+    VERSION_HISTORY = 'phenotypes/%s/get-versions/',
+    DETAIL = 'phenotypes/%s/detail/',
+    DETAIL_BY_VERSION = 'phenotypes/%s/version/%s/detail/',
+    CODELIST = 'phenotypes/%s/export/codes/',
+    CODELIST_BY_VERSION = 'phenotypes/%s/version/%s/export/codes/',
+    CREATE = 'phenotypes/create/',
+    UPDATE = 'phenotypes/update/'
   ),
-  CODING_SYSTEM=c(
-    "11" = "BNF codes",
-    "19" = "CTV3 codes",
-    "14" = "GPRD product codes",
-    "4"  = "ICD10 codes",
-    "18" = "ICD11 codes",
-    "17" = "ICD9 codes",
-    "20" = "ICPC-2 codes",
-    "8"  = "Med codes",
-    "16" = "Multilex codes",
-    "13" = "Non-standard codes",
-    "7"  = "OPCS4 codes",
-    "15" = "OXMIS codes",
-    "10" = "PROD codes",
-    "5"  = "Read codes v2",
-    "6"  = "Read codes v3",
-    "9"  = "SNOMED CT codes",
-    "12" = "UKBioBank codes"
+  CONCEPTS = list(
+    INDEX = 'concepts/',
+    VERSION_HISTORY = 'concepts/%s/get-versions/',
+    DETAIL = 'concepts/%s/detail/',
+    DETAIL_BY_VERSION = 'concepts/%s/version/%s/detail/',
+    CODELIST = 'concepts/%s/export/codes/',
+    CODELIST_BY_VERSION = 'concepts/%s/version/%s/export/codes/'
   ),
-  VALIDATION=c(
-    "ehr sources",
-    "clinical",
-    "risk factors",
-    "prognostic",
-    "aetiologic",
-    "genetic",
-    "cross-source",
-    "casenote review",
-    "cross-country"
+  COLLECTIONS = list(
+    INDEX = 'collections/',
+    DETAIL = 'collections/%s/'
+  ),
+  TAGS = list(
+    INDEX = 'tags/',
+    DETAIL = 'tags/%s/'
+  ),
+  DATASOURCES = list(
+    INDEX = 'data-sources/',
+    DETAIL = 'data-sources/%s/'
   )
-)
-
-# API format
-API_CODE_FORMAT = list(
-  code="",
-  description="",
-  attributes=list()
-)
-API_COMPONENT_FORMAT=list(
-  name="",
-  comment="",
-  component_type=4,
-  logical_type=1,
-  codes=list()
-)
-API_CONCEPT_FORMAT=list(
-  name="",
-  author="",
-  description="",
-  source_reference="",
-  paper_published=FALSE,
-  publication_link="",
-  publication_doi="",
-  secondary_publication_links="",
-  citation_requirements="",
-  validation_performed=FALSE,
-  validation_description="",
-  world_access=1,
-  group_access=1,
-  group=NA,
-  tags=list(),
-  coding_system=0,
-  code_attribute_header=list(),
-  components=list(),
-  publish_immediately=FALSE,
-  code_attribute_header=list()
-)
-API_PHENOTYPE_FORMAT=list(
-  phenotype_uuid="",
-  title="",
-  name="",
-  author="",
-  layout="Phenotype",
-  type="",
-  validation_performed=FALSE,
-  validation="",
-  valid_event_data_range="",
-  hdr_created_date="",
-  hdr_modified_date="",
-  sex="",
-  status="FINAL",
-  paper_published=FALSE,
-  publications="",
-  publication_doi="",
-  publication_link="",
-  secondary_publication_links="",
-  source_reference="",
-  citation_requirements="",
-  description="",
-  implementation="",
-  phenoflowid="",
-  data_sources=list(),
-  world_access=1,
-  group_access=1,
-  tags=list(),
-  publish_immediately=FALSE
 )
