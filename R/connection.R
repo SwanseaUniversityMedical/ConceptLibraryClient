@@ -1,11 +1,42 @@
+#' Connection
+#'
+#' @description
+#' Connection object, storing HttpClient connection and allowing access to
+#'  endpoint instances, e.g. templates, phenotypes
+#'
+#' @examples
+#' # Authenticated login, with url set to HDRUK
+#' client = ConceptLibraryClient::Connection$new(
+#'   url=ConceptLibraryClient::DOMAINS$HDRUK
+#' )
+#'
+#' # Authenticated login, with custom URL
+#' client = ConceptLibraryClient::Connection$new(
+#'   url='custom-url.com/'
+#' )
+#'
+#' # Non-authenticated connection
+#' client = ConceptLibraryClient::Connection$new(public=FALSE)
+#'
+#' # Accessing phenotypes
+#' phenotype_detail = client$phenotypes$get('PH1', version_id=2)
+#'
+#' @export
+#'
 Connection <- R6::R6Class(
   'ClientConnection',
   public = list(
-    #' @field HttpClient (crul::HttpClient)
-    HttpClient = NULL,
-
+    #' @description
+    #' Create a connection to the ConceptLibrary
     #'
-    initialize = function (username=NA, password=NA, public=FALSE, url=DEFAULT_CONNECTION_URL) {
+    #' @param username (string) Username for authentication
+    #' @param password (string) Password for authentication
+    #' @param public (bool) Flag to determine whether login is required
+    #' @param url (string) URL used when connecting to the ConceptLibrary
+    #'
+    initialize = function (
+      username=NA, password=NA, public=FALSE, url=DEFAULT_CONNECTION_URL
+    ) {
       if (!public) {
         if (is.na(username) || is.na(password)) {
           message('Please log in to the Concept Library')
@@ -17,24 +48,37 @@ Connection <- R6::R6Class(
           password = auth_details$password
         }
 
-        self$HttpClient = crul::HttpClient$new(
+        private$HttpClient = crul::HttpClient$new(
           url,
           auth = crul::auth(user=username, pwd=password)
         )
       } else {
-        self$HttpClient = crul::HttpClient$new(url)
+        private$HttpClient = crul::HttpClient$new(url)
       }
     }
   ),
 
   private = list(
-    #' @description a
+    #' @field HttpClient (crul::HttpClient) Connection object
+    HttpClient = NULL,
+
+    #' @description
+    #' Checks whether the connection is authenticated
+    #'
+    #' @return TRUE if authenticated, FALSE otherwise
+    #'
     is_authenticated = function () {
       return (length(self$HttpClient$auth) > 1)
     },
 
+    #' @description
+    #' Creates login box for the user to input authentication details
     #'
-    get_login = function (username=NA) {
+    #' @param username (string) Username to populate username field, defaults to empty string
+    #'
+    #' @return List containing user inputted username and password
+    #'
+    get_login = function (username='') {
       login_window = tktoplevel()
       tkraise(login_window)
 
@@ -44,10 +88,14 @@ Connection <- R6::R6Class(
 
       tclVar('') -> password_input
       tkgrid(tklabel(login_window, text='Password'))
-      tkgrid(tkentry(login_window, textvariable=password_input, show='*') -> password_box)
+      tkgrid(tkentry(
+        login_window, textvariable=password_input, show='*'
+      ) -> password_box)
 
       tkbind(password_box, '<Return>', function () tkdestroy(login_window))
-      tkgrid(tkbutton(login_window, text='Login', command=function() tkdestroy(login_window)))
+      tkgrid(tkbutton(
+        login_window, text='Login', command=function() tkdestroy(login_window)
+      ))
 
       tkwait.window(login_window)
 
@@ -59,34 +107,22 @@ Connection <- R6::R6Class(
   ),
 
   active = list(
-    #'
-    templates = function () {
-      Templates$new(self$HttpClient)
-    },
+    #' @field templates (ConceptLibraryClient::Templates) Templates instance
+    templates = function () Templates$new(private$HttpClient),
 
-    #'
-    phenotypes = function () {
-      Phenotypes$new(self$HttpClient)
-    },
+    #' @field phenotypes (ConceptLibraryClient::Phenotypes) Phenotypes instance
+    phenotypes = function () Phenotypes$new(private$HttpClient),
 
-    #'
-    concepts = function () {
-      Concepts$new(self$HttpClient)
-    },
+    #' @field concepts (ConceptLibraryClient::Concepts) Concepts instance
+    concepts = function () Concepts$new(private$HttpClient),
 
-    #'
-    collections = function () {
-      Collections$new(self$HttpClient)
-    },
+    #' @field collections (ConceptLibraryClient::Collections) Collections instance
+    collections = function () Collections$new(private$HttpClient),
 
-    #'
-    tags = function () {
-      Tags$new(self$HttpClient)
-    },
+    #' @field tags (ConceptLibraryClient::Tags) Tags instance
+    tags = function () Tags$new(private$HttpClient),
 
-    #'
-    datasources = function () {
-      Datasources$new(self$HttpClient)
-    }
+    #' @field datasources (ConceptLibraryClient::Datasources) Datasources instance
+    datasources = function () Datasources$new(private$HttpClient)
   )
 )

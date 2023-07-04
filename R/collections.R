@@ -1,20 +1,34 @@
+#' Collections
+#'
+#' @description
+#' Collections object, inheriting from ConceptLibraryClient::Endpoint - allows
+#'  querying of collections/ endpoints
+#'
 Collections <- R6::R6Class(
   'Collections',
   inherit = Endpoint,
   public = list(
+    #' @description
+    #' Queries collections/
     #'
-    get = function (...) {
-      query_params = super$clean_query_params(...)
-
+    #' @return Response object
+    #'
+    get = function () {
       url = super$get_full_path('COLLECTIONS', 'INDEX')
-      return (super$make_request('get', url, query=query_params))
+      return (super$make_request('get', url))
     },
 
+    #' @description
+    #' Queries collections/{id}/detail/
     #'
-    get_detail = function (collection_id, version_id=NA) {
-      url = if (is.na(version_id)) 'DETAIL' else 'DETAIL_BY_VERSION'
+    #' @params collection_id (string) Id of entity to query
+    #' @params version_id (integer) Version id of entity to query
+    #'
+    #' @return Response object
+    #'
+    get_detail = function (collection_id) {
       url = super$get_full_path(
-        'COLLECTIONS', url, id=collection_id, version_id=version_id
+        'COLLECTIONS', 'DETAIL', id=collection_id
       )
 
       return (super$make_request('get', url, as_df=FALSE))

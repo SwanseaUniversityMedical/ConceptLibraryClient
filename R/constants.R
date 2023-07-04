@@ -1,4 +1,10 @@
-#
+#' DOMAINS
+#'
+#' @description
+#' List containing default domains for connecting to the Concept Library
+#'
+#' @export
+#'
 DOMAINS = list(
   SAIL = 'conceptlibrary.saildatabank.com/',
   HDRUK = 'phenotypes.healthdatagateway.org/',
@@ -7,16 +13,16 @@ DOMAINS = list(
   LOCAL = '127.0.0.1:8000/'
 )
 
-#
+# Internal, default connection url to be used in Connection object
 DEFAULT_CONNECTION_URL = DOMAINS$SAIL
 
-#
+# Internal, current API version
 API_VERSION_NUMBER = 1
 
-#
+# Internal, prefix for API endpoints
 API_PATH_PREFIX = sprintf('api/v%s/', API_VERSION_NUMBER)
 
-#
+# Interal, list of API endpoints
 API_ENTITY_ENDPOINTS = list(
   TEMPLATES = list(
     INDEX = 'templates/',

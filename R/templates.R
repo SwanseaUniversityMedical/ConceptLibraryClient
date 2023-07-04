@@ -1,21 +1,42 @@
+#' Templates
+#'
+#' @description
+#' Templates object, inheriting from ConceptLibraryClient::Endpoint - allows
+#'  querying of templates/ endpoints
+#'
 Templates <- R6::R6Class(
   'Templates',
   inherit = Endpoint,
   public = list(
+    #' @description
+    #' Queries templates/
     #'
-    get = function (...) {
-      query_params = super$clean_query_params(...)
-
+    #' @return Response object
+    #'
+    get = function () {
       url = super$get_full_path('TEMPLATES', 'INDEX')
-      return (super$make_request('get', url, query=query_params))
+      return (super$make_request('get', url))
     },
 
+    #' @description
+    #' Queries templates/{id}/get-versions/
+    #'
+    #' @params template_id (string) Id of entity to query
+    #'
+    #' @return Response object
     #'
     get_versions = function (template_id) {
       url = super$get_full_path('TEMPLATES', 'VERSION_HISTORY', id=template_id)
       return (super$make_request('get', url))
     },
 
+    #' @description
+    #' Queries templates/{id}/detail/ or templates/{id}/version/{id}/detail/
+    #'
+    #' @params template_id (string) Id of entity to query
+    #' @params version_id (integer) Version id of entity to query
+    #'
+    #' @return Response object
     #'
     get_detail = function (template_id, version_id=NA) {
       url = if (is.na(version_id)) 'DETAIL' else 'DETAIL_BY_VERSION'

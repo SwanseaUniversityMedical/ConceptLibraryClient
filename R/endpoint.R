@@ -1,20 +1,38 @@
+#' Endpoint
+#'
+#' @description
+#' Endpoint object, storing HTTP client object and handling requests and
+#'  responses to API
+#'
 Endpoint <- R6::R6Class(
   'Endpoint',
   public = list(
-    #' @field HttpClient (crul::HttpClient) a
-    HttpClient = NULL,
-
+    #' @description
+    #' Create an endpoint
+    #'
+    #' @param connection (crul::HttpClient) Connection object
     #'
     initialize = function (connection) {
-      self$HttpClient = connection
+      private$HttpClient = connection
     }
   ),
 
   private = list(
-    #'
-    STATUS_CODE_SUCCESS = c(200, 201),
+    #' @field STATUS_CODE_SUCCESS (list) Contains successful response codes
+    STATUS_CODE_SUCCESS = list(200, 201),
 
-    #' @description a
+    #' @field HttpClient (crul::HttpClient) Connection object
+    HttpClient = NULL,
+
+    #' @description
+    #' Gets the full URL, formatted with any optional parameters
+    #'
+    #' @param entity_type (string) Type of entity to format URL
+    #' @param endpoint (string) Endpoint to format URL
+    #' @param ... (list) List of optional parameters
+    #'
+    #' @return Formatted URL
+    #'
     get_full_path = function (entity_type, endpoint, ...) {
       query = paste0(
         API_PATH_PREFIX,
@@ -27,14 +45,14 @@ Endpoint <- R6::R6Class(
       return (do.call(sprintf, c(query, params)))
     },
 
-    #' @description a
-    clean_query_params = function (...) {
-      params = list(...)
-
-      return (params)
-    },
-
-    #' @description a
+    #' @description
+    #' Validates response against successful response codes, stops execution if
+    #'  unsuccessful and outputs any response messages to console
+    #'
+    #' @param response (crul::HttpResponse) Response object
+    #'
+    #' @return Returns response after validating
+    #'
     check_response = function (response) {
       if (!(response$status_code %in% private$STATUS_CODE_SUCCESS)) {
         stop(jsonlite::prettify(response$parse('utf-8')))
@@ -48,9 +66,21 @@ Endpoint <- R6::R6Class(
       return (response)
     },
 
-    #' @description a
+    #' @description
+    #' Makes a request to provided url using the type specified, sends body and query
+    #'  data when supplied
+    #'
+    #' @param type (string) Request type
+    #' @param url (string) Request url
+    #' @param body (list) Request body
+    #' @param query (list) Query parameters
+    #' @param encode (string) Encoding type
+    #' @param as_df (bool) Whether to format as a dataframe
+    #'
+    #' @return Response object
+    #'
     make_request = function (type, url, body=NA, query=NA, encode='json', as_df=TRUE) {
-      response = self$HttpClient[[type]](
+      response = private$HttpClient[[type]](
         path=url,
         query=query,
         body=body,
