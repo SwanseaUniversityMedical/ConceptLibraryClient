@@ -189,8 +189,6 @@ Phenotypes <- R6::R6Class(
         result$data$publications = try_parse_doi(result$data$publications)
       }
 
-      TEST <<- result$data$publications
-
       result$template = list(
         id = result$data$template$id,
         version = result$data$template$version

@@ -28,8 +28,8 @@ concept_information:
   concept_id: 4373
   concept_version_id: 11407
 publications:
-- 'publication https://doi.org/10.3945/jn.109.117093'
-- 'publication too https://doi.org/10.3945/jn.109.117093'
+- 'first publication https://doi.org/10.3945/jn.109.117093'
+- 'second publication https://doi.org/10.3945/jn.109.117093'
 owner: ieuan.scanlon
 template:
   id: 1
