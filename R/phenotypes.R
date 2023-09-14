@@ -185,6 +185,12 @@ Phenotypes <- R6::R6Class(
         result$data$concept_information = private$format_concepts(result$data$concept_information)
       }
 
+      if ('publications' %in% names(result$data)) {
+        result$data$publications = try_parse_doi(result$data$publications)
+      }
+
+      TEST <<- result$data$publications
+
       result$template = list(
         id = result$data$template$id,
         version = result$data$template$version
@@ -383,11 +389,17 @@ Phenotypes <- R6::R6Class(
             id = field_data$id,
             version_id = field_data$version
           )
+        } else if ('doi' %in% field_params && 'details' %in% field_params) {
+          result[[field]] = list()
+
+          for (i in 1:nrow(field_data)) {
+            result[[field]][i] = field_data[i, 'details']
+          }
         } else if (is.data.frame(field_data)) {
           result[[field]] = list()
 
           for (i in 1:nrow(field_data)) {
-            item = field_data[[i,]]
+            item = field_data[i,]
 
             result[[field]][[i]] = list()
             for (key in names(item)) {

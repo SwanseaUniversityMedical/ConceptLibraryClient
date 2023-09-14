@@ -10,6 +10,7 @@ DOMAINS = list(
   HDRUK = 'phenotypes.healthdatagateway.org/',
   ADP = 'conceptlibrary.saildatabank.com/ADP/',
   GATEWAY = 'conceptlibrary.serp.ac.uk/',
+  DEMO = 'conceptlibrary.demo-dev.saildatabank.com/',
   LOCAL = '127.0.0.1:8000/'
 )
 
@@ -50,14 +51,14 @@ API_ENTITY_ENDPOINTS = list(
   ),
   COLLECTIONS = list(
     INDEX = 'collections/',
-    DETAIL = 'collections/%s/'
+    DETAIL = 'collections/%s/detail/'
   ),
   TAGS = list(
     INDEX = 'tags/',
-    DETAIL = 'tags/%s/'
+    DETAIL = 'tags/%s/detail/'
   ),
   DATASOURCES = list(
     INDEX = 'data-sources/',
-    DETAIL = 'data-sources/%s/'
+    DETAIL = 'data-sources/%s/detail/'
   )
 )

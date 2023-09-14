@@ -4,7 +4,9 @@ library(ConceptLibraryClient)
 
 ## Authenticated connection, login required
 client = ConceptLibraryClient::Connection$new(
-  url=ConceptLibraryClient::DOMAINS$SAIL
+  username='ieuan.scanlon',
+  password='Pr.is#98640y',
+  url=ConceptLibraryClient::DOMAINS$LOCAL
 )
 
 ## Public connection, no account required

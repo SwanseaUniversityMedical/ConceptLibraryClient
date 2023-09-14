@@ -13,7 +13,6 @@ client = ConceptLibraryClient::Connection$new(
   url=ConceptLibraryClient::DOMAINS$SAIL
 )
 
-
 # Querying phenotypes
 
 ## Search phenotypes

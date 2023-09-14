@@ -67,3 +67,35 @@ read_file <- function (path, fun, extensions=NA) {
 is_empty = function (input) {
   return (all(is.null(input)) || all(is.na(input)) || all(input == ''))
 }
+
+#' try_parse_doi
+#'
+#' @description
+#' Tries to parse all DOIs from list of publications
+#'
+#' @param publications (list) List of publications from entity definition file
+#'
+#' @return List containing detail and doi
+try_parse_doi = function (publications) {
+  output = list()
+  for (publication in publications) {
+    if (!validate_type(publication, 'string') || trimws(publication) == '') {
+      next
+    }
+
+    pattern = regexpr(
+      '\\b(10[.][0-9]{4,}(?:[.][0-9]+)*\\/(?:(?![\\"&\'<>])\\S)+)\\b',
+      publication,
+      perl=TRUE
+    )
+
+    match = regmatches(publication, pattern)
+
+    output = append(output, list(list(
+      details = publication,
+      doi = if (length(match) == 0) NA else match
+    )))
+  }
+
+  return (output)
+}
