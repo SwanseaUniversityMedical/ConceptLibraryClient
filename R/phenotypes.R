@@ -76,7 +76,7 @@ Phenotypes <- R6::R6Class(
     #' @params phenotype_id (string) Id of entity to query
     #' @params version_id (integer) Version id of entity to query
     #'
-    save_to_file = function (path, phenotype_id, version_id=NA) {
+    save_definition_file = function (path, phenotype_id, version_id=NA) {
       phenotype_data = self$get_detail(phenotype_id, version_id=version_id)
       phenotype_data = private$prepare_phenotype_data(phenotype_data)
 
@@ -100,7 +100,7 @@ Phenotypes <- R6::R6Class(
       )
       response = response$entity
 
-      self$save_to_file(path, response$id, version_id=response$version_id)
+      self$save_definition_file(path, response$id, version_id=response$version_id)
 
       return (response)
     },
@@ -122,7 +122,7 @@ Phenotypes <- R6::R6Class(
       )
       response = response$entity
 
-      self$save_to_file(path, response$id, version_id=response$version_id)
+      self$save_definition_file(path, response$id, version_id=response$version_id)
 
       return (response)
     }

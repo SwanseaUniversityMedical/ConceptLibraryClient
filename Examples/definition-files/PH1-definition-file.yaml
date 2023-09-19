@@ -43,7 +43,6 @@ data_sources:
 - 2
 - 3
 - 4
-phenotype_uuid: 83NbVPhy532ogkJrxzUmoy
 event_date_range: 01/01/2020 - 31/10/2020
 concept_information:
 - name: COVID-19 infection - Primary Care

@@ -39,7 +39,7 @@ stored in the Concept Library.
 \item \code{client$phenotypes$get_versions}
 \item \code{client$phenotypes$get_detail}
 \item \code{client$phenotypes$get_codelist}
-\item \code{client$phenotypes$save_to_file}
+\item \code{client$phenotypes$save_definition_file}
 \item \code{client$phenotypes$create}
 \item \code{client$phenotypes$update}
 }

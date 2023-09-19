@@ -28,7 +28,7 @@
 #' * \code{client$phenotypes$get_versions}
 #' * \code{client$phenotypes$get_detail}
 #' * \code{client$phenotypes$get_codelist}
-#' * \code{client$phenotypes$save_to_file}
+#' * \code{client$phenotypes$save_definition_file}
 #' * \code{client$phenotypes$create}
 #' * \code{client$phenotypes$update}
 #'
