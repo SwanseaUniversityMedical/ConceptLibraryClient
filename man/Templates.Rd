@@ -3,6 +3,13 @@
 \name{Templates}
 \alias{Templates}
 \title{Templates}
+\value{
+Response object
+
+Response object
+
+Response object
+}
 \description{
 Templates object, inheriting from ConceptLibraryClient::Endpoint - allows
  querying of templates/ endpoints
@@ -35,9 +42,6 @@ Queries templates/
 \if{html}{\out{<div class="r">}}\preformatted{Templates$get()}\if{html}{\out{</div>}}
 }
 
-\subsection{Returns}{
-Response object
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Templates-get_versions"></a>}}
@@ -48,8 +52,12 @@ Queries templates/{id}/get-versions/
 \if{html}{\out{<div class="r">}}\preformatted{Templates$get_versions(template_id)}\if{html}{\out{</div>}}
 }
 
-\subsection{Returns}{
-Response object
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{template_id}}{(string) Id of entity to query}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -61,8 +69,14 @@ Queries templates/{id}/detail/ or templates/{id}/version/{id}/detail/
 \if{html}{\out{<div class="r">}}\preformatted{Templates$get_detail(template_id, version_id = NA)}\if{html}{\out{</div>}}
 }
 
-\subsection{Returns}{
-Response object
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{template_id}}{(string) Id of entity to query}
+
+\item{\code{version_id}}{(integer) Version id of entity to query}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

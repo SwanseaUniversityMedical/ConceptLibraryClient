@@ -11,7 +11,7 @@ Datasources <- R6::R6Class(
     #' @description
     #' Queries data-sources/
     #'
-    #' @return Response object
+    #' @returns Response object
     #'
     get = function () {
       url = super$get_full_path('DATASOURCES', 'INDEX')
@@ -21,10 +21,9 @@ Datasources <- R6::R6Class(
     #' @description
     #' Queries data-sources/{id}/detail/
     #'
-    #' @params datasource_id (string) Id of entity to query
-    #' @params version_id (integer) Version id of entity to query
+    #' @param datasource_id (string) Id of entity to query
     #'
-    #' @return Response object
+    #' @returns Response object
     #'
     get_detail = function (datasource_id) {
       url = super$get_full_path(

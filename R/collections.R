@@ -11,7 +11,7 @@ Collections <- R6::R6Class(
     #' @description
     #' Queries collections/
     #'
-    #' @return Response object
+    #' @returns Response object
     #'
     get = function () {
       url = super$get_full_path('COLLECTIONS', 'INDEX')
@@ -21,10 +21,9 @@ Collections <- R6::R6Class(
     #' @description
     #' Queries collections/{id}/detail/
     #'
-    #' @params collection_id (string) Id of entity to query
-    #' @params version_id (integer) Version id of entity to query
+    #' @param collection_id (string) Id of entity to query
     #'
-    #' @return Response object
+    #' @returns Response object
     #'
     get_detail = function (collection_id) {
       url = super$get_full_path(

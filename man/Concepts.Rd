@@ -3,6 +3,15 @@
 \name{Concepts}
 \alias{Concepts}
 \title{Concepts}
+\value{
+Response object
+
+Response object
+
+Response object
+
+Response object
+}
 \description{
 Concepts object, inheriting from ConceptLibraryClient::Endpoint - allows
  querying of concepts/ endpoints
@@ -36,8 +45,12 @@ Queries concepts/, with optional query parameters
 \if{html}{\out{<div class="r">}}\preformatted{Concepts$get(...)}\if{html}{\out{</div>}}
 }
 
-\subsection{Returns}{
-Response object
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(list) List of optional parameters}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -49,8 +62,12 @@ Queries concepts/{id}/get-versions/
 \if{html}{\out{<div class="r">}}\preformatted{Concepts$get_versions(concept_id)}\if{html}{\out{</div>}}
 }
 
-\subsection{Returns}{
-Response object
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{concept_id}}{(string) Id of entity to query}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -62,8 +79,14 @@ Queries concepts/{id}/detail/ or concepts/{id}/version/{id}/detail/
 \if{html}{\out{<div class="r">}}\preformatted{Concepts$get_detail(concept_id, version_id = NA)}\if{html}{\out{</div>}}
 }
 
-\subsection{Returns}{
-Response object
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{concept_id}}{(string) Id of entity to query}
+
+\item{\code{version_id}}{(integer) Version id of entity to query}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -76,8 +99,14 @@ Queries concepts/{id}/export/codes/ or
 \if{html}{\out{<div class="r">}}\preformatted{Concepts$get_codelist(concept_id, version_id = NA)}\if{html}{\out{</div>}}
 }
 
-\subsection{Returns}{
-Response object
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{concept_id}}{(string) Id of entity to query}
+
+\item{\code{version_id}}{(integer) Version id of entity to query}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

@@ -3,6 +3,11 @@
 \name{Datasources}
 \alias{Datasources}
 \title{Datasources}
+\value{
+Response object
+
+Response object
+}
 \description{
 Datasources object, inheriting from ConceptLibraryClient::Endpoint - allows
  querying of data-sources/ endpoints
@@ -34,9 +39,6 @@ Queries data-sources/
 \if{html}{\out{<div class="r">}}\preformatted{Datasources$get()}\if{html}{\out{</div>}}
 }
 
-\subsection{Returns}{
-Response object
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Datasources-get_detail"></a>}}
@@ -47,8 +49,12 @@ Queries data-sources/{id}/detail/
 \if{html}{\out{<div class="r">}}\preformatted{Datasources$get_detail(datasource_id)}\if{html}{\out{</div>}}
 }
 
-\subsection{Returns}{
-Response object
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{datasource_id}}{(string) Id of entity to query}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

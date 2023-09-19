@@ -11,7 +11,7 @@ Tags <- R6::R6Class(
     #' @description
     #' Queries tags/
     #'
-    #' @return Response object
+    #' @returns Response object
     #'
     get = function () {
       url = super$get_full_path('TAGS', 'INDEX')
@@ -21,10 +21,9 @@ Tags <- R6::R6Class(
     #' @description
     #' Queries tags/{id}/detail/
     #'
-    #' @params tag_id (string) Id of entity to query
-    #' @params version_id (integer) Version id of entity to query
+    #' @param tag_id (string) Id of entity to query
     #'
-    #' @return Response object
+    #' @returns Response object
     #'
     get_detail = function (tag_id) {
       url = super$get_full_path(

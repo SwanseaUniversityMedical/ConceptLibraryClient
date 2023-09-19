@@ -3,6 +3,13 @@
 \name{Endpoint}
 \alias{Endpoint}
 \title{Endpoint}
+\value{
+Formatted URL
+
+Returns response after validating
+
+Response object
+}
 \description{
 Endpoint object, storing HTTP client object and handling requests and
  responses to API

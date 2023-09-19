@@ -11,7 +11,7 @@ Templates <- R6::R6Class(
     #' @description
     #' Queries templates/
     #'
-    #' @return Response object
+    #' @returns Response object
     #'
     get = function () {
       url = super$get_full_path('TEMPLATES', 'INDEX')
@@ -21,9 +21,9 @@ Templates <- R6::R6Class(
     #' @description
     #' Queries templates/{id}/get-versions/
     #'
-    #' @params template_id (string) Id of entity to query
+    #' @param template_id (string) Id of entity to query
     #'
-    #' @return Response object
+    #' @returns Response object
     #'
     get_versions = function (template_id) {
       url = super$get_full_path('TEMPLATES', 'VERSION_HISTORY', id=template_id)
@@ -33,10 +33,10 @@ Templates <- R6::R6Class(
     #' @description
     #' Queries templates/{id}/detail/ or templates/{id}/version/{id}/detail/
     #'
-    #' @params template_id (string) Id of entity to query
-    #' @params version_id (integer) Version id of entity to query
+    #' @param template_id (string) Id of entity to query
+    #' @param version_id (integer) Version id of entity to query
     #'
-    #' @return Response object
+    #' @returns Response object
     #'
     get_detail = function (template_id, version_id=NA) {
       url = if (is.na(version_id)) 'DETAIL' else 'DETAIL_BY_VERSION'

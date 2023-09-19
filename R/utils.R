@@ -6,7 +6,7 @@
 #' @param input (any) Input to be compared
 #' @param type (string) Type in {'string', 'number', 'bool'}
 #'
-#' @return TRUE if type matches, FALSE otherwise
+#' @returns TRUE if type matches, FALSE otherwise
 #'
 validate_type <- function (input, type) {
   switch(type,
@@ -34,7 +34,7 @@ validate_type <- function (input, type) {
 #' @param fun (function) Function used to read in the file
 #' @param extensions (list) List of valid extensions
 #'
-#' @return Data from the file if validation succeeds, NULL otherwise
+#' @returns Data from the file if validation succeeds, NULL otherwise
 #'
 read_file <- function (path, fun, extensions=NA) {
   if (!validate_type(path, 'string')) {
@@ -62,7 +62,7 @@ read_file <- function (path, fun, extensions=NA) {
 #'
 #' @param input (any) Input to be compared
 #'
-#' @return TRUE if empty, FALSE otherwise
+#' @returns TRUE if empty, FALSE otherwise
 #'
 is_empty = function (input) {
   return (all(is.null(input)) || all(is.na(input)) || all(input == ''))
@@ -75,7 +75,7 @@ is_empty = function (input) {
 #'
 #' @param publications (list) List of publications from entity definition file
 #'
-#' @return List containing detail and doi
+#' @returns List containing detail and doi
 try_parse_doi = function (publications) {
   output = list()
   for (publication in publications) {

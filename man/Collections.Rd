@@ -3,6 +3,11 @@
 \name{Collections}
 \alias{Collections}
 \title{Collections}
+\value{
+Response object
+
+Response object
+}
 \description{
 Collections object, inheriting from ConceptLibraryClient::Endpoint - allows
  querying of collections/ endpoints
@@ -34,9 +39,6 @@ Queries collections/
 \if{html}{\out{<div class="r">}}\preformatted{Collections$get()}\if{html}{\out{</div>}}
 }
 
-\subsection{Returns}{
-Response object
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Collections-get_detail"></a>}}
@@ -47,8 +49,12 @@ Queries collections/{id}/detail/
 \if{html}{\out{<div class="r">}}\preformatted{Collections$get_detail(collection_id)}\if{html}{\out{</div>}}
 }
 
-\subsection{Returns}{
-Response object
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{collection_id}}{(string) Id of entity to query}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

@@ -3,6 +3,31 @@
 \name{Phenotypes}
 \alias{Phenotypes}
 \title{Phenotypes}
+\value{
+Response object
+
+Response object
+
+Response object
+
+Response object
+
+Response object
+
+Response object
+
+Data read in from the file
+
+Formatted phenotype data
+
+Formatted concept data
+
+Formatted concept data
+
+Concept component
+
+Formatted phenotype data
+}
 \description{
 Phenotypes object, inheriting from ConceptLibraryClient::Endpoint - allows
  querying of phenotypes/ endpoints
@@ -35,7 +60,7 @@ Phenotypes object, inheriting from ConceptLibraryClient::Endpoint - allows
 \item \href{#method-Phenotypes-get_versions}{\code{Phenotypes$get_versions()}}
 \item \href{#method-Phenotypes-get_detail}{\code{Phenotypes$get_detail()}}
 \item \href{#method-Phenotypes-get_codelist}{\code{Phenotypes$get_codelist()}}
-\item \href{#method-Phenotypes-save_to_file}{\code{Phenotypes$save_to_file()}}
+\item \href{#method-Phenotypes-save_definition_file}{\code{Phenotypes$save_definition_file()}}
 \item \href{#method-Phenotypes-create}{\code{Phenotypes$create()}}
 \item \href{#method-Phenotypes-update}{\code{Phenotypes$update()}}
 \item \href{#method-Phenotypes-clone}{\code{Phenotypes$clone()}}
@@ -57,8 +82,12 @@ Queries phenotypes/, with optional query parameters
 \if{html}{\out{<div class="r">}}\preformatted{Phenotypes$get(...)}\if{html}{\out{</div>}}
 }
 
-\subsection{Returns}{
-Response object
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(list) List of optional parameters}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -70,8 +99,12 @@ Queries phenotypes/{id}/get-versions/
 \if{html}{\out{<div class="r">}}\preformatted{Phenotypes$get_versions(phenotype_id)}\if{html}{\out{</div>}}
 }
 
-\subsection{Returns}{
-Response object
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{phenotype_id}}{(string) Id of entity to query}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -83,8 +116,14 @@ Queries phenotypes/{id}/detail/ or phenotypes/{id}/version/{id}/detail/
 \if{html}{\out{<div class="r">}}\preformatted{Phenotypes$get_detail(phenotype_id, version_id = NA)}\if{html}{\out{</div>}}
 }
 
-\subsection{Returns}{
-Response object
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{phenotype_id}}{(string) Id of entity to query}
+
+\item{\code{version_id}}{(integer) Version id of entity to query}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -97,19 +136,36 @@ Queries phenotypes/{id}/export/codes/ or
 \if{html}{\out{<div class="r">}}\preformatted{Phenotypes$get_codelist(phenotype_id, version_id = NA)}\if{html}{\out{</div>}}
 }
 
-\subsection{Returns}{
-Response object
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{phenotype_id}}{(string) Id of entity to query}
+
+\item{\code{version_id}}{(integer) Version id of entity to query}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Phenotypes-save_to_file"></a>}}
-\if{latex}{\out{\hypertarget{method-Phenotypes-save_to_file}{}}}
-\subsection{Method \code{save_to_file()}}{
+\if{html}{\out{<a id="method-Phenotypes-save_definition_file"></a>}}
+\if{latex}{\out{\hypertarget{method-Phenotypes-save_definition_file}{}}}
+\subsection{Method \code{save_definition_file()}}{
 Formats phenotype detail and saves it to file
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Phenotypes$save_to_file(path, phenotype_id, version_id = NA)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Phenotypes$save_definition_file(path, phenotype_id, version_id = NA)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{(string) Path to save the file}
+
+\item{\code{phenotype_id}}{(string) Id of entity to query}
+
+\item{\code{version_id}}{(integer) Version id of entity to query}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Phenotypes-create"></a>}}
@@ -120,8 +176,12 @@ Creates a new phenotype based on the .yaml file supplied
 \if{html}{\out{<div class="r">}}\preformatted{Phenotypes$create(path)}\if{html}{\out{</div>}}
 }
 
-\subsection{Returns}{
-Response object
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{(string) Path to definition file}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -133,8 +193,12 @@ Updates an existing phenotype with details from the .yaml file supplied
 \if{html}{\out{<div class="r">}}\preformatted{Phenotypes$update(path)}\if{html}{\out{</div>}}
 }
 
-\subsection{Returns}{
-Response object
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{(string) Path to definition file}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

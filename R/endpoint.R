@@ -31,7 +31,7 @@ Endpoint <- R6::R6Class(
     #' @param endpoint (string) Endpoint to format URL
     #' @param ... (list) List of optional parameters
     #'
-    #' @return Formatted URL
+    #' @returns Formatted URL
     #'
     get_full_path = function (entity_type, endpoint, ...) {
       query = paste0(
@@ -51,7 +51,7 @@ Endpoint <- R6::R6Class(
     #'
     #' @param response (crul::HttpResponse) Response object
     #'
-    #' @return Returns response after validating
+    #' @returns Returns response after validating
     #'
     check_response = function (response) {
       if (!(response$status_code %in% private$STATUS_CODE_SUCCESS)) {
@@ -77,7 +77,7 @@ Endpoint <- R6::R6Class(
     #' @param encode (string) Encoding type
     #' @param as_df (bool) Whether to format as a dataframe
     #'
-    #' @return Response object
+    #' @returns Response object
     #'
     make_request = function (type, url, body=NA, query=NA, encode='json', as_df=TRUE) {
       response = private$HttpClient[[type]](

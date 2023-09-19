@@ -65,7 +65,7 @@ Connection <- R6::R6Class(
     #' @description
     #' Checks whether the connection is authenticated
     #'
-    #' @return TRUE if authenticated, FALSE otherwise
+    #' @returns TRUE if authenticated, FALSE otherwise
     #'
     is_authenticated = function () {
       return (length(self$HttpClient$auth) > 1)
@@ -76,7 +76,7 @@ Connection <- R6::R6Class(
     #'
     #' @param username (string) Username to populate username field, defaults to empty string
     #'
-    #' @return List containing user inputted username and password
+    #' @returns List containing user inputted username and password
     #'
     get_login = function (username='') {
       login_window = tktoplevel()

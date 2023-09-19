@@ -3,6 +3,11 @@
 \name{Connection}
 \alias{Connection}
 \title{Connection}
+\value{
+TRUE if authenticated, FALSE otherwise
+
+List containing user inputted username and password
+}
 \description{
 Connection object, storing HttpClient connection and allowing access to
  endpoint instances, e.g. templates, phenotypes

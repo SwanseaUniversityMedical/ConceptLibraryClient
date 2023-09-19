@@ -3,6 +3,11 @@
 \name{Tags}
 \alias{Tags}
 \title{Tags}
+\value{
+Response object
+
+Response object
+}
 \description{
 Tags object, inheriting from ConceptLibraryClient::Endpoint - allows
  querying of tags/ endpoints
@@ -34,9 +39,6 @@ Queries tags/
 \if{html}{\out{<div class="r">}}\preformatted{Tags$get()}\if{html}{\out{</div>}}
 }
 
-\subsection{Returns}{
-Response object
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Tags-get_detail"></a>}}
@@ -47,8 +49,12 @@ Queries tags/{id}/detail/
 \if{html}{\out{<div class="r">}}\preformatted{Tags$get_detail(tag_id)}\if{html}{\out{</div>}}
 }
 
-\subsection{Returns}{
-Response object
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{tag_id}}{(string) Id of entity to query}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

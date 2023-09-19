@@ -11,9 +11,9 @@ Phenotypes <- R6::R6Class(
     #' @description
     #' Queries phenotypes/, with optional query parameters
     #'
-    #' @params ... (list) List of optional parameters
+    #' @param ... (list) List of optional parameters
     #'
-    #' @return Response object
+    #' @returns Response object
     #'
     get = function (...) {
       query_params = list(...)
@@ -25,9 +25,9 @@ Phenotypes <- R6::R6Class(
     #' @description
     #' Queries phenotypes/{id}/get-versions/
     #'
-    #' @params phenotype_id (string) Id of entity to query
+    #' @param phenotype_id (string) Id of entity to query
     #'
-    #' @return Response object
+    #' @returns Response object
     #'
     get_versions = function (phenotype_id) {
       url = super$get_full_path('PHENOTYPES', 'VERSION_HISTORY', id=phenotype_id)
@@ -37,10 +37,10 @@ Phenotypes <- R6::R6Class(
     #' @description
     #' Queries phenotypes/{id}/detail/ or phenotypes/{id}/version/{id}/detail/
     #'
-    #' @params phenotype_id (string) Id of entity to query
-    #' @params version_id (integer) Version id of entity to query
+    #' @param phenotype_id (string) Id of entity to query
+    #' @param version_id (integer) Version id of entity to query
     #'
-    #' @return Response object
+    #' @returns Response object
     #'
     get_detail = function (phenotype_id, version_id=NA) {
       url = if (is.na(version_id)) 'DETAIL' else 'DETAIL_BY_VERSION'
@@ -55,10 +55,10 @@ Phenotypes <- R6::R6Class(
     #' Queries phenotypes/{id}/export/codes/ or
     #'  phenotypes/{id}/version/{id}/export/codes/
     #'
-    #' @params phenotype_id (string) Id of entity to query
-    #' @params version_id (integer) Version id of entity to query
+    #' @param phenotype_id (string) Id of entity to query
+    #' @param version_id (integer) Version id of entity to query
     #'
-    #' @return Response object
+    #' @returns Response object
     #'
     get_codelist = function (phenotype_id, version_id=NA) {
       url = if (is.na(version_id)) 'CODELIST' else 'CODELIST_BY_VERSION'
@@ -72,9 +72,9 @@ Phenotypes <- R6::R6Class(
     #' @description
     #' Formats phenotype detail and saves it to file
     #'
-    #' @params path (string) Path to save the file
-    #' @params phenotype_id (string) Id of entity to query
-    #' @params version_id (integer) Version id of entity to query
+    #' @param path (string) Path to save the file
+    #' @param phenotype_id (string) Id of entity to query
+    #' @param version_id (integer) Version id of entity to query
     #'
     save_definition_file = function (path, phenotype_id, version_id=NA) {
       phenotype_data = self$get_detail(phenotype_id, version_id=version_id)
@@ -86,9 +86,9 @@ Phenotypes <- R6::R6Class(
     #' @description
     #' Creates a new phenotype based on the .yaml file supplied
     #'
-    #' @params path (string) Path to definition file
+    #' @param path (string) Path to definition file
     #'
-    #' @return Response object
+    #' @returns Response object
     #'
     create = function (path) {
       data = private$read_phenotype_definition(path)
@@ -108,9 +108,9 @@ Phenotypes <- R6::R6Class(
     #' @description
     #' Updates an existing phenotype with details from the .yaml file supplied
     #'
-    #' @params path (string) Path to definition file
+    #' @param path (string) Path to definition file
     #'
-    #' @return Response object
+    #' @returns Response object
     #'
     update = function (path) {
       data = private$read_phenotype_definition(path)
@@ -150,7 +150,7 @@ Phenotypes <- R6::R6Class(
     #'
     #' @param path (string) Path to file to be read in
     #'
-    #' @return Data read in from the file
+    #' @returns Data read in from the file
     #'
     read_phenotype_definition = function (path) {
       data = read_file(path, yaml::read_yaml, extensions=private$ALLOWED_FILE_EXTENSIONS)
@@ -170,7 +170,7 @@ Phenotypes <- R6::R6Class(
     #' @param data (list) Phenotype data
     #' @param update (bool) Whether the request is an update
     #'
-    #' @return Formatted phenotype data
+    #' @returns Formatted phenotype data
     #'
     format_phenotype = function (data, update=FALSE) {
       result = list(data = data)
@@ -204,7 +204,7 @@ Phenotypes <- R6::R6Class(
     #'
     #' @param data (list) Concept data
     #'
-    #' @return Formatted concept data
+    #' @returns Formatted concept data
     #'
     format_concepts = function (data) {
       concept_information = list()
@@ -243,7 +243,7 @@ Phenotypes <- R6::R6Class(
     #'
     #' @param data (list) Concept data
     #'
-    #' @return Formatted concept data
+    #' @returns Formatted concept data
     #'
     format_concept_from_csv = function (data) {
       new_concept = list(
@@ -275,7 +275,7 @@ Phenotypes <- R6::R6Class(
     #' @param data (list) Concept data
     #' @param new_concept (list) New, formatted concept data
     #'
-    #' @return Concept component
+    #' @returns Concept component
     #'
     build_concept_component = function (data, new_concept) {
       codelist_data = read_file(
@@ -332,7 +332,7 @@ Phenotypes <- R6::R6Class(
     #'
     #' @param data (list) Phenotype data
     #'
-    #' @return Formatted phenotype data
+    #' @returns Formatted phenotype data
     #'
     prepare_phenotype_data = function (data) {
       result = list()

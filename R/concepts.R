@@ -11,9 +11,9 @@ Concepts <- R6::R6Class(
     #' @description
     #' Queries concepts/, with optional query parameters
     #'
-    #' @params ... (list) List of optional parameters
+    #' @param ... (list) List of optional parameters
     #'
-    #' @return Response object
+    #' @returns Response object
     #'
     get = function (...) {
       query_params = list(...)
@@ -25,9 +25,9 @@ Concepts <- R6::R6Class(
     #' @description
     #' Queries concepts/{id}/get-versions/
     #'
-    #' @params concept_id (string) Id of entity to query
+    #' @param concept_id (string) Id of entity to query
     #'
-    #' @return Response object
+    #' @returns Response object
     #'
     get_versions = function (concept_id) {
       url = super$get_full_path('CONCEPTS', 'VERSION_HISTORY', id=concept_id)
@@ -37,10 +37,10 @@ Concepts <- R6::R6Class(
     #' @description
     #' Queries concepts/{id}/detail/ or concepts/{id}/version/{id}/detail/
     #'
-    #' @params concept_id (string) Id of entity to query
-    #' @params version_id (integer) Version id of entity to query
+    #' @param concept_id (string) Id of entity to query
+    #' @param version_id (integer) Version id of entity to query
     #'
-    #' @return Response object
+    #' @returns Response object
     #'
     get_detail = function (concept_id, version_id=NA) {
       url = if (is.na(version_id)) 'DETAIL' else 'DETAIL_BY_VERSION'
@@ -55,10 +55,10 @@ Concepts <- R6::R6Class(
     #' Queries concepts/{id}/export/codes/ or
     #'  concepts/{id}/version/{id}/export/codes/
     #'
-    #' @params concept_id (string) Id of entity to query
-    #' @params version_id (integer) Version id of entity to query
+    #' @param concept_id (string) Id of entity to query
+    #' @param version_id (integer) Version id of entity to query
     #'
-    #' @return Response object
+    #' @returns Response object
     #'
     get_codelist = function (concept_id, version_id=NA) {
       url = if (is.na(version_id)) 'CODELIST' else 'CODELIST_BY_VERSION'
