@@ -1,5 +1,3 @@
-phenotype_id: PH1541
-phenotype_version_id: 3922
 name: Example phenotype
 definition: |-
   # Header
@@ -23,14 +21,9 @@ concept_information:
   type: existing_concept
   concept_id: 714
   concept_version_id: 2567
-- name: Defining a concept from a csv
-  type: existing_concept
-  concept_id: 4373
-  concept_version_id: 11407
 publications:
 - 'first publication https://doi.org/10.3945/jn.109.117093'
 - 'second publication https://doi.org/10.3945/jn.109.117093'
-owner: ieuan.scanlon
 template:
   id: 1
   version_id: 1

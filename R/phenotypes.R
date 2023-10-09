@@ -250,7 +250,8 @@ Phenotypes <- R6::R6Class(
         details = list(
           name = data$name,
           coding_system = data$coding_system,
-          internal_type = data$type
+          internal_type = data$type,
+          code_attribute_header = list()
         ),
         components = list()
       )
@@ -263,8 +264,12 @@ Phenotypes <- R6::R6Class(
         new_concept$is_new = TRUE
       }
 
-      new_component = private$build_concept_component(data, new_concept)
-      new_concept$components = list(new_component)
+      built_components = private$build_concept_component(data, new_concept)
+      new_concept$components = list(built_components$component)
+
+      if (!is.null(built_components$code_attribute_header)) {
+        new_concept$details$code_attribute_header = built_components$code_attribute_header
+      }
 
       return (new_concept)
     },
@@ -299,6 +304,9 @@ Phenotypes <- R6::R6Class(
         ))
       }
 
+      attribute_headers = names(codelist_data)
+      attribute_headers = attribute_headers[!attribute_headers %in% c(code_column, description_column)]
+
       new_component = list(
         is_new = TRUE,
         name = sprintf('CODES - %s', new_concept$details$name),
@@ -318,12 +326,16 @@ Phenotypes <- R6::R6Class(
           new_component$codes,
           list(list(
             code = code,
-            description = description
+            description = description,
+            attributes = as.character(codelist_data[index, !names(codelist_data) %in% c(code_column, description_column)])
           ))
         )
       }
 
-      return (new_component)
+      return (list(
+        components = new_component,
+        code_attribute_header = attribute_headers
+      ))
     },
 
     #' @description
