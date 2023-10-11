@@ -383,6 +383,11 @@ Phenotypes <- R6::R6Class(
           next
         }
 
+        if (field == 'group') {
+          result[[field]] = field_data[['id']]
+          next
+        }
+
         if (is.null(names(field_data))) {
           field_data = field_data[[1]]
         }
