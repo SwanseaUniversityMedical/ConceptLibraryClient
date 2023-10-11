@@ -3,86 +3,83 @@
 \docType{package}
 \name{ConceptLibraryClient}
 \alias{ConceptLibraryClient}
-\title{ConceptLibraryClient: A Concept Library API client.}
+\title{ConceptLibraryClient: A Concept Library API Client}
 \description{
-This package acts as a client for the Concept Library API. Each function represents an HTTP request to the API to
-interact with Phenotypes, Concepts, Data Sources, Working Sets and Tags.
-}
-\details{
-Before using these functions, the package user can create an HttpClient object by calling the connect_to_API
-function. Once this object is created, it can be passed into any API function that is called, which avoids having to
-create a new connection each time when more than one API endpoint is to be used.
-
-Most functions can be used without specifying a connection object. This will automatically create a public API
-connection, which is useful when sending a singular request.
+This package acts as a client for the ConceptLibrary API
 }
 \section{Authenticated API connection}{
 
-By calling \code{\link{connect_to_API}} with \code{public = FALSE}, the user must provide login credentials either in
-the function itself, or in the popup window if none are given.
-
-This connection can then be used with any of the API functions available
+By calling \code{ConceptLibraryClient::Connection$new()}, the user must
+provide login credentials either in the function itself, or in the popup
+window if none are given.
 }
 
-\section{Public API connection}{
+\section{Non-authenticated API connection}{
 
-\code{\link{connect_to_API}} also allows for a connection without requiring authentication with \code{public = TRUE}.
-This is the default connection method, so calling \code{connect_to_API()} will have the same effect. Please note
-some functions require an authenticated connection.
+A non-authenticated, or public, connection can be made to the ConceptLibrary
+by calling \code{ConceptLibraryClient::Connection$new(public=TRUE)}.
+}
 
-The connection function also provides a \code{url} parameter to specify a different URL to send the API requests to.
+\section{Modifying API connection URL}{
+
+The connection function also provides a \code{url} parameter to specify a
+different URL to send the API requests to.
+
+We provide default connection urls through:
+\code{ConceptLibraryClient::DOMAINS}
 }
 
 \section{Making API requests}{
 
-The following functions can be used to retrieve the various types of data stored in the Concept Library.
+The following functions can be used to retrieve the various types of data
+stored in the Concept Library.
 \subsection{Phenotypes}{
 \itemize{
-\item \code{\link{get_phenotypes}}
-\item \code{\link{get_phenotype_by_id}}
-\item \code{\link{get_phenotype_detail}}
-\item \code{\link{get_phenotype_detail_by_version}}
-\item \code{\link{get_phenotype_code_list}}
+\item \code{client$phenotypes$get}
+\item \code{client$phenotypes$get_versions}
+\item \code{client$phenotypes$get_detail}
+\item \code{client$phenotypes$get_codelist}
+\item \code{client$phenotypes$save_definition_file}
+\item \code{client$phenotypes$create}
+\item \code{client$phenotypes$update}
 }
 }
 
 \subsection{Concepts}{
 \itemize{
-\item \code{\link{get_concepts}}
-\item \code{\link{get_concept_by_id}}
-\item \code{\link{get_concept_detail}}
-\item \code{\link{get_concept_detail_by_version}}
-\item \code{\link{get_concept_code_list}}
-\item \code{\link{get_concept_code_list_by_version}}
-\item \code{\link{get_concept_versions}}
+\item \code{client$concepts$get}
+\item \code{client$concepts$get_versions}
+\item \code{client$concepts$get_detail}
+\item \code{client$concepts$get_codelist}
 }
 }
 
-\subsection{Data Sources}{
+\subsection{Templates}{
 \itemize{
-\item \code{\link{get_data_sources}}
-\item \code{\link{get_data_source_by_id}}
+\item \code{client$templates$get}
+\item \code{client$templates$get_versions}
+\item \code{client$templates$get_detail}
+}
+}
+
+\subsection{Collections}{
+\itemize{
+\item \code{client$templates$get}
+\item \code{client$templates$get_detail}
 }
 }
 
 \subsection{Tags}{
 \itemize{
-\item \code{\link{get_tags}}
-\item \code{\link{get_tag_by_id}}
+\item \code{client$templates$get}
+\item \code{client$templates$get_detail}
 }
 }
 
-\subsection{Working Sets (Deprecated)}{
-
-The package provides functions for working sets, but please note these will soon be removed.
+\subsection{Datasources}{
 \itemize{
-\item \code{\link{get_working_sets}}
-\item \code{\link{get_working_set_by_id}}
-\item \code{\link{get_working_set_detail}}
-\item \code{\link{get_working_set_detail_by_version}}
-\item \code{\link{get_working_set_code_list}}
-\item \code{\link{get_working_set_code_list_by_version}}
-\item \code{\link{get_working_set_versions}}
+\item \code{client$templates$get}
+\item \code{client$templates$get_detail}
 }
 }
 }

@@ -4,16 +4,16 @@
 \alias{validate_type}
 \title{validate_type}
 \usage{
-validate_type(input, data.type)
+validate_type(input, type)
 }
 \arguments{
-\item{input}{The input data}
+\item{input}{(any) Input to be compared}
 
-\item{data.type}{The expected data type of input}
+\item{type}{(string) Type in {'string', 'number', 'bool'}}
 }
 \value{
-TRUE/FALSE dependent on assertion
+TRUE if type matches, FALSE otherwise
 }
 \description{
-Simple function which validates input to expected data type.
+Validates input against a type; string, number, bool
 }

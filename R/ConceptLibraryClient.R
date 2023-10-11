@@ -1,70 +1,65 @@
-#' ConceptLibraryClient: A Concept Library API client.
+#' ConceptLibraryClient: A Concept Library API Client
 #'
-#' This package acts as a client for the Concept Library API. Each function represents an HTTP request to the API to
-#' interact with Phenotypes, Concepts, Data Sources, Working Sets and Tags.
-#'
-#' Before using these functions, the package user can create an HttpClient object by calling the connect_to_API
-#' function. Once this object is created, it can be passed into any API function that is called, which avoids having to
-#' create a new connection each time when more than one API endpoint is to be used.
-#'
-#' Most functions can be used without specifying a connection object. This will automatically create a public API
-#' connection, which is useful when sending a singular request.
+#' @description
+#' This package acts as a client for the ConceptLibrary API
 #'
 #' @section Authenticated API connection:
-#' By calling \code{\link{connect_to_API}} with \code{public = FALSE}, the user must provide login credentials either in
-#' the function itself, or in the popup window if none are given.
+#' By calling \code{ConceptLibraryClient::Connection$new()}, the user must
+#'  provide login credentials either in the function itself, or in the popup
+#'  window if none are given.
 #'
-#' This connection can then be used with any of the API functions available
+#' @section Non-authenticated API connection:
+#' A non-authenticated, or public, connection can be made to the ConceptLibrary
+#'  by calling \code{ConceptLibraryClient::Connection$new(public=TRUE)}.
 #'
-#' @section Public API connection:
-#' \code{\link{connect_to_API}} also allows for a connection without requiring authentication with \code{public = TRUE}.
-#' This is the default connection method, so calling \code{connect_to_API()} will have the same effect. Please note
-#' some functions require an authenticated connection.
+#' @section Modifying API connection URL:
+#' The connection function also provides a \code{url} parameter to specify a
+#'  different URL to send the API requests to.
 #'
-#' The connection function also provides a \code{url} parameter to specify a different URL to send the API requests to.
+#' We provide default connection urls through:
+#'  \code{ConceptLibraryClient::DOMAINS}
 #'
 #' @section Making API requests:
-#' The following functions can be used to retrieve the various types of data stored in the Concept Library.
+#' The following functions can be used to retrieve the various types of data
+#'  stored in the Concept Library.
 #'
 #' ## Phenotypes
-#' * \code{\link{get_phenotypes}}
-#' * \code{\link{get_phenotype_by_id}}
-#' * \code{\link{get_phenotype_detail}}
-#' * \code{\link{get_phenotype_detail_by_version}}
-#' * \code{\link{get_phenotype_code_list}}
+#' * \code{client$phenotypes$get}
+#' * \code{client$phenotypes$get_versions}
+#' * \code{client$phenotypes$get_detail}
+#' * \code{client$phenotypes$get_codelist}
+#' * \code{client$phenotypes$save_definition_file}
+#' * \code{client$phenotypes$create}
+#' * \code{client$phenotypes$update}
 #'
 #' ## Concepts
-#' * \code{\link{get_concepts}}
-#' * \code{\link{get_concept_by_id}}
-#' * \code{\link{get_concept_detail}}
-#' * \code{\link{get_concept_detail_by_version}}
-#' * \code{\link{get_concept_code_list}}
-#' * \code{\link{get_concept_code_list_by_version}}
-#' * \code{\link{get_concept_versions}}
+#' * \code{client$concepts$get}
+#' * \code{client$concepts$get_versions}
+#' * \code{client$concepts$get_detail}
+#' * \code{client$concepts$get_codelist}
 #'
-#' ## Data Sources
-#' * \code{\link{get_data_sources}}
-#' * \code{\link{get_data_source_by_id}}
+#' ## Templates
+#' * \code{client$templates$get}
+#' * \code{client$templates$get_versions}
+#' * \code{client$templates$get_detail}
+#'
+#' ## Collections
+#' * \code{client$templates$get}
+#' * \code{client$templates$get_detail}
 #'
 #' ## Tags
-#' * \code{\link{get_tags}}
-#' * \code{\link{get_tag_by_id}}
+#' * \code{client$templates$get}
+#' * \code{client$templates$get_detail}
 #'
-#' ## Working Sets (Deprecated)
-#' The package provides functions for working sets, but please note these will soon be removed.
-#' * \code{\link{get_working_sets}}
-#' * \code{\link{get_working_set_by_id}}
-#' * \code{\link{get_working_set_detail}}
-#' * \code{\link{get_working_set_detail_by_version}}
-#' * \code{\link{get_working_set_code_list}}
-#' * \code{\link{get_working_set_code_list_by_version}}
-#' * \code{\link{get_working_set_versions}}
+#' ## Datasources
+#' * \code{client$templates$get}
+#' * \code{client$templates$get_detail}
 #'
 #' @md
 #' @docType package
 #' @name ConceptLibraryClient
 #'
+#' @import R6
 #' @import crul
 #' @import tcltk
-#' @importFrom GetoptLong qq
 NULL
