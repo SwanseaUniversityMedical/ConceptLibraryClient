@@ -6,16 +6,16 @@
 #' @export
 #'
 DOMAINS = list(
-  SAIL = 'conceptlibrary.saildatabank.com/',
-  HDRUK = 'phenotypes.healthdatagateway.org/',
-  ADP = 'conceptlibrary.saildatabank.com/ADP/',
-  GATEWAY = 'conceptlibrary.serp.ac.uk/',
-  DEMO = 'conceptlibrary.demo-dev.saildatabank.com/',
-  LOCAL = '127.0.0.1:8000/'
+  SAIL = 'https://conceptlibrary.saildatabank.com/',
+  HDRUK = 'https://phenotypes.healthdatagateway.org/',
+  ADP = 'https://conceptlibrary.saildatabank.com/ADP/',
+  GATEWAY = 'http://conceptlibrary.serp.ac.uk/',
+  DEMO = 'https://conceptlibrary.demo-dev.saildatabank.com/',
+  LOCAL = 'http://127.0.0.1:8000/'
 )
 
 # Internal, default connection url to be used in Connection object
-DEFAULT_CONNECTION_URL = DOMAINS$SAIL
+DEFAULT_CONNECTION_URL = DOMAINS$GATEWAY
 
 # Internal, current API version
 API_VERSION_NUMBER = 1
