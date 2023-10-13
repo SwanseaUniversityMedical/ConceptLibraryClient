@@ -15,7 +15,7 @@ DOMAINS = list(
 )
 
 # Internal, default connection url to be used in Connection object
-DEFAULT_CONNECTION_URL = DOMAINS$GATEWAY
+DEFAULT_CONNECTION_URL = DOMAINS$SAIL
 
 # Internal, current API version
 API_VERSION_NUMBER = 1
