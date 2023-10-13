@@ -1,0 +1,50 @@
+name: My Example Phenotype
+type: 2
+sex: 3
+event_date_range: 01/01/2020 - 31/10/2020
+author: Author 1, Author 2, Author 3 et al.
+phenoflowid: 1
+definition: |-
+  # Header
+  Defining a phenotype... feel free to use markdown!
+
+  ## Subheader
+  Details about my phenotype...
+implementation: |-
+  # Header
+  Algorithm details...
+
+  ## Subheader
+  Extra details...
+validation: |-
+  # Header
+  Validation details...
+
+  ## Subheader
+  Extra details...
+concept_information:
+- name: Import an already existing concept
+  type: existing_concept
+  concept_id: 714
+  concept_version_id: 2567
+- name: Create a new concept from a csv file
+  type: csv
+  coding_system: 4
+  code_column: Code
+  description_column: Description
+  filepath: C:/users/ieuan/desktop/codes.csv
+publications:
+ - 'first publication, https://doi.org/10.3945/jn.109.117093'
+ - 'second publication, https://doi.org/10.3945/jn.109.117093'
+collections:
+- 18
+- 20
+tags:
+- 4
+data_sources:
+- 3
+- 4
+world_access: 1
+template:
+  id: 1
+  version_id: 1
