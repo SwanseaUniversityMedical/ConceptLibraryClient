@@ -191,7 +191,7 @@ Phenotypes <- R6::R6Class(
 
       result$template = list(
         id = result$data$template$id,
-        version = result$data$template$version
+        version = result$data$template$version_id
       )
 
       result$data[sapply(names(result$data), function(x) x %in% private$PHENOTYPE_IGNORE_FIELDS$WRITE)] = NULL
