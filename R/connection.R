@@ -37,6 +37,10 @@ Connection <- R6::R6Class(
     initialize = function (
       username=NA, password=NA, public=FALSE, url=DEFAULT_CONNECTION_URL
     ) {
+      if (startsWith(url, DOMAINS$GATEWAY)) {
+        set_gateway_proxy()
+      }
+
       if (!public) {
         if (is.na(username) || is.na(password)) {
           message('Please log in to the Concept Library')
