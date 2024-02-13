@@ -1,3 +1,16 @@
+#' set_gateway_proxy
+#'
+#' @description
+#' Sets the user system environment variable to the gateway proxy.
+#' This method is only called when the user is utilising the DOMAINS$GATEWAY URL
+#'
+#' @returns NA
+#'
+set_gateway_proxy <- function () {
+  Sys.setenv(http_proxy='http://proxy:8080')
+  Sys.setenv(https_proxy='http://proxy:8080')
+}
+
 #' validate_type
 #'
 #' @description
