@@ -5,10 +5,22 @@ The Concept Library is a system for storing, managing, sharing, and documenting 
 More information can be found here: [https://conceptlibrary.saildatabank.com/](https://conceptlibrary.saildatabank.com/).
 
 # Installation
-This package can be easily installed using `install_github`. In your R console, type the following commands:
+
+This package can be installed using `install_github`. In your R console, type the following commands:
 ``` R
 library(devtools)
 devtools::install_github("SwanseaUniversityMedical/ConceptLibraryClient")
+```
+
+### Inside the SAIL gateway
+
+SAIL users can install the ConceptLibraryClient inside the gateway by running:
+``` R
+library(devtools)
+devtools::install_git(
+  'https://gitlab.sail.ukserp.ac.uk/SAIL/0612/conceptlibraryclient',
+  git='external'
+)
 ```
 
 # Using the package
