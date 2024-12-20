@@ -16,7 +16,30 @@ client = ConceptLibraryClient::Connection$new(
 
 # Querying concepts
 
-## Search concepts
+## Get paginated list of concepts
+search_results = client$concepts$get()
+
+## [NOTE: not recommended!] Get unpaginated list of concepts
+search_results = client$concepts$get(no_pagination=TRUE)
+
+## Iterating through concept result pages
+
+### List concepts (add parameters, and optionally declare `page=1`)
+search_results = client$concepts$get()
+
+### Get page-related information from a search result
+page = attr(search_results, 'page')
+page_size = attr(search_results, 'page_size')
+total_pages = attr(search_results, 'total_pages')
+
+### Or get the page attribute list, e.g. ...
+search_info = attributes(search_results)
+page = search_info$page
+
+### Use the current page number, or append your own `page=[number]` parameter
+search_results = client$concepts$get(page=page+1)
+
+## Search concepts (paginated by default, apply `no_pagination=T` if required)
 search_results = client$concepts$get(
   search='asthma',
   collections=19

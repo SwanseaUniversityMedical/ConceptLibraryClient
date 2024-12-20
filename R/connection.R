@@ -127,6 +127,9 @@ Connection <- R6::R6Class(
     tags = function () Tags$new(private$HttpClient),
 
     #' @field datasources (ConceptLibraryClient::Datasources) Datasources instance
-    datasources = function () Datasources$new(private$HttpClient)
+    datasources = function () Datasources$new(private$HttpClient),
+
+    #' @field ontology (ConceptLibraryClient::Ontology) Ontology instance
+    ontology = function () Ontology$new(private$HttpClient)
   )
 )

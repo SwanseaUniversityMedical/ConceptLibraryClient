@@ -88,7 +88,24 @@ Endpoint <- R6::R6Class(
       )
 
       response = private$check_response(response)
-      response = if (as_df) data.frame(response) else response
+      is_paginated = (
+        (is.list(response) && 'data' %in% names(response))
+        && (!is.list(query) || !('no_pagination' %in% query))
+      )
+
+      if (as_df && is_paginated) {
+        page = response$page
+        page_size = response$page_size
+        total_pages = response$total_pages
+
+        response = data.frame(response$data)
+
+        attr(response, 'page') = page
+        attr(response, 'page_size') = page_size
+        attr(response, 'total_pages') = total_pages
+      } else {
+        response = if (as_df) data.frame(response) else response
+      }
 
       return (response)
     }
