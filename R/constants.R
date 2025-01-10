@@ -60,5 +60,11 @@ API_ENTITY_ENDPOINTS = list(
   DATASOURCES = list(
     INDEX = 'data-sources/',
     DETAIL = 'data-sources/%s/detail/'
+  ),
+  ONTOLOGY = list(
+    GROUPS = 'ontology/',
+    TYPE   = 'ontology/type/%s/',
+    SEARCH = 'ontology/node/',
+    DETAIL = 'ontology/node/%s/'
   )
 )

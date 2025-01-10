@@ -12,18 +12,22 @@ world_access: 1
 sex: '3'
 type: '2'
 data_sources:
-- 1
-- 2
-- 3
-- 4
+  - 1
+  - 2
+  - 3
+  - 4
+ontology:
+  - 50323
+  - 'icd9:569.82'
+  - 'snomed:420764009'
 concept_information:
-- name: COVID-19 infection - Primary Care
-  type: existing_concept
-  concept_id: 714
-  concept_version_id: 2567
+  - name: COVID-19 infection - Primary Care
+    type: existing_concept
+    concept_id: 714
+    concept_version_id: 2567
 publications:
-- 'first publication https://doi.org/10.3945/jn.109.117093'
-- 'second publication https://doi.org/10.3945/jn.109.117093'
+  - 'first publication https://doi.org/10.3945/jn.109.117093'
+  - 'second publication https://doi.org/10.3945/jn.109.117093'
 template:
   id: 1
   version_id: 1

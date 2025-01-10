@@ -33,6 +33,10 @@ concept_information:
   code_column: Code
   description_column: Description
   filepath: C:/users/ieuan/desktop/codes.csv
+ontology:
+ - 50323
+ - 'icd9:569.82'
+ - 'snomed:420764009'
 publications:
  - 'first publication, https://doi.org/10.3945/jn.109.117093'
  - 'second publication, https://doi.org/10.3945/jn.109.117093'
