@@ -147,10 +147,17 @@ phenotype_codelist = client$phenotypes$get_codelist('PH1', version_id=2)
 #### Downloading a definition file
 ``` R
 # Save a definition file
-client$phenotypes$save_definition_file('./Examples/definition-files/PH1-definition-file.yaml', 'PH1')
+client$phenotypes$save_definition_file(
+  './Examples/definition-files/PH1-definition-file.yaml',
+  'PH1'
+)
 
 # Save a definition file from a specific phenotype version
-client$phenotypes$save_definition_file('./Examples/definition-files/PH1-definition-file.yaml', 'PH1', version_id=2)
+client$phenotypes$save_definition_file(
+  path='./Examples/definition-files/PH1-definition-file.yaml',
+  phenotype_id='PH1',
+  version_id=2
+)
 ```
 
 #### Creating/Updating
@@ -159,7 +166,9 @@ client$phenotypes$save_definition_file('./Examples/definition-files/PH1-definiti
 result = client$phenotypes$create('./Examples/definition-files/example-phenotype.yaml')
 
 # Update a phenotype from a definition file
-result = client$phenotypes$update('./Examples/definition-files/example-phenotype.yaml')
+result = client$phenotypes$update(
+  path='./Examples/definition-files/example-phenotype.yaml'
+)
 ```
 
 ### Concepts
