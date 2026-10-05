@@ -1,0 +1,9 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+
+  "extends": [":enableRenovate"],
+
+  "additionalBranchPrefix": "{{ lookup (split packageFileDir '/') 0 }}-",
+  "commitMessageAction": "{{ lookup (split packageFileDir '/') 0 }} - Update",
+  "labels": ["{{ lookup (split packageFileDir '/') 0 }}"]
+}
